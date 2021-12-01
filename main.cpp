@@ -23,23 +23,22 @@ int main(int argc, char** argv) {
 
     std::cout << "========== Iterator ==========" << std::endl;
     ft::vector<std::string>::iterator iter = vec.begin();
-    ft::vector<std::string>::iterator
-//    std::cout << *iter++ << std::endl;
-//    std::cout << *iter << std::endl;
-//    std::cout << *++iter << std::endl;
-//    std::cout << (iter < iter + 1) << std::endl;
-//
-//    std::cout << "====== Reverse Iterator ======" << std::endl;
-//    ft::vector<std::string>::reverse_iterator riter = vec.rbegin();
-//    std::cout << *riter++ << std::endl;
-//    std::cout << *riter << std::endl;
-//    std::cout << *++riter << std::endl;
-//    std::cout << (riter < riter + 1) << std::endl;
+    std::cout << *iter++ << std::endl;
+    std::cout << *iter << std::endl;
+    std::cout << *++iter << std::endl;
+    std::cout << (iter < iter + 1) << std::endl;
 
-//    std::cout << "======= Const Iterator =======" << std::endl;
-//    ft::vector<std::string>::const_iterator citer = vec.begin();
-//    std::cout << *citer++ << std::endl;
-//    std::cout << *citer << std::endl;
-//    std::cout << *++citer << std::endl;
-//    std::cout << (iter < iter + 1) << std::endl;
+    std::cout << "====== Reverse Iterator ======" << std::endl;
+    ft::vector<std::string>::reverse_iterator riter = vec.rbegin();
+    std::cout << *riter++ << std::endl;
+    std::cout << *riter << std::endl;
+    std::cout << *++riter << std::endl;
+    std::cout << (riter < riter + 1) << std::endl;
+
+    std::cout << "======= Const Iterator =======" << std::endl;
+    ft::vector<std::string>::const_iterator citer = vec.begin();
+    std::cout << *citer++ << std::endl;
+    std::cout << *citer << std::endl;
+    std::cout << *++citer << std::endl;
+    std::cout << (iter < iter + 1) << std::endl;
 }

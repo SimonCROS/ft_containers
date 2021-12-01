@@ -8,6 +8,102 @@
 #include "iterator.hpp"
 
 namespace ft {
+    template<class T>
+    class __wrap_iter {
+    private:
+        T pos;
+    public:
+        typedef T iterator_type;
+        typedef typename iterator_traits<iterator_type>::difference_type difference_type;
+        typedef typename iterator_traits<iterator_type>::value_type value_type;
+        typedef typename iterator_traits<iterator_type>::pointer pointer;
+        typedef typename iterator_traits<iterator_type>::reference reference;
+        typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
+
+        __wrap_iter() {}
+
+        __wrap_iter(value_type __x) : pos(__x) {}
+
+        __wrap_iter(const __wrap_iter &__x) : pos(__x.base()) {}
+
+        virtual ~__wrap_iter() {}
+
+        __wrap_iter &operator=(const __wrap_iter &rhs) {
+            this->pos = rhs.pos;
+            return *this;
+        }
+
+        reference operator*() const { return *pos; }
+
+        pointer operator->() const { return pos; }
+
+        __wrap_iter &operator++() {
+            ++pos;
+            return *this;
+        }
+
+        __wrap_iter operator++(int) {
+            __wrap_iter __tmp(*this);
+            ++pos;
+            return __tmp;
+        }
+
+        __wrap_iter &operator--() {
+            --pos;
+            return *this;
+        }
+
+        __wrap_iter operator--(int) {
+            __wrap_iter __tmp(*this);
+            --pos;
+            return __tmp;
+        }
+
+        __wrap_iter operator+(difference_type __n) const { return __wrap_iter(pos + __n); }
+
+        __wrap_iter &operator+=(difference_type __n) {
+            pos += __n;
+            return *this;
+        }
+
+        __wrap_iter operator-(difference_type __n) const { return __wrap_iter(pos - __n); }
+
+        __wrap_iter &operator-=(difference_type __n) {
+            pos -= __n;
+            return *this;
+        }
+
+        reference operator[](difference_type __n) const { return pos[__n]; }
+
+        value_type base() const { return pos; }
+    };
+
+    template<class _Iter1, class _Iter2>
+    inline bool operator==(const __wrap_iter<_Iter1> &lhs, const __wrap_iter<_Iter2> &rhs) {
+        return lhs.base() == rhs.base();
+    }
+
+    template<class _Iter1, class _Iter2>
+    inline bool operator<(const __wrap_iter<_Iter1> &lhs, const __wrap_iter<_Iter2> &rhs) { return lhs.base() < rhs.base(); }
+
+    template<class _Iter1, class _Iter2>
+    inline bool operator!=(const __wrap_iter<_Iter1> &lhs, const __wrap_iter<_Iter2> &rhs) {
+        return lhs.base() != rhs.base();
+    }
+
+    template<class _Iter1, class _Iter2>
+    inline bool operator>(const __wrap_iter<_Iter1> &lhs, const __wrap_iter<_Iter2> &rhs) { return lhs.base() > rhs.base(); }
+
+    template<class _Iter1, class _Iter2>
+    inline bool operator>=(const __wrap_iter<_Iter1> &lhs, const __wrap_iter<_Iter2> &rhs) {
+        return lhs.base() >= rhs.base();
+    }
+
+    template<class _Iter1, class _Iter2>
+    inline bool operator<=(const __wrap_iter<_Iter1> &lhs, const __wrap_iter<_Iter2> &rhs) {
+        return lhs.base() <= rhs.base();
+    }
+
     template<class T, class Allocator = std::allocator<T> >
     class vector {
     private:
@@ -19,8 +115,8 @@ namespace ft {
         typedef typename allocator_type::const_reference const_reference;
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
-        typedef typename ft::iterator<pointer> iterator;
-        typedef typename ft::iterator<const_pointer> const_iterator;
+        typedef typename ft::__wrap_iter<pointer> iterator;
+        typedef typename ft::__wrap_iter<const_pointer> const_iterator;
         typedef typename ft::reverse_iterator<iterator> reverse_iterator;
         typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
         typedef std::ptrdiff_t difference_type;
