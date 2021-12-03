@@ -14,31 +14,35 @@
     #include <vector.hpp>
 #endif
 
-int main(int argc, char** argv) {
-    ft::vector<std::string> vec;
-    vec.push_back("zero");
-    vec.push_back("one");
-    vec.push_back("two");
-    vec.push_back("three");
+int main() {
+    ft::vector<std::string> vvv(50, "issou");
+//    ft::vector<std::string>::iterator d = vvv.begin();
+//    std::cout << *d++ << std::endl;
 
-    std::cout << "========== Iterator ==========" << std::endl;
-    ft::vector<std::string>::iterator iter = vec.begin();
-    std::cout << *iter++ << std::endl;
-    std::cout << *iter << std::endl;
-    std::cout << *++iter << std::endl;
-    std::cout << (iter < iter + 1) << std::endl;
-
-    std::cout << "====== Reverse Iterator ======" << std::endl;
-    ft::vector<std::string>::reverse_iterator riter = vec.rbegin();
-    std::cout << *riter++ << std::endl;
-    std::cout << *riter << std::endl;
-    std::cout << *++riter << std::endl;
-    std::cout << (riter < riter + 1) << std::endl;
-
-    std::cout << "======= Const Iterator =======" << std::endl;
-    ft::vector<std::string>::const_iterator citer = vec.begin();
-    std::cout << *citer++ << std::endl;
-    std::cout << *citer << std::endl;
-    std::cout << *++citer << std::endl;
-    std::cout << (iter < iter + 1) << std::endl;
+//    ft::vector<std::string> vec;
+//    vec.push_back("zero");
+//    vec.push_back("one");
+//    vec.push_back("two");
+//    vec.push_back("three");
+//
+//    std::cout << "========== Iterator ==========" << std::endl;
+//    ft::vector<std::string>::iterator iter = vec.begin();
+//    std::cout << *iter++ << std::endl;
+//    std::cout << *iter << std::endl;
+//    std::cout << *++iter << std::endl;
+//    std::cout << (iter < iter + 1) << std::endl;
+//
+//    std::cout << "====== Reverse Iterator ======" << std::endl;
+//    ft::vector<std::string>::reverse_iterator riter = vec.rbegin();
+//    std::cout << *riter++ << std::endl;
+//    std::cout << *riter << std::endl;
+//    std::cout << *++riter << std::endl;
+//    std::cout << (riter < riter + 1) << std::endl;
+//
+//    std::cout << "======= Const Iterator =======" << std::endl;
+//    ft::vector<std::string>::const_iterator citer = vec.begin();
+//    std::cout << *citer++ << std::endl;
+//    std::cout << *citer << std::endl;
+//    std::cout << *++citer << std::endl;
+//    std::cout << (iter < iter + 1) << std::endl;
 }

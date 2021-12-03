@@ -31,18 +31,26 @@ namespace ft {
         allocator_type allocator;
     public:
 
+        // default
         explicit vector(const allocator_type &alloc = allocator_type()) : array(nullptr), _size(0), _capacity(0), allocator(alloc) { }
 
+        // fill
         explicit vector(size_type n, const value_type &val = value_type(),
-                        const allocator_type &alloc = allocator_type()): allocator(alloc) {
-
+                        const allocator_type &alloc = allocator_type()): _size(n), _capacity(n), allocator(alloc) {
+            this->array = this->allocator.allocate(n);
+            for (int i = 0; i < n; ++i)
+            {
+                static_cast< std::allocator<T> >(this->allocator).construct(n + i, val);
+            }
         }
 
+        // range
         template<class InputIterator>
         vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): allocator(alloc) {
 
         }
 
+        // copy
         // TODO copy constructor
         vector(const vector &x) {
 
@@ -52,6 +60,18 @@ namespace ft {
 
         }
 
+        size_type size() const {
+            return this->_size;
+        }
+
+        size_type max_size() const {
+            return this->allocator.max_size();
+        }
+
+        size_type capacity() const {
+            return this->_capacity;
+        }
+
         vector &operator=(const vector &other) {
             return *this;
         }
@@ -59,14 +79,14 @@ namespace ft {
         void push_back(const value_type &val) {
         }
 
-        iterator begin()                { return iterator(this->array); }
-        iterator begin() const          { return iterator(this->array); }
-        iterator end()                  { return iterator(this->array + this->_size); }
-        iterator end() const            { return iterator(this->array + this->_size); }
-        reverse_iterator rbegin()       { return reverse_iterator(end()); }
-        reverse_iterator rbegin() const { return reverse_iterator(end()); }
-        reverse_iterator rend()         { return reverse_iterator(begin()); }
-        reverse_iterator rend() const   { return reverse_iterator(begin()); }
+        iterator begin()                        { return iterator(this->array); }
+        const_iterator begin() const            { return const_iterator(this->array); }
+        iterator end()                          { return iterator(this->array + this->_size); }
+        const_iterator end() const              { return const_iterator(this->array + this->_size); }
+        reverse_iterator rbegin()               { return reverse_iterator(end()); }
+        const_reverse_iterator rbegin() const   { return const_reverse_iterator(end()); }
+        reverse_iterator rend()                 { return reverse_iterator(begin()); }
+        const_reverse_iterator rend() const     { return const_reverse_iterator(begin()); }
     };
 }
 

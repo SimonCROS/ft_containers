@@ -28,6 +28,26 @@ namespace ft {
         typedef typename Iterator::iterator_category iterator_category;
     };
 
+    template<class T>
+    class iterator_traits<T *> {
+    public:
+        typedef ptrdiff_t difference_type;
+        typedef T value_type;
+        typedef T *pointer;
+        typedef T &reference;
+        typedef random_access_iterator_tag iterator_category;
+    };
+
+    template<class T>
+    class iterator_traits<const T *> {
+    public:
+        typedef ptrdiff_t difference_type;
+        typedef T value_type;
+        typedef const T *pointer;
+        typedef const T &reference;
+        typedef random_access_iterator_tag iterator_category;
+    };
+
     template<class Iterator>
     class __normal_iterator {
     private:
@@ -136,26 +156,6 @@ namespace ft {
     inline bool operator<=(const __normal_iterator<_Iter1> &lhs, const __normal_iterator<_Iter2> &rhs) {
         return lhs.base() <= rhs.base();
     }
-
-    template<class T>
-    class iterator_traits<T *> {
-    public:
-        typedef ptrdiff_t difference_type;
-        typedef T value_type;
-        typedef T *pointer;
-        typedef T &reference;
-        typedef random_access_iterator_tag iterator_category;
-    };
-
-    template<class T>
-    class iterator_traits<const T *> {
-    public:
-        typedef ptrdiff_t difference_type;
-        typedef T value_type;
-        typedef const T *pointer;
-        typedef const T &reference;
-        typedef random_access_iterator_tag iterator_category;
-    };
 
     template<class Category, class T, class Distance = ptrdiff_t, class Pointer = T *, class Reference = T &>
     struct iterator {
