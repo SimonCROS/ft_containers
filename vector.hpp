@@ -7,6 +7,8 @@
 
 #include "iterator.hpp"
 
+#include "<algorithm>"
+
 namespace ft {
 
     template<class T, class Allocator = std::allocator<T> >
@@ -25,28 +27,33 @@ namespace ft {
         typedef std::ptrdiff_t difference_type;
         typedef std::size_t size_type;
     private:
-        value_type *array;
+        value_type *_data;
         size_type _size;
         size_type _capacity;
-        allocator_type allocator;
+        allocator_type _alloc;
+
+        void realloc(size_type n) {
+            _capacity = n;
+            _alloc.allocate();
+        }
     public:
 
         // default
-        explicit vector(const allocator_type &alloc = allocator_type()) : array(nullptr), _size(0), _capacity(0), allocator(alloc) { }
+        explicit vector(const allocator_type &alloc = allocator_type()) : _data(nullptr), _size(0), _capacity(0), _alloc(alloc) { }
 
         // fill
         explicit vector(size_type n, const value_type &val = value_type(),
-                        const allocator_type &alloc = allocator_type()): _size(n), _capacity(n), allocator(alloc) {
-            this->array = this->allocator.allocate(n);
+                        const allocator_type &alloc = allocator_type()): _size(n), _capacity(n), _alloc(alloc) {
+            _data = _alloc.allocate(n);
             for (int i = 0; i < n; ++i)
             {
-                static_cast< std::allocator<T> >(this->allocator).construct(n + i, val);
+                static_cast< std::allocator<T> >(_alloc).construct(n + i);
             }
         }
 
         // range
         template<class InputIterator>
-        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): allocator(alloc) {
+        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _alloc(alloc) {
 
         }
 
@@ -60,16 +67,29 @@ namespace ft {
 
         }
 
+        void reserve(size_type n) {
+            if (n >= _capacity)
+                realloc(n);
+        }
+
+        void push_back(const T &value)
+        {
+            if (_size >= _capacity)
+                reserve(std::max(1, _capacity * 2));
+            _data[_size] = value;
+            _size++;
+        }
+
         size_type size() const {
-            return this->_size;
+            return _size;
         }
 
         size_type max_size() const {
-            return this->allocator.max_size();
+            return _alloc.max_size();
         }
 
         size_type capacity() const {
-            return this->_capacity;
+            return _capacity;
         }
 
         vector &operator=(const vector &other) {
@@ -79,10 +99,10 @@ namespace ft {
         void push_back(const value_type &val) {
         }
 
-        iterator begin()                        { return iterator(this->array); }
-        const_iterator begin() const            { return const_iterator(this->array); }
-        iterator end()                          { return iterator(this->array + this->_size); }
-        const_iterator end() const              { return const_iterator(this->array + this->_size); }
+        iterator begin()                        { return iterator(_data); }
+        const_iterator begin() const            { return const_iterator(_data); }
+        iterator end()                          { return iterator(_data + _size); }
+        const_iterator end() const              { return const_iterator(_data + _size); }
         reverse_iterator rbegin()               { return reverse_iterator(end()); }
         const_reverse_iterator rbegin() const   { return const_reverse_iterator(end()); }
         reverse_iterator rend()                 { return reverse_iterator(begin()); }

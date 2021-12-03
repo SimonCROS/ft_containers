@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#if 0
+#if 1
     #include <map>
     #include <stack>
     #include <vector>
@@ -16,14 +16,21 @@
 
 int main() {
     ft::vector<std::string> vvv(50, "issou");
-//    ft::vector<std::string>::iterator d = vvv.begin();
-//    std::cout << *d++ << std::endl;
+    ft::vector<std::string>::iterator d = vvv.begin();
+    std::cout << *d++ << std::endl;
 
-//    ft::vector<std::string> vec;
-//    vec.push_back("zero");
-//    vec.push_back("one");
-//    vec.push_back("two");
-//    vec.push_back("three");
+    ft::vector<std::string> vec;
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    vec.push_back("zero");
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    vec.push_back("one");
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    vec.push_back("two");
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    vec.push_back("three");
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    vec.push_back("four");
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
 //
 //    std::cout << "========== Iterator ==========" << std::endl;
 //    ft::vector<std::string>::iterator iter = vec.begin();
