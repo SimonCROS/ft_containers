@@ -7,8 +7,6 @@
 
 #include "iterator.hpp"
 
-#include "<algorithm>"
-
 namespace ft {
 
     template<class T, class Allocator = std::allocator<T> >
@@ -32,9 +30,35 @@ namespace ft {
         size_type _capacity;
         allocator_type _alloc;
 
-        void realloc(size_type n) {
+        void __construct_at_end(size_type n, const value_type &val) {
+            for (int i = 0; i < n; ++i)
+                _alloc.construct(_data + _size + i, val);
+            _size += n;
+        }
+
+        void __destruct_at_end(size_type n) {
+            for (int i = 0; i < n; ++i)
+                _alloc.destroy(_data + _size - i);
+            _size -= n;
+        }
+
+        void __realloc(size_type n) {
+            pointer tmp = _alloc.allocate(n);
+            for (size_type i = 0; i < _size && i < n; i++)
+                tmp[i] = _data[i];
+            _alloc.deallocate(_data, _capacity);
+            _data = tmp;
             _capacity = n;
-            _alloc.allocate();
+        }
+
+        void __append(size_type n, const value_type &val) {
+            if (_size + n > _capacity)
+                this->__realloc(_size + n);
+            __construct_at_end(n, val);
+        }
+
+        void __grow() {
+            this->__realloc(std::max(1UL, _capacity * 2));
         }
     public:
 
@@ -43,12 +67,9 @@ namespace ft {
 
         // fill
         explicit vector(size_type n, const value_type &val = value_type(),
-                        const allocator_type &alloc = allocator_type()): _size(n), _capacity(n), _alloc(alloc) {
+                        const allocator_type &alloc = allocator_type()): _size(0), _capacity(n), _alloc(alloc) {
             _data = _alloc.allocate(n);
-            for (int i = 0; i < n; ++i)
-            {
-                static_cast< std::allocator<T> >(_alloc).construct(n + i);
-            }
+            this->__construct_at_end(n, val);
         }
 
         // range
@@ -64,19 +85,28 @@ namespace ft {
         }
 
         ~vector() {
+            this->__destruct_at_end(_size);
+            _alloc.deallocate(_data, _capacity);
+        }
 
+        void resize(size_type __sz, value_type val = value_type()) {
+            size_type __cs = size();
+            if (__cs < __sz)
+                this->__append(__sz - __cs, val);
+            else if (__cs > __sz)
+                this->__destruct_at_end(__cs - __sz);
         }
 
         void reserve(size_type n) {
-            if (n >= _capacity)
-                realloc(n);
+            if (n > _capacity)
+                this->__realloc(n);
         }
 
-        void push_back(const T &value)
+        void push_back(const value_type &value)
         {
             if (_size >= _capacity)
-                reserve(std::max(1, _capacity * 2));
-            _data[_size] = value;
+                this->__grow();
+            _alloc.construct(_data + _size, value);
             _size++;
         }
 
@@ -94,9 +124,6 @@ namespace ft {
 
         vector &operator=(const vector &other) {
             return *this;
-        }
-
-        void push_back(const value_type &val) {
         }
 
         iterator begin()                        { return iterator(_data); }
