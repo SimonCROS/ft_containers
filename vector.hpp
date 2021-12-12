@@ -6,6 +6,7 @@
 #define FT_CONTAINERS_VECTOR_HPP
 
 #include "iterator.hpp"
+#include <stdexcept>
 
 namespace ft {
 
@@ -59,6 +60,10 @@ namespace ft {
 
         void __grow() {
             this->__realloc(std::max(1UL, _capacity * 2));
+        }
+
+        void __out_of_range() const {
+            throw std::out_of_range("vector");
         }
     public:
 
@@ -122,18 +127,30 @@ namespace ft {
             return _capacity;
         }
 
+        allocator_type get_allocator() const {
+            return this->_alloc;
+        }
+
         vector &operator=(const vector &other) {
             return *this;
         }
 
-        iterator begin()                        { return iterator(_data); }
-        const_iterator begin() const            { return const_iterator(_data); }
-        iterator end()                          { return iterator(_data + _size); }
-        const_iterator end() const              { return const_iterator(_data + _size); }
-        reverse_iterator rbegin()               { return reverse_iterator(end()); }
-        const_reverse_iterator rbegin() const   { return const_reverse_iterator(end()); }
-        reverse_iterator rend()                 { return reverse_iterator(begin()); }
-        const_reverse_iterator rend() const     { return const_reverse_iterator(begin()); }
+        iterator begin()                                { return iterator(_data); }
+        const_iterator begin() const                    { return const_iterator(_data); }
+        iterator end()                                  { return iterator(_data + _size); }
+        const_iterator end() const                      { return const_iterator(_data + _size); }
+        reverse_iterator rbegin()                       { return reverse_iterator(end()); }
+        const_reverse_iterator rbegin() const           { return const_reverse_iterator(end()); }
+        reverse_iterator rend()                         { return reverse_iterator(begin()); }
+        const_reverse_iterator rend() const             { return const_reverse_iterator(begin()); }
+        reference front()                               { return *this->_data; }
+        const_reference front() const                   { return *this->_data; }
+        reference back()                                { return this->_data[_size - 1]; }
+        const_reference back() const                    { return this->_data[_size - 1]; }
+        reference operator[](size_type n)               { return this->_data[n]; }
+        const_reference operator[](size_type n) const   { return this->_data[n]; }
+        reference at(size_type n)                       { if (n >= this->_size) this->__out_of_range(); return this->_data[n]; }
+        const_reference at(size_type n) const           { if (n >= this->_size) this->__out_of_range(); return this->_data[n]; }
     };
 }
 
