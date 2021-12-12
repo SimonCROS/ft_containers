@@ -26,36 +26,38 @@ namespace ft {
         typedef std::ptrdiff_t difference_type;
         typedef std::size_t size_type;
     private:
-        value_type *_data;
-        size_type _size;
         size_type _capacity;
         allocator_type _alloc;
+        pointer __begin_;
+        pointer __end_;
 
         void __construct_at_end(size_type n, const value_type &val) {
             for (int i = 0; i < n; ++i)
-                _alloc.construct(_data + _size + i, val);
-            _size += n;
+                _alloc.construct(__end_ + i, val);
         }
 
         void __destruct_at_end(size_type n) {
-            for (int i = 0; i < n; ++i)
-                _alloc.destroy(_data + _size - i);
-            _size -= n;
+            for (int i = n; i > 0; i--)
+                _alloc.destroy(__end_ - i);
         }
 
         void __realloc(size_type n) {
+            size_type s = size();
             pointer tmp = _alloc.allocate(n);
-            for (size_type i = 0; i < _size && i < n; i++)
-                tmp[i] = _data[i];
-            _alloc.deallocate(_data, _capacity);
-            _data = tmp;
+            for (size_type i = 0; i < s && i < n; i++)
+                _alloc.construct(tmp + i, __begin_[i]);
+            __destruct_at_end(size());
+            _alloc.deallocate(__begin_, _capacity);
+            __begin_ = tmp;
+            __end_ = __begin_ + s;
             _capacity = n;
         }
 
         void __append(size_type n, const value_type &val) {
-            if (_size + n > _capacity)
-                this->__realloc(_size + n);
+            if (size() + n > _capacity)
+                this->__realloc(size() + n);
             __construct_at_end(n, val);
+            __end_ += n;
         }
 
         void __grow() {
@@ -68,13 +70,15 @@ namespace ft {
     public:
 
         // default
-        explicit vector(const allocator_type &alloc = allocator_type()) : _data(nullptr), _size(0), _capacity(0), _alloc(alloc) { }
+        explicit vector(const allocator_type &alloc = allocator_type()) : __begin_(NULL), __end_(NULL), _capacity(0), _alloc(alloc) {
+        }
 
         // fill
         explicit vector(size_type n, const value_type &val = value_type(),
-                        const allocator_type &alloc = allocator_type()): _size(0), _capacity(n), _alloc(alloc) {
-            _data = _alloc.allocate(n);
-            this->__construct_at_end(n, val);
+                        const allocator_type &alloc = allocator_type()): _capacity(n), _alloc(alloc) {
+            this->__begin_ = _alloc.allocate(n);
+            this->__end_ = this->__begin_ + n;
+            this->__construct_at_end(size(), val);
         }
 
         // range
@@ -90,8 +94,8 @@ namespace ft {
         }
 
         ~vector() {
-            this->__destruct_at_end(_size);
-            _alloc.deallocate(_data, _capacity);
+            clear();
+            _alloc.deallocate(__begin_, _capacity);
         }
 
         void resize(size_type __sz, value_type val = value_type()) {
@@ -99,7 +103,10 @@ namespace ft {
             if (__cs < __sz)
                 this->__append(__sz - __cs, val);
             else if (__cs > __sz)
+            {
                 this->__destruct_at_end(__cs - __sz);
+                __end_ -= __cs - __sz;
+            }
         }
 
         void reserve(size_type n) {
@@ -109,18 +116,18 @@ namespace ft {
 
         void push_back(const value_type &value)
         {
-            if (_size >= _capacity)
+            if (size() >= _capacity)
                 this->__grow();
-            _alloc.construct(_data + _size, value);
-            _size++;
+            this->__construct_at_end(1, value);
+            this->__end_++;
         }
 
         size_type size() const {
-            return _size;
+            return static_cast<size_type>(this->__end_ - this->__begin_);
         }
 
-        size_type max_size() const {
-            return _alloc.max_size();
+        size_type maxsize() const {
+            return _alloc.maxsize();
         }
 
         size_type capacity() const {
@@ -135,27 +142,37 @@ namespace ft {
             return *this;
         }
 
-        void clear() {
-            this->__destruct_at_end(this->_size);
+        template <class InputIterator>
+        void assign(InputIterator first, InputIterator last) {
+
         }
 
-        bool empty() const                              { return this->_size == 0; }
-        iterator begin()                                { return iterator(_data); }
-        const_iterator begin() const                    { return const_iterator(_data); }
-        iterator end()                                  { return iterator(_data + _size); }
-        const_iterator end() const                      { return const_iterator(_data + _size); }
+        void assign(size_type n, const value_type &val) {
+
+        }
+
+        void clear() {
+            this->__destruct_at_end(this->size());
+            this->__end_ = this->__begin_;
+        }
+
+        bool empty() const                              { return this->size() == 0; }
+        iterator begin()                                { return iterator(__begin_); }
+        const_iterator begin() const                    { return const_iterator(__begin_); }
+        iterator end()                                  { return iterator(__end_); }
+        const_iterator end() const                      { return const_iterator(__end_); }
         reverse_iterator rbegin()                       { return reverse_iterator(end()); }
         const_reverse_iterator rbegin() const           { return const_reverse_iterator(end()); }
         reverse_iterator rend()                         { return reverse_iterator(begin()); }
         const_reverse_iterator rend() const             { return const_reverse_iterator(begin()); }
-        reference front()                               { return *this->_data; }
-        const_reference front() const                   { return *this->_data; }
-        reference back()                                { return this->_data[_size - 1]; }
-        const_reference back() const                    { return this->_data[_size - 1]; }
-        reference operator[](size_type n)               { return this->_data[n]; }
-        const_reference operator[](size_type n) const   { return this->_data[n]; }
-        reference at(size_type n)                       { if (n >= this->_size) this->__out_of_range(); return this->_data[n]; }
-        const_reference at(size_type n) const           { if (n >= this->_size) this->__out_of_range(); return this->_data[n]; }
+        reference front()                               { return *this->__begin_; }
+        const_reference front() const                   { return *this->__begin_; }
+        reference back()                                { return *(this->__end_ - 1); }
+        const_reference back() const                    { return *(this->__end_ - 1); }
+        reference operator[](size_type n)               { return this->__begin_[n]; }
+        const_reference operator[](size_type n) const   { return this->__begin_[n]; }
+        reference at(size_type n)                       { if (n >= this->size()) this->__out_of_range(); return this->__begin_[n]; }
+        const_reference at(size_type n) const           { if (n >= this->size()) this->__out_of_range(); return this->__begin_[n]; }
     };
 }
 

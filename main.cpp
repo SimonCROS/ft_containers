@@ -13,7 +13,37 @@
     #include <vector.hpp>
 #endif
 
+//class Test {
+//public:
+//    std::string issou;
+//    std::string *a;
+//    bool log;
+//
+//    Test(const Test &s): issou(s.issou), log(true) {
+//        std::cout << "On - " << issou << std::endl;
+//        a = new std::string("Hey");
+//    }
+//
+//    Test(std::string issou): issou(issou), log(false) {
+//        a = NULL;
+//    }
+//
+//    ~Test() {
+//        if (log)
+//            std::cout << "Off - " << issou << std::endl;
+//        delete a;
+//    }
+//};
+
 int main() {
+//    ft::vector<Test> vec;
+//    vec.push_back(Test("Hello"));
+//    std::cout << "---" << std::endl;
+//    vec.push_back(Test("Nope"));
+//    std::cout << "---" << std::endl;
+//    vec.push_back(Test("Yes"));
+//    std::cout << "---" << std::endl;
+
     ft::vector<std::string> vec;
     try {
         std::cout << vec.at(2) << std::endl;
@@ -62,6 +92,19 @@ int main() {
     vec.clear();
     std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
     std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+
+    std::cout << "=========== Assign ===========" << std::endl;
+    vec.assign(iter -3, iter);
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    vec.clear();
+
+    vec.assign(4, "Hey");
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    std::cout << vec.front() << " - " << vec.back() << " - " << vec[2] << " - " << vec.at(2) << std::endl;
+
+    vec.assign(10, "Hey");
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    vec.clear();
 
     std::cout << "------ end ------" << std::endl;
 }
