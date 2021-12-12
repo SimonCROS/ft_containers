@@ -57,5 +57,11 @@ int main() {
     std::cout << *++citer << std::endl;
     std::cout << (iter < iter + 1) << std::endl;
 
+    std::cout << "======== Clear vector ========" << std::endl;
+
+    vec.clear();
+    std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+
     std::cout << "------ end ------" << std::endl;
 }
