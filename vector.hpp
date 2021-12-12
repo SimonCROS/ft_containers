@@ -135,6 +135,7 @@ namespace ft {
             return *this;
         }
 
+        bool empty() const                              { return this->_size == 0; }
         iterator begin()                                { return iterator(_data); }
         const_iterator begin() const                    { return const_iterator(_data); }
         iterator end()                                  { return iterator(_data + _size); }

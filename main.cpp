@@ -18,8 +18,9 @@ int main() {
     try {
         std::cout << vec.at(2) << std::endl;
     } catch (const std::out_of_range &e) {
-        std::cout << "Vector empty : " << e.what() << std::endl;
+        std::cout << "Error : " << e.what() << std::endl;
     }
+    std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
     vec.reserve(3);
     std::cout << vec.size() << " - " << vec.capacity() << std::endl;
     vec.push_back("zero");
@@ -33,6 +34,7 @@ int main() {
     vec.push_back("four");
     std::cout << vec.size() << " - " << vec.capacity() << std::endl;
     std::cout << vec.front() << " - " << vec.back() << " - " << vec[2] << " - " << vec.at(2) << std::endl;
+    std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
 
     std::cout << "========== Iterator ==========" << std::endl;
     ft::vector<std::string>::iterator iter = vec.begin();
