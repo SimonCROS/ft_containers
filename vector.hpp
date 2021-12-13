@@ -55,13 +55,13 @@ namespace ft {
 
         void __append(size_type n, const value_type &val) {
             if (size() + n > _capacity)
-                this->__realloc(size() + n);
+                __realloc(size() + n);
             __construct_at_end(n, val);
             __end_ += n;
         }
 
         void __grow() {
-            this->__realloc(std::max(1UL, _capacity * 2));
+            __realloc(std::max(1UL, _capacity * 2));
         }
 
         void __out_of_range() const {
@@ -92,9 +92,9 @@ namespace ft {
         // fill
         explicit vector(size_type n, const value_type &val = value_type(),
                         const allocator_type &alloc = allocator_type()): _capacity(n), _alloc(alloc) {
-            this->__begin_ = _alloc.allocate(n);
-            this->__end_ = this->__begin_ + n;
-            this->__construct_at_end(size(), val);
+            __begin_ = _alloc.allocate(n);
+            __end_ = __begin_ + n;
+            __construct_at_end(size(), val);
         }
 
         // range
@@ -113,32 +113,32 @@ namespace ft {
             __reset();
         }
 
-        void resize(size_type __sz, value_type val = value_type()) {
+        void resize(size_type count, value_type value = value_type()) {
             size_type __cs = size();
-            if (__cs < __sz)
-                this->__append(__sz - __cs, val);
-            else if (__cs > __sz)
+            if (__cs < count)
+                __append(count - __cs, value);
+            else if (__cs > count)
             {
-                this->__destruct_at_end(__cs - __sz);
-                __end_ -= __cs - __sz;
+                __destruct_at_end(__cs - count);
+                __end_ -= __cs - count;
             }
         }
 
-        void reserve(size_type n) {
-            if (n > _capacity)
-                this->__realloc(n);
+        void reserve(size_type new_cap) {
+            if (new_cap > _capacity)
+                __realloc(new_cap);
         }
 
         void push_back(const value_type &value)
         {
             if (size() >= _capacity)
-                this->__grow();
-            this->__construct_at_end(1, value);
-            this->__end_++;
+                __grow();
+            __construct_at_end(1, value);
+            __end_++;
         }
 
         size_type size() const {
-            return static_cast<size_type>(this->__end_ - this->__begin_);
+            return static_cast<size_type>(__end_ - __begin_);
         }
 
         size_type maxsize() const {
@@ -150,7 +150,7 @@ namespace ft {
         }
 
         allocator_type get_allocator() const {
-            return this->_alloc;
+            return _alloc;
         }
 
         vector &operator=(const vector &other) {
@@ -168,18 +168,18 @@ namespace ft {
             }
         }
 
-        void assign(size_type n, const value_type &val) {
+        void assign(size_type count, const value_type &val) {
             clear();
-            reserve(n);
-            resize(n, val);
+            reserve(count);
+            resize(count, val);
         }
 
         void clear() {
-            this->__destruct_at_end(this->size());
-            this->__end_ = this->__begin_;
+            __destruct_at_end(size());
+            __end_ = __begin_;
         }
 
-        bool empty() const                              { return this->size() == 0; }
+        bool empty() const                              { return size() == 0; }
         iterator begin()                                { return iterator(__begin_); }
         const_iterator begin() const                    { return const_iterator(__begin_); }
         iterator end()                                  { return iterator(__end_); }
@@ -188,14 +188,14 @@ namespace ft {
         const_reverse_iterator rbegin() const           { return const_reverse_iterator(end()); }
         reverse_iterator rend()                         { return reverse_iterator(begin()); }
         const_reverse_iterator rend() const             { return const_reverse_iterator(begin()); }
-        reference front()                               { return *this->__begin_; }
-        const_reference front() const                   { return *this->__begin_; }
-        reference back()                                { return *(this->__end_ - 1); }
-        const_reference back() const                    { return *(this->__end_ - 1); }
-        reference operator[](size_type n)               { return this->__begin_[n]; }
-        const_reference operator[](size_type n) const   { return this->__begin_[n]; }
-        reference at(size_type n)                       { if (n >= this->size()) this->__out_of_range(); return this->__begin_[n]; }
-        const_reference at(size_type n) const           { if (n >= this->size()) this->__out_of_range(); return this->__begin_[n]; }
+        reference front()                               { return *__begin_; }
+        const_reference front() const                   { return *__begin_; }
+        reference back()                                { return *(__end_ - 1); }
+        const_reference back() const                    { return *(__end_ - 1); }
+        reference operator[](size_type n)               { return __begin_[n]; }
+        const_reference operator[](size_type n) const   { return __begin_[n]; }
+        reference at(size_type n)                       { if (n >= size()) __out_of_range(); return __begin_[n]; }
+        const_reference at(size_type n) const           { if (n >= size()) __out_of_range(); return __begin_[n]; }
     };
 }
 
