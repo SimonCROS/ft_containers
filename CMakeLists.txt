@@ -11,4 +11,5 @@ add_executable(ft_containers
         map.hpp
         stack.hpp
         vector.hpp
-        iterator.hpp)
+        iterator.hpp
+        type_traits.hpp)

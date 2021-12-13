@@ -32,21 +32,21 @@ namespace ft {
         pointer __end_;
 
         void __construct_at_end(size_type n, const value_type &val) {
-            for (int i = 0; i < n; ++i)
+            for (size_type i = 0; i < n; ++i)
                 _alloc.construct(__end_ + i, val);
         }
 
         void __destruct_at_end(size_type n) {
-            for (int i = n; i > 0; i--)
+            for (size_type i = n; i > 0; i--)
                 _alloc.destroy(__end_ - i);
         }
 
         void __realloc(size_type n) {
-            size_type s = size();
+            size_type s = this->size();
             pointer tmp = _alloc.allocate(n);
             for (size_type i = 0; i < s && i < n; i++)
                 _alloc.construct(tmp + i, __begin_[i]);
-            __destruct_at_end(size());
+            __destruct_at_end(this->size());
             _alloc.deallocate(__begin_, _capacity);
             __begin_ = tmp;
             __end_ = __begin_ + s;
@@ -54,8 +54,8 @@ namespace ft {
         }
 
         void __append(size_type n, const value_type &val) {
-            if (size() + n > _capacity)
-                __realloc(size() + n);
+            if (this->size() + n > _capacity)
+                __realloc(this->size() + n);
             __construct_at_end(n, val);
             __end_ += n;
         }
@@ -69,15 +69,15 @@ namespace ft {
         }
 
         void __reset() {
-            clear();
+            this->clear();
             _alloc.deallocate(__begin_, _capacity);
             __begin_ = __end_ = nullptr;
         }
 
         template <class InputIterator>
-        typename InputIterator::difference_type __distance(InputIterator first, InputIterator last) {
-            typename InputIterator::difference_type dist = 0;
-            while (first < last) {
+        typename iterator_traits<InputIterator>::difference_type __distance(InputIterator first, InputIterator last) {
+            typename iterator_traits<InputIterator>::difference_type dist = 0;
+            while (first++ < last) {
                 first++;
                 dist++;
             }
@@ -86,7 +86,7 @@ namespace ft {
     public:
 
         // default
-        explicit vector(const allocator_type &alloc = allocator_type()) : __begin_(nullptr), __end_(nullptr), _capacity(0), _alloc(alloc) {
+        explicit vector(const allocator_type &alloc = allocator_type()) : _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
         }
 
         // fill
@@ -98,16 +98,14 @@ namespace ft {
         }
 
         // range
-        template<class InputIterator>
-        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _alloc(alloc) {
+        // template<class InputIterator>
+        // vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _alloc(alloc) {
 
-        }
+        // }
 
         // copy
-        // TODO copy constructor
-        vector(const vector &x) {
-
-        }
+        // vector(const vector &x) {
+        // }
 
         ~vector() {
             __reset();
@@ -153,9 +151,9 @@ namespace ft {
             return _alloc;
         }
 
-        vector &operator=(const vector &other) {
-            return *this;
-        }
+        // vector &operator=(const vector &other) {
+        //     return *this;
+        // }
 
         template <class InputIterator>
         void assign(InputIterator first, InputIterator last) {

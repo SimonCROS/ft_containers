@@ -91,7 +91,8 @@ int main() {
    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
    //vec.assign(iter -4, iter);
-   vec.assign(vec.begin() + 1, vec.end());
+   std::string strs[] = { "a", "b", "c", "d" };
+   vec.assign(strs, strs + 4);
    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
 

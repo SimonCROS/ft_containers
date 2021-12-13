@@ -7,7 +7,12 @@
 	"settings": {
 		"files.associations": {
 			"string": "cpp",
-			"iostream": "cpp"
+			"iostream": "cpp",
+			"stack": "cpp",
+			"vector": "cpp",
+			"iterator": "cpp",
+			"type_traits": "cpp",
+			"__config": "cpp"
 		}
 	}
 }
