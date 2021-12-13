@@ -113,7 +113,7 @@ namespace ft {
 
         __normal_iterator operator-(difference_type __n) const {
             __normal_iterator __w(*this);
-            __w += __n;
+            __w -= __n;
             return __w;
         }
 

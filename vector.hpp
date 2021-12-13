@@ -67,10 +67,26 @@ namespace ft {
         void __out_of_range() const {
             throw std::out_of_range("vector");
         }
+
+        void __reset() {
+            clear();
+            _alloc.deallocate(__begin_, _capacity);
+            __begin_ = __end_ = nullptr;
+        }
+
+        template <class InputIterator>
+        typename InputIterator::difference_type __distance(InputIterator first, InputIterator last) {
+            typename InputIterator::difference_type dist = 0;
+            while (first < last) {
+                first++;
+                dist++;
+            }
+            return dist;
+        }
     public:
 
         // default
-        explicit vector(const allocator_type &alloc = allocator_type()) : __begin_(NULL), __end_(NULL), _capacity(0), _alloc(alloc) {
+        explicit vector(const allocator_type &alloc = allocator_type()) : __begin_(nullptr), __end_(nullptr), _capacity(0), _alloc(alloc) {
         }
 
         // fill
@@ -94,8 +110,7 @@ namespace ft {
         }
 
         ~vector() {
-            clear();
-            _alloc.deallocate(__begin_, _capacity);
+            __reset();
         }
 
         void resize(size_type __sz, value_type val = value_type()) {
@@ -144,11 +159,19 @@ namespace ft {
 
         template <class InputIterator>
         void assign(InputIterator first, InputIterator last) {
-
+            size_type n = static_cast<size_type>(__distance(first, last));
+            clear();
+            reserve(n);
+            while (first < last) {
+                push_back(*first);
+                first++;
+            }
         }
 
         void assign(size_type n, const value_type &val) {
-
+            clear();
+            reserve(n);
+            resize(n, val);
         }
 
         void clear() {
