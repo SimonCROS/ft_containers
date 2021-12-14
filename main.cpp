@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#if 0
+#if 1
     #include <map>
     #include <stack>
     #include <vector>
@@ -33,6 +33,17 @@
 //    }
 //};
 
+template<class T>
+void show_cap(ft::vector<T> &vec) {
+    std::cout << "\033[37m" << vec.size() << " - " << vec.capacity() << "\033[0m" << std::endl;
+}
+
+template<class T>
+void show(ft::vector<T> &vec) {
+    show_cap(vec);
+    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+}
+
 int main() {
 //    ft::vector<Test> vec;
 //    vec.reserve(4);
@@ -52,18 +63,17 @@ int main() {
     }
     std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
     vec.reserve(3);
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    show_cap(vec);
     vec.push_back("zero");
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    show_cap(vec);
     vec.push_back("one");
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    show_cap(vec);
     vec.push_back("two");
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    show_cap(vec);
     vec.push_back("three");
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    show_cap(vec);
     vec.push_back("four");
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
-    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+    show(vec);
     std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
 
     std::cout << "========== Iterator ==========" << std::endl;
@@ -88,31 +98,34 @@ int main() {
     std::cout << (iter < iter + 1) << std::endl;
 
     std::cout << "=========== Assign ===========" << std::endl;
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
-    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+    show(vec);
 
     std::string strs[] = { "a", "b", "c", "d" };
     vec.assign(strs, strs + 4);
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
-    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+    show(vec);
 
     vec.assign(3, "Hey");
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
-    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+    show(vec);
 
     vec.assign(10, "Hey ho");
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
-    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+    show(vec);
 
     std::cout << "========== Pop back ==========" << std::endl;
     vec.pop_back();
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
-    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+    show(vec);
+
+    std::cout << "=========== Insert ===========" << std::endl;
+    vec.insert(vec.begin(), "\033[32mNot hey\033[0m");
+    show(vec);
+    vec.insert(vec.begin() + 2, "\033[33mTwo\033[0m");
+    show(vec);
+    vec.insert(vec.end(), "\033[31mNot ho\033[0m");
+    show(vec);
 
     std::cout << "======== Clear vector ========" << std::endl;
     vec.clear();
     std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
-    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    show_cap(vec);
 
     std::cout << "------ end ------" << std::endl;
 }
