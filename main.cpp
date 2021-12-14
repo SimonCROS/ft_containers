@@ -104,10 +104,10 @@ int main() {
     std::cout << vec.size() << " - " << vec.capacity() << std::endl;
     std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
 
-    // std::cout << "========== Pop back ==========" << std::endl;
-    // vec.pop_back();
-    // std::cout << vec.size() << " - " << vec.capacity() << std::endl;
-    // std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
+    std::cout << "========== Pop back ==========" << std::endl;
+    vec.pop_back();
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
+    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
 
     std::cout << "======== Clear vector ========" << std::endl;
     vec.clear();

@@ -29,7 +29,7 @@
 #### Modifiers:
 - [x] `assign`: Assign vector content
 - [x] `push_back`: Add element at the end
-- [ ] `pop_back`: Delete last element
+- [x] `pop_back`: Delete last element
 - [ ] `insert`: Insert elements
 - [ ] `erase`: Erase elements
 - [ ] `swap`: Swap content

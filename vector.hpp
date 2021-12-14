@@ -32,8 +32,8 @@ namespace ft {
         pointer __end_;
 
         void __construct_at_end(size_type n, const value_type &val) {
-            for (size_type i = 0; i < n; ++i)
-                _alloc.construct(__end_ + i, val);
+            while (n--)
+                _alloc.construct(__end_++, val);
         }
 
         void __destruct_at_end(pointer __new_end) {
@@ -57,7 +57,6 @@ namespace ft {
             if (this->size() + n > _capacity)
                 __realloc(this->size() + n);
             __construct_at_end(n, val);
-            __end_ += n;
         }
 
         void __grow() {
@@ -92,9 +91,8 @@ namespace ft {
         // fill
         explicit vector(size_type n, const value_type &val = value_type(),
                         const allocator_type &alloc = allocator_type()): _capacity(n), _alloc(alloc) {
-            __begin_ = _alloc.allocate(n);
-            __end_ = __begin_ + n;
-            __construct_at_end(size(), val);
+            __begin_ = __end_ = _alloc.allocate(n);
+            __construct_at_end(n, val);
         }
 
         // range
@@ -129,7 +127,6 @@ namespace ft {
             if (size() >= _capacity)
                 __grow();
             __construct_at_end(1, value);
-            __end_++;
         }
 
         size_type size() const {
@@ -148,13 +145,13 @@ namespace ft {
             return _alloc;
         }
 
-        void pop_back() {
-            __destruct_at_end(__end_ - 1);
-        }
-
         // vector &operator=(const vector &other) {
         //     return *this;
         // }
+
+        void pop_back() {
+            __destruct_at_end(__end_ - 1);
+        }
 
         template <class InputIterator>
         void assign(InputIterator first, InputIterator last) {
