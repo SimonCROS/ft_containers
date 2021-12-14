@@ -90,7 +90,7 @@ int main() {
    std::cout << "=========== Assign ===========" << std::endl;
    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
    std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
-   //vec.assign(iter -4, iter);
+
    std::string strs[] = { "a", "b", "c", "d" };
    vec.assign(strs, strs + 4);
    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
