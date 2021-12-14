@@ -36,9 +36,9 @@ namespace ft {
                 _alloc.construct(__end_ + i, val);
         }
 
-        void __destruct_at_end(size_type n) {
-            for (size_type i = n; i > 0; i--)
-                _alloc.destroy(__end_ - i);
+        void __destruct_at_end(pointer __new_end) {
+            while (__end_ > __new_end)
+                _alloc.destroy(--__end_);
         }
 
         void __realloc(size_type n) {
@@ -46,7 +46,7 @@ namespace ft {
             pointer tmp = _alloc.allocate(n);
             for (size_type i = 0; i < s && i < n; i++)
                 _alloc.construct(tmp + i, __begin_[i]);
-            __destruct_at_end(this->size());
+            this->clear();
             _alloc.deallocate(__begin_, _capacity);
             __begin_ = tmp;
             __end_ = __begin_ + s;
@@ -116,10 +116,7 @@ namespace ft {
             if (__cs < count)
                 __append(count - __cs, value);
             else if (__cs > count)
-            {
-                __destruct_at_end(__cs - count);
-                __end_ -= __cs - count;
-            }
+                __destruct_at_end(__end_ - static_cast<difference_type>(__cs - count));
         }
 
         void reserve(size_type new_cap) {
@@ -151,6 +148,10 @@ namespace ft {
             return _alloc;
         }
 
+        void pop_back() {
+            __destruct_at_end(__end_ - 1);
+        }
+
         // vector &operator=(const vector &other) {
         //     return *this;
         // }
@@ -173,8 +174,7 @@ namespace ft {
         }
 
         void clear() {
-            __destruct_at_end(size());
-            __end_ = __begin_;
+            __destruct_at_end(__begin_);
         }
 
         bool empty() const                              { return size() == 0; }
