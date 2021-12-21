@@ -82,6 +82,17 @@ namespace ft {
             }
             return dist;
         }
+
+        void __move_range(pointer begin, pointer end, pointer to) {
+            difference_type length = end - begin;
+            if (to <= begin) {
+                for (difference_type i = 0; i < length; i++)
+                    to[length] = begin[length];
+            } else {
+                while (length--)
+                    to[length] = begin[length];
+            }
+        }
     public:
 
         // default
@@ -148,6 +159,26 @@ namespace ft {
         // vector &operator=(const vector &other) {
         //     return *this;
         // }
+
+        iterator insert(iterator pos, const value_type &value) {
+            insert(pos, 1, value);
+            return pos;
+        }
+
+        void insert(iterator pos, size_type count, const value_type &value) {
+            pointer start = this->__begin_ + (pos - begin());
+            pointer old_end = __end_;
+            for (size_type i = count; i > 0; i--)
+                push_back(*(old_end - i));
+            __move_range(start, old_end - count, start + count);
+            for (size_type i = 0; i < count; i++)
+                start[i] = value;
+        }
+
+        template <class InputIterator>
+        void insert(iterator pos, InputIterator first, InputIterator last) {
+
+        }
 
         void pop_back() {
             __destruct_at_end(__end_ - 1);
