@@ -168,10 +168,19 @@ namespace ft {
         void insert(iterator pos, size_type count, const value_type &value) {
             pointer start = this->__begin_ + (pos - begin());
             pointer old_end = __end_;
-            for (size_type i = count; i > 0; i--)
-                push_back(*(old_end - i));
-            __move_range(start, old_end - count, start + count);
-            for (size_type i = 0; i < count; i++)
+            size_type construct_count = count;
+            size_type overflow_count = 0;
+            while (construct_count && start + construct_count > old_end) {
+                push_back(value);
+                overflow_count++;
+                construct_count--;
+            }
+            while (construct_count) {
+                push_back(*(old_end - construct_count));
+                construct_count--;
+            }
+            __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
+            for (size_type i = 0; i < count - overflow_count; i++)
                 start[i] = value;
         }
 

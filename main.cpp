@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#if 1
+#if 0
     #include <map>
     #include <stack>
     #include <vector>
@@ -52,7 +52,7 @@ std::ostream &operator<<(std::ostream &lhs, const Test &rhs) {
 
 template<class T>
 void show_cap(ft::vector<T> &vec) {
-    std::cout << "\033[37m" << vec.size() << " - " << vec.capacity() << "\033[0m" << std::endl;
+    std::cout << vec.size() << " - " << vec.capacity() << std::endl;
 }
 
 template<class T>
@@ -74,25 +74,27 @@ void print(ft::vector<T> &vec) {
 
 int main() {
     ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
     vec.reserve(12);
+    std::cout << "--- "; show_cap(vec);
     vec.push_back(Test("Hello"));
-    std::cout << "---" << std::endl;
+    std::cout << "--- "; show_cap(vec);
     vec.push_back(Test("Nope"));
-    std::cout << "---" << std::endl;
+    std::cout << "--- "; show_cap(vec);
     vec.push_back(Test("Yes"));
-    std::cout << "---" << std::endl;
+    std::cout << "--- "; show_cap(vec);
     print(vec);
-    std::cout << "---" << std::endl;
+    std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin(), Test("Issou"));
-    std::cout << "---" << std::endl;
+    std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin() + 2, 2, Test("Mow"));
-    std::cout << "---" << std::endl;
-    vec.insert(vec.begin() + 2, 6, Test("Overflow"));
-    std::cout << "---" << std::endl;
-    vec.insert(vec.begin() + 8, 1, Test("Realloc"));
-    std::cout << "---" << std::endl;
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 2, 5, Test("Overflow"));
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 8, 2, Test("Realloc"));
+    std::cout << "--- "; show_cap(vec);
     print(vec);
-    std::cout << "===" << std::endl;
+    std::cout << "--- "; show_cap(vec);
 
     // ft::vector<std::string> vec;
     // try {
