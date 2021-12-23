@@ -30,8 +30,8 @@
 - [x] `assign`: Assign vector content
 - [x] `push_back`: Add element at the end
 - [x] `pop_back`: Delete last element
-- [ ] `insert`: Insert elements
-- [ ] `erase`: Erase elements
+- [x] `insert`: Insert elements
+- [x] `erase`: Erase elements
 - [ ] `swap`: Swap content
 - [x] `clear`: Clear content
 
