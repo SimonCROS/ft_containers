@@ -235,9 +235,10 @@ namespace ft {
                 size_type construct_count = count;
                 size_type overflow_count = 0;
                 while (construct_count && start + construct_count > old_end) {
-                    push_back(first[old_end - (start + construct_count)]);
-                    overflow_count++;
                     construct_count--;
+                    overflow_count++;
+                    size_type n = static_cast<size_type>(old_end - (start + construct_count)) + 1;
+                    _alloc.construct(__end_++, first[count - n]);
                 }
                 while (construct_count) {
                     push_back(*(old_end - construct_count));
