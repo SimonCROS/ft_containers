@@ -32,7 +32,7 @@
 - [x] `pop_back`: Delete last element
 - [x] `insert`: Insert elements
 - [x] `erase`: Erase elements
-- [ ] `swap`: Swap content
+- [x] `swap`: Swap content
 - [x] `clear`: Clear content
 
 #### Allocator:

@@ -263,6 +263,13 @@ namespace ft {
             return first;
         }
 
+        void swap(vector &x) {
+            std::swap(this->_capacity, x._capacity);
+            std::swap(this->_alloc, x._alloc);
+            std::swap(this->__begin_, x.__begin_);
+            std::swap(this->__end_, x.__end_);
+        }
+
         void pop_back() {
             __destruct_at_end(__end_ - 1);
         }

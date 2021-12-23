@@ -187,8 +187,23 @@ void test6() {
     std::cout << "--- "; show_cap(vec);
 }
 
+// Swap
+void test7() {
+    ft::vector<Test> foo(3, Test("FOO"));
+    std::cout << "--- "; show_cap(foo);
+    ft::vector<Test> bar(5, Test("BAR"));
+    std::cout << "--- "; show_cap(bar);
+
+    foo.swap(bar);
+    std::cout << "--- foo "; show_cap(foo);
+    print(foo);
+    std::cout << "--- bar "; show_cap(bar);
+    print(bar);
+    std::cout << "--- " << std::endl;
+}
+
 int main() {
-    test6();
+    test7();
 
     // ft::vector<std::string> vec;
     // try {
