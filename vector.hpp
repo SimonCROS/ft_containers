@@ -76,7 +76,7 @@ namespace ft {
         template <class InputIterator>
         typename iterator_traits<InputIterator>::difference_type __distance(InputIterator first, InputIterator last) {
             typename iterator_traits<InputIterator>::difference_type dist = 0;
-            while (first++ < last) {
+            while (first < last) {
                 first++;
                 dist++;
             }
@@ -166,27 +166,87 @@ namespace ft {
         }
 
         void insert(iterator pos, size_type count, const value_type &value) {
-            pointer start = this->__begin_ + (pos - begin());
-            pointer old_end = __end_;
-            size_type construct_count = count;
-            size_type overflow_count = 0;
-            while (construct_count && start + construct_count > old_end) {
-                push_back(value);
-                overflow_count++;
-                construct_count--;
+            if (size() + count > capacity()) {
+                size_type old_size = size();
+                size_type new_capacity = capacity() * 2;
+                if (old_size + count > new_capacity)
+                    new_capacity = old_size + count;
+
+                difference_type distance = pos - begin();
+
+                pointer tmp = _alloc.allocate(new_capacity);
+                for (size_type i = 0; i < count; i++)
+                    _alloc.construct(tmp + i + distance, value);
+                for (size_type i = distance; i > 0; i--)
+                    _alloc.construct(tmp + (i - 1), __begin_[i - 1]);
+                for (size_type i = distance; i < old_size; i++)
+                    _alloc.construct(tmp + i + count, __begin_[i]);
+                clear();
+                _alloc.deallocate(__begin_, _capacity);
+                __begin_ = tmp;
+                __end_ = __begin_ + old_size + count;
+                _capacity = new_capacity;
+            } else {
+                pointer start = this->__begin_ + (pos - begin());
+                pointer old_end = __end_;
+                size_type construct_count = count;
+                size_type overflow_count = 0;
+                while (construct_count && start + construct_count > old_end) {
+                    push_back(value);
+                    overflow_count++;
+                    construct_count--;
+                }
+                while (construct_count) {
+                    push_back(*(old_end - construct_count));
+                    construct_count--;
+                }
+                __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
+                for (size_type i = 0; i < count - overflow_count; i++)
+                    start[i] = value;
             }
-            while (construct_count) {
-                push_back(*(old_end - construct_count));
-                construct_count--;
-            }
-            __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
-            for (size_type i = 0; i < count - overflow_count; i++)
-                start[i] = value;
         }
 
         template <class InputIterator>
         void insert(iterator pos, InputIterator first, InputIterator last) {
+            size_type count = static_cast<size_type>(__distance(first, last));
+            if (size() + count > capacity()) {
+                size_type old_size = size();
+                size_type new_capacity = capacity() * 2;
+                if (old_size + count > new_capacity)
+                    new_capacity = old_size + count;
 
+                difference_type distance = pos - begin();
+
+                pointer tmp = _alloc.allocate(new_capacity);
+                for (size_type i = 0; i < count; i++)
+                    _alloc.construct(tmp + i + distance, first[i]);
+                for (size_type i = distance; i > 0; i--)
+                    _alloc.construct(tmp + (i - 1), __begin_[i - 1]);
+                for (size_type i = distance; i < old_size; i++)
+                    _alloc.construct(tmp + i + count, __begin_[i]);
+                clear();
+                _alloc.deallocate(__begin_, _capacity);
+                __begin_ = tmp;
+                __end_ = __begin_ + old_size + count;
+                _capacity = new_capacity;
+            } else {
+                pointer start = this->__begin_ + (pos - begin());
+                pointer old_end = __end_;
+                size_type construct_count = count;
+                size_type overflow_count = 0;
+                while (construct_count && start + construct_count > old_end) {
+                    push_back(first[old_end - (start + construct_count)]);
+                    overflow_count++;
+                    construct_count--;
+                }
+                while (construct_count) {
+                    push_back(*(old_end - construct_count));
+                    construct_count--;
+                }
+                __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
+                for (size_type i = 0; i < count - overflow_count; i++)
+                    start[i] = first[i];
+            }
         }
 
         void pop_back() {

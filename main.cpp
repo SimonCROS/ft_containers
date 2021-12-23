@@ -73,6 +73,10 @@ void print(ft::vector<T> &vec) {
 }
 
 int main() {
+    std::string lst[100];
+    for (size_t i = 0; i < 100; i++)
+        lst[i] = "Range " + std::to_string(i);
+
     ft::vector<Test> vec;
     std::cout << "--- "; show_cap(vec);
     vec.reserve(12);
@@ -87,11 +91,21 @@ int main() {
     std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin(), Test("Issou"));
     std::cout << "--- "; show_cap(vec);
-    vec.insert(vec.begin() + 2, 2, Test("Mow"));
+    // vec.insert(vec.begin() + 2, 2, Test("Mow"));
+    // std::cout << "--- "; show_cap(vec);
+    // vec.insert(vec.begin() + 2, 5, Test("Overflow"));
+    // std::cout << "--- "; show_cap(vec);
+    // vec.insert(vec.begin() + 8, 2, Test("Realloc"));
+    // std::cout << "--- "; show_cap(vec);
+    // vec.insert(vec.begin() + 9, 50, Test("Realloc 2"));
+    // std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 2, lst + 0, lst + 2);
     std::cout << "--- "; show_cap(vec);
-    vec.insert(vec.begin() + 2, 5, Test("Overflow"));
+    vec.insert(vec.begin() + 2, lst + 2, lst + 7);
     std::cout << "--- "; show_cap(vec);
-    vec.insert(vec.begin() + 8, 2, Test("Realloc"));
+    vec.insert(vec.begin() + 8, lst + 7, lst + 9);
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 9, lst + 9, lst + 59);
     std::cout << "--- "; show_cap(vec);
     print(vec);
     std::cout << "--- "; show_cap(vec);
