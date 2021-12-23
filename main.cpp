@@ -86,7 +86,8 @@ void test1() {
     std::cout << "--- "; show_cap(vec);
     print(vec);
     std::cout << "--- "; show_cap(vec);
-    vec.insert(vec.begin(), Test("Issou"));
+    Test &t = *vec.insert(vec.begin(), Test("Issou"));
+    std::cout << "*** " << t << std::endl;
     std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin() + 2, 2, Test("Mow"));
     std::cout << "--- "; show_cap(vec);
@@ -154,8 +155,40 @@ void test4() {
     std::cout << "--- "; show_cap(vec);
 }
 
+// Erase (simple)
+void test5() {
+    std::string lst[20];
+    for (size_t i = 0; i < 20; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    vec.insert(vec.begin(), lst + 0, lst + 20);
+    std::cout << "--- "; show_cap(vec);
+    Test &t = *vec.erase(vec.begin() + 10);
+    std::cout << "*** " << t << std::endl;
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Erase (range)
+void test6() {
+    std::string lst[20];
+    for (size_t i = 0; i < 20; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    vec.insert(vec.begin(), lst + 0, lst + 20);
+    std::cout << "--- "; show_cap(vec);
+    Test &t = *vec.erase(vec.begin() + 8, vec.begin() + 12);
+    std::cout << "*** " << t << std::endl;
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
 int main() {
-    test4();
+    test6();
 
     // ft::vector<std::string> vec;
     // try {

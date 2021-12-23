@@ -87,7 +87,7 @@ namespace ft {
             difference_type length = end - begin;
             if (to <= begin) {
                 for (difference_type i = 0; i < length; i++)
-                    to[length] = begin[length];
+                    to[i] = begin[i];
             } else {
                 while (length--)
                     to[length] = begin[length];
@@ -248,6 +248,19 @@ namespace ft {
                 for (size_type i = 0; i < count - overflow_count; i++)
                     start[i] = first[i];
             }
+        }
+
+        iterator erase(iterator position) {
+            __move_range(position.base() + 1, __end_, position.base());
+            __destruct_at_end(__end_ - 1);
+            return position;
+        }
+
+        iterator erase(iterator first, iterator last) {
+            size_type count = static_cast<size_type>(__distance(first, last));
+            __move_range(last.base(), __end_, first.base());
+            __destruct_at_end(__end_ - count);
+            return first;
         }
 
         void pop_back() {
