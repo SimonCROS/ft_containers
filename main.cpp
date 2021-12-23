@@ -72,7 +72,36 @@ void print(ft::vector<T> &vec) {
     }
 }
 
-int main() {
+// Insert count
+void test1() {
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+    vec.reserve(12);
+    std::cout << "--- "; show_cap(vec);
+    vec.push_back(Test("Hello"));
+    std::cout << "--- "; show_cap(vec);
+    vec.push_back(Test("Nope"));
+    std::cout << "--- "; show_cap(vec);
+    vec.push_back(Test("Yes"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin(), Test("Issou"));
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 2, 2, Test("Mow"));
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 2, 5, Test("Overflow"));
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 8, 2, Test("Realloc"));
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin() + 9, 50, Test("Realloc 2"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Insert range
+void test2() {
     std::string lst[100];
     for (size_t i = 0; i < 100; i++)
         lst[i] = "Range " + std::to_string(i);
@@ -91,14 +120,6 @@ int main() {
     std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin(), Test("Issou"));
     std::cout << "--- "; show_cap(vec);
-    // vec.insert(vec.begin() + 2, 2, Test("Mow"));
-    // std::cout << "--- "; show_cap(vec);
-    // vec.insert(vec.begin() + 2, 5, Test("Overflow"));
-    // std::cout << "--- "; show_cap(vec);
-    // vec.insert(vec.begin() + 8, 2, Test("Realloc"));
-    // std::cout << "--- "; show_cap(vec);
-    // vec.insert(vec.begin() + 9, 50, Test("Realloc 2"));
-    // std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin() + 2, lst + 0, lst + 2);
     std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin() + 2, lst + 2, lst + 7);
@@ -109,6 +130,32 @@ int main() {
     std::cout << "--- "; show_cap(vec);
     print(vec);
     std::cout << "--- "; show_cap(vec);
+}
+
+// Insert on empty vector (count)
+void test3() {
+    ft::vector<Test> vec;
+    vec.insert(vec.begin(), 50, Test("Message"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Insert on empty vector (range)
+void test4() {
+    std::string lst[100];
+    for (size_t i = 0; i < 100; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    vec.insert(vec.begin(), lst + 10, lst + 60);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+int main() {
+    test4();
 
     // ft::vector<std::string> vec;
     // try {
