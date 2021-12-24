@@ -187,7 +187,7 @@ void test6() {
     std::cout << "--- "; show_cap(vec);
 }
 
-// Swap
+// Swap (member and non-member overload)
 void test7() {
     ft::vector<Test> foo(3, Test("FOO"));
     std::cout << "--- "; show_cap(foo);
@@ -199,11 +199,144 @@ void test7() {
     print(foo);
     std::cout << "--- bar "; show_cap(bar);
     print(bar);
-    std::cout << "--- " << std::endl;
+    std::cout << "--- ---" << std::endl;
+    ft::swap(foo, bar);
+    std::cout << "--- foo "; show_cap(foo);
+    print(foo);
+    std::cout << "--- bar "; show_cap(bar);
+    print(bar);
+    std::cout << "--- ---" << std::endl;
+}
+
+// Assign in empty vector (count)
+void test8() {
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(20, Test("Assigned"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Assign in smaller vector (count)
+void test9() {
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+    vec.push_back(Test("Little"));
+    std::cout << "--- "; show_cap(vec);
+    vec.push_back(Test("Little"));
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(20, Test("Assigned"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Assign in bigger vector (count)
+void test10() {
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin(), 20, Test("Big")),
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(8, Test("Assigned"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(20, Test("Assigned 2"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Assign in empty vector (range)
+void test11() {
+    std::string lst[20];
+    for (size_t i = 0; i < 20; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(lst + 0, lst + 20);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Assign in smaller vector (range)
+void test12() {
+    std::string lst[20];
+    for (size_t i = 0; i < 20; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+    vec.push_back(Test("Little"));
+    std::cout << "--- "; show_cap(vec);
+    vec.push_back(Test("Little"));
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(lst + 0, lst + 20);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Assign in bigger vector (range)
+void test13() {
+    std::string lst[28];
+    for (size_t i = 0; i < 28; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+    vec.insert(vec.begin(), 20, Test("Big")),
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(lst + 0, lst + 8);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(lst + 8, lst + 28);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Constructor (range)
+void test14() {
+    std::string lst[20];
+    for (size_t i = 0; i < 20; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec(lst + 0, lst + 20);
+    std::cout << "--- "; show_cap(vec);
 }
 
 int main() {
+    // std::cout << "========= TEST 1 =========" << std::endl;
+    // test1();
+    // std::cout << "========= TEST 2 =========" << std::endl;
+    // test2();
+    // std::cout << "========= TEST 3 =========" << std::endl;
+    // test3();
+    // std::cout << "========= TEST 4 =========" << std::endl;
+    // test4();
+    // std::cout << "========= TEST 5 =========" << std::endl;
+    // test5();
+    // std::cout << "========= TEST 6 =========" << std::endl;
+    // test6();
+    std::cout << "========= TEST 7 =========" << std::endl;
     test7();
+    // std::cout << "========= TEST 8 =========" << std::endl;
+    // test8();
+    // std::cout << "========= TEST 9 =========" << std::endl;
+    // test9();
+    std::cout << "========= TEST 10 =========" << std::endl;
+    test10();
+    std::cout << "========= TEST 11 =========" << std::endl;
+    test11();
+    std::cout << "========= TEST 12 =========" << std::endl;
+    test12();
+    std::cout << "========= TEST 13 =========" << std::endl;
+    test13();
 
     // ft::vector<std::string> vec;
     // try {

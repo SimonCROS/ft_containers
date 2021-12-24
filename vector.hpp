@@ -59,10 +59,6 @@ namespace ft {
             __construct_at_end(n, val);
         }
 
-        void __grow() {
-            __realloc(std::max(1UL, _capacity * 2));
-        }
-
         void __out_of_range() const {
             throw std::out_of_range("vector");
         }
@@ -93,6 +89,14 @@ namespace ft {
                     to[length] = begin[length];
             }
         }
+
+        void __resize(size_type count, const value_type &val) {
+            size_type __cs = size();
+            if (__cs < count)
+                __append(count - __cs, val);
+            else if (__cs > count)
+                __destruct_at_end(__end_ - static_cast<difference_type>(__cs - count));
+        }
     public:
 
         // default
@@ -107,10 +111,10 @@ namespace ft {
         }
 
         // range
-        // template<class InputIterator>
-        // vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _alloc(alloc) {
-
-        // }
+        template<class InputIterator>
+        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
+            assign(first, last);
+        }
 
         // copy
         // vector(const vector &x) {
@@ -120,12 +124,9 @@ namespace ft {
             __reset();
         }
 
+        // TODO Test
         void resize(size_type count, value_type value = value_type()) {
-            size_type __cs = size();
-            if (__cs < count)
-                __append(count - __cs, value);
-            else if (__cs > count)
-                __destruct_at_end(__end_ - static_cast<difference_type>(__cs - count));
+            __resize(count, value);
         }
 
         void reserve(size_type new_cap) {
@@ -135,9 +136,7 @@ namespace ft {
 
         void push_back(const value_type &value)
         {
-            if (size() >= _capacity)
-                __grow();
-            __construct_at_end(1, value);
+            insert(end(), value);
         }
 
         size_type size() const {
@@ -279,16 +278,13 @@ namespace ft {
             size_type n = static_cast<size_type>(__distance(first, last));
             clear();
             reserve(n);
-            while (first < last) {
-                push_back(*first);
-                first++;
-            }
+            insert(begin(), first, last);
         }
 
         void assign(size_type count, const value_type &val) {
             clear();
             reserve(count);
-            resize(count, val);
+            __resize(count, val);
         }
 
         void clear() {
@@ -313,6 +309,11 @@ namespace ft {
         reference at(size_type n)                       { if (n >= size()) __out_of_range(); return __begin_[n]; }
         const_reference at(size_type n) const           { if (n >= size()) __out_of_range(); return __begin_[n]; }
     };
+
+    template <class T, class Alloc>
+    void swap(vector<T,Alloc>& x, vector<T,Alloc>& y) {
+        x.swap(y);
+    }
 }
 
 #endif //FT_CONTAINERS_VECTOR_HPP

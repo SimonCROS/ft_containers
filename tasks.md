@@ -40,7 +40,7 @@
 
 ## Non-member function overloads
 - [ ] `relational operators`: Relational operators for vector (function template )
-- [ ] `swap`: Exchange contents of vectors (function template )
+- [x] `swap`: Exchange contents of vectors (function template )
 
 # Map
 
