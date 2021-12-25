@@ -72,7 +72,7 @@ void print(ft::vector<T> &vec) {
     }
 }
 
-// Insert count
+// Insert (count)
 void test1() {
     ft::vector<Test> vec;
     std::cout << "--- "; show_cap(vec);
@@ -101,7 +101,7 @@ void test1() {
     std::cout << "--- "; show_cap(vec);
 }
 
-// Insert range
+// Insert (range)
 void test2() {
     std::string lst[100];
     for (size_t i = 0; i < 100; i++)
@@ -221,12 +221,15 @@ void test8() {
 // Assign in smaller vector (count)
 void test9() {
     ft::vector<Test> vec;
+    vec.reserve(5);
     std::cout << "--- "; show_cap(vec);
     vec.push_back(Test("Little"));
     std::cout << "--- "; show_cap(vec);
     vec.push_back(Test("Little"));
     std::cout << "--- "; show_cap(vec);
-    vec.assign(20, Test("Assigned"));
+    vec.assign(4, Test("Assigned"));
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(10, Test("Assigned 2"));
     std::cout << "--- "; show_cap(vec);
     print(vec);
     std::cout << "--- "; show_cap(vec);
@@ -269,12 +272,15 @@ void test12() {
         lst[i] = "Range " + std::to_string(i);
 
     ft::vector<Test> vec;
+    vec.reserve(5);
     std::cout << "--- "; show_cap(vec);
     vec.push_back(Test("Little"));
     std::cout << "--- "; show_cap(vec);
     vec.push_back(Test("Little"));
     std::cout << "--- "; show_cap(vec);
-    vec.assign(lst + 0, lst + 20);
+    vec.assign(lst + 0, lst + 4);
+    std::cout << "--- "; show_cap(vec);
+    vec.assign(lst + 4, lst + 14);
     std::cout << "--- "; show_cap(vec);
     print(vec);
     std::cout << "--- "; show_cap(vec);
@@ -311,24 +317,24 @@ void test14() {
 }
 
 int main() {
-    // std::cout << "========= TEST 1 =========" << std::endl;
-    // test1();
-    // std::cout << "========= TEST 2 =========" << std::endl;
-    // test2();
-    // std::cout << "========= TEST 3 =========" << std::endl;
-    // test3();
-    // std::cout << "========= TEST 4 =========" << std::endl;
-    // test4();
-    // std::cout << "========= TEST 5 =========" << std::endl;
-    // test5();
-    // std::cout << "========= TEST 6 =========" << std::endl;
-    // test6();
+    std::cout << "========= TEST 1 =========" << std::endl;
+    test1();
+    std::cout << "========= TEST 2 =========" << std::endl;
+    test2();
+    std::cout << "========= TEST 3 =========" << std::endl;
+    test3();
+    std::cout << "========= TEST 4 =========" << std::endl;
+    test4();
+    std::cout << "========= TEST 5 =========" << std::endl;
+    test5();
+    std::cout << "========= TEST 6 =========" << std::endl;
+    test6();
     std::cout << "========= TEST 7 =========" << std::endl;
     test7();
-    // std::cout << "========= TEST 8 =========" << std::endl;
-    // test8();
-    // std::cout << "========= TEST 9 =========" << std::endl;
-    // test9();
+    std::cout << "========= TEST 8 =========" << std::endl;
+    test8();
+    std::cout << "========= TEST 9 =========" << std::endl;
+    test9();
     std::cout << "========= TEST 10 =========" << std::endl;
     test10();
     std::cout << "========= TEST 11 =========" << std::endl;

@@ -31,7 +31,8 @@ namespace ft {
         pointer __begin_;
         pointer __end_;
 
-        void __construct_at_end(size_type n, const value_type &val) {
+        template<class U>
+        void __construct_at_end(size_type n, const U &val) {
             while (n--)
                 _alloc.construct(__end_++, val);
         }
@@ -191,12 +192,12 @@ namespace ft {
                 size_type construct_count = count;
                 size_type overflow_count = 0;
                 while (construct_count && start + construct_count > old_end) {
-                    push_back(value);
+                    __construct_at_end(1, value);
                     overflow_count++;
                     construct_count--;
                 }
                 while (construct_count) {
-                    push_back(*(old_end - construct_count));
+                    __construct_at_end(1, *(old_end - construct_count));
                     construct_count--;
                 }
                 __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
@@ -237,10 +238,10 @@ namespace ft {
                     construct_count--;
                     overflow_count++;
                     size_type n = static_cast<size_type>(old_end - (start + construct_count)) + 1;
-                    _alloc.construct(__end_++, first[count - n]);
+                    __construct_at_end(1, first[count - n]);
                 }
                 while (construct_count) {
-                    push_back(*(old_end - construct_count));
+                    __construct_at_end(1, *(old_end - construct_count));
                     construct_count--;
                 }
                 __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
@@ -275,16 +276,31 @@ namespace ft {
 
         template <class InputIterator>
         void assign(InputIterator first, InputIterator last) {
-            size_type n = static_cast<size_type>(__distance(first, last));
-            clear();
-            reserve(n);
-            insert(begin(), first, last);
+            size_type count = static_cast<size_type>(__distance(first, last));
+            if (count > capacity()) {
+                clear();
+                reserve(count);
+            }
+            size_type s = size();
+            size_t w;
+            for (w = 0; w < s && w < count; w++)
+                __begin_[w] = *first++;
+            __destruct_at_end(__begin_ + w);
+            while (first < last)
+                __construct_at_end(1, *first++);
         }
 
         void assign(size_type count, const value_type &val) {
-            clear();
-            reserve(count);
-            __resize(count, val);
+            if (count > capacity()) {
+                clear();
+                reserve(count);
+            }
+            size_type s = size();
+            size_t w;
+            for (w = 0; w < s && w < count; w++)
+                __begin_[w] = val;
+            __destruct_at_end(__begin_ + w);
+            __construct_at_end(count - w, val);
         }
 
         void clear() {
