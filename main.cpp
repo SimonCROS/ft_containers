@@ -332,6 +332,31 @@ void test16() {
     std::cout << "--- "; show_cap(vec);
 }
 
+// Constructor (copy)
+void test17() {
+    ft::vector<Test> base;
+    base.reserve(10);
+    base.assign(5, Test("Fill"));
+    std::cout << "--- "; show_cap(base);
+
+    ft::vector<Test> vec(base);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// 
+void test18() {
+    ft::vector<Test> base(5, Test("Fill"));
+    base.assign(20, Test("Aaa"));
+    std::cout << "--- "; show_cap(base);
+
+    ft::vector<Test> vec(base);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
 int main() {
     // std::cout << "========= TEST 1 =========" << std::endl;
     // test1();
@@ -359,12 +384,16 @@ int main() {
     // test12();
     // std::cout << "========= TEST 13 =========" << std::endl;
     // test13();
-    std::cout << "========= TEST 14 =========" << std::endl;
-    test14();
-    std::cout << "========= TEST 15 =========" << std::endl;
-    test15();
-    std::cout << "========= TEST 16 =========" << std::endl;
-    test16();
+    // std::cout << "========= TEST 14 =========" << std::endl;
+    // test14();
+    // std::cout << "========= TEST 15 =========" << std::endl;
+    // test15();
+    // std::cout << "========= TEST 16 =========" << std::endl;
+    // test16();
+    // std::cout << "========= TEST 17 =========" << std::endl;
+    // test17();
+    std::cout << "========= TEST 18 =========" << std::endl;
+    test18();
 
     // ft::vector<std::string> vec;
     // try {

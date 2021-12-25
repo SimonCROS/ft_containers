@@ -8,7 +8,7 @@ STL_OUT				:= out_stl.diff
 # Commands
 
 override CPPC		:= clang++
-override CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98
+override CPPFLAGS	:= -std=c++98 -Wall -Wextra# -Werror
 override RM			:= rm -rf
 
 # Sources
@@ -27,10 +27,10 @@ override HEADERS	:=							\
 
 all:		$(NAME) $(STL_NAME)
 
-$(NAME):	$(SRCS)
+$(NAME):	$(SRCS) $(HEADERS)
 			$(CPPC) $(CPPFLAGS) -o $@ $(SRCS)
 
-$(STL_NAME):	$(SRCS)
+$(STL_NAME):	$(SRCS) $(HEADERS)
 			$(CPPC) $(CPPFLAGS) -o $@ $(SRCS) -DSTL_CONTAINERS
 
 clean:
@@ -42,7 +42,7 @@ fclean:		clean
 re:			fclean all
 
 test:		all
-			./$(NAME) > $(FT_OUT)
 			./$(STL_NAME) > $(STL_OUT)
+			./$(NAME) > $(FT_OUT)
 
 .PHONY:		all clean fclean re test

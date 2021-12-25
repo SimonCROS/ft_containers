@@ -113,13 +113,14 @@ namespace ft {
 
         // range
         template<class InputIterator>
-        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
+        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _capacity(0), _alloc(alloc) {
             assign(first, last);
         }
 
         // copy
-        // vector(const vector &x) {
-        // }
+        vector(const vector &x): _capacity(0), _alloc(x._alloc), __begin_(nullptr), __end_(nullptr) {
+            assign(x.__begin_, x.__end_);
+        }
 
         ~vector() {
             __reset();

@@ -2,7 +2,7 @@
 
 ## Member functions
 
-- [ ] `(constructor)`: Construct vector
+- [x] `(constructor)`: Construct vector
 - [x] `(destructor)`: Vector destructor
 - [ ] `operator=`: Assign content
 
