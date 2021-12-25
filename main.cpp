@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#if 0
+#ifdef STL_CONTAINERS
     #include <map>
     #include <stack>
     #include <vector>
@@ -306,43 +306,65 @@ void test13() {
     std::cout << "--- "; show_cap(vec);
 }
 
-// Constructor (range)
+// Constructor (default)
 void test14() {
+    ft::vector<Test> vec;
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Constructor (fill)
+void test15() {
+    ft::vector<Test> vec(20, Test("Fill"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+}
+
+// Constructor (range)
+void test16() {
     std::string lst[20];
     for (size_t i = 0; i < 20; i++)
         lst[i] = "Range " + std::to_string(i);
 
     ft::vector<Test> vec(lst + 0, lst + 20);
     std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
 }
 
 int main() {
-    std::cout << "========= TEST 1 =========" << std::endl;
-    test1();
-    std::cout << "========= TEST 2 =========" << std::endl;
-    test2();
-    std::cout << "========= TEST 3 =========" << std::endl;
-    test3();
-    std::cout << "========= TEST 4 =========" << std::endl;
-    test4();
-    std::cout << "========= TEST 5 =========" << std::endl;
-    test5();
-    std::cout << "========= TEST 6 =========" << std::endl;
-    test6();
-    std::cout << "========= TEST 7 =========" << std::endl;
-    test7();
-    std::cout << "========= TEST 8 =========" << std::endl;
-    test8();
-    std::cout << "========= TEST 9 =========" << std::endl;
-    test9();
-    std::cout << "========= TEST 10 =========" << std::endl;
-    test10();
-    std::cout << "========= TEST 11 =========" << std::endl;
-    test11();
-    std::cout << "========= TEST 12 =========" << std::endl;
-    test12();
-    std::cout << "========= TEST 13 =========" << std::endl;
-    test13();
+    // std::cout << "========= TEST 1 =========" << std::endl;
+    // test1();
+    // std::cout << "========= TEST 2 =========" << std::endl;
+    // test2();
+    // std::cout << "========= TEST 3 =========" << std::endl;
+    // test3();
+    // std::cout << "========= TEST 4 =========" << std::endl;
+    // test4();
+    // std::cout << "========= TEST 5 =========" << std::endl;
+    // test5();
+    // std::cout << "========= TEST 6 =========" << std::endl;
+    // test6();
+    // std::cout << "========= TEST 7 =========" << std::endl;
+    // test7();
+    // std::cout << "========= TEST 8 =========" << std::endl;
+    // test8();
+    // std::cout << "========= TEST 9 =========" << std::endl;
+    // test9();
+    // std::cout << "========= TEST 10 =========" << std::endl;
+    // test10();
+    // std::cout << "========= TEST 11 =========" << std::endl;
+    // test11();
+    // std::cout << "========= TEST 12 =========" << std::endl;
+    // test12();
+    // std::cout << "========= TEST 13 =========" << std::endl;
+    // test13();
+    std::cout << "========= TEST 14 =========" << std::endl;
+    test14();
+    std::cout << "========= TEST 15 =========" << std::endl;
+    test15();
+    std::cout << "========= TEST 16 =========" << std::endl;
+    test16();
 
     // ft::vector<std::string> vec;
     // try {
