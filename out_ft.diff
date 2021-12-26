@@ -1,0 +1,68 @@
+========= TEST 20 =========
+> Fill - 0
+> Fill - 1 - copy from 0
+> Fill - 2 - copy from 0
+< Fill - 0
+--- ---
+--- ---
++ == OK (false)
++ != OK (true)
++ <  OK (true)
++ >  OK (false)
++ <= OK (true)
++ >= OK (false)
+--- ---
+> Fill - 3 - copy from 1
+> Fill - 4 - copy from 2
+--- ---
++ == OK (true)
++ != OK (false)
++ <  OK (false)
++ >  OK (false)
++ <= OK (true)
++ >= OK (true)
+--- ---
++ == OK (false)
++ != OK (true)
++ <  OK (false)
++ >  OK (true)
++ <= OK (false)
++ >= OK (true)
+--- ---
++ == OK (false)
++ != OK (true)
++ <  OK (false)
++ >  OK (true)
++ <= OK (false)
++ >= OK (true)
+--- ---
++ == OK (false)
++ != OK (true)
++ <  OK (true)
++ >  OK (false)
++ <= OK (true)
++ >= OK (false)
+--- ---
+< Fill - 4
+--- ---
++ == OK (false)
++ != OK (true)
++ <  OK (true)
++ >  OK (false)
++ <= OK (true)
++ >= OK (false)
+--- ---
++ == OK (false)
++ != OK (true)
++ <  OK (false)
++ >  OK (true)
++ <= OK (false)
++ >= OK (true)
+--- ---
+= Fill - 3 - assign from 1
+> Fill - 5 - copy from 2
+--- 2 - 2
+< Fill - 5
+< Fill - 3
+< Fill - 2
+< Fill - 1

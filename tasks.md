@@ -4,7 +4,7 @@
 
 - [x] `(constructor)`: Construct vector
 - [x] `(destructor)`: Vector destructor
-- [ ] `operator=`: Assign content
+- [x] `operator=`: Assign content
 
 #### Iterators:
 - [x] `begin`: Return iterator to beginning
@@ -39,7 +39,7 @@
 - [x] `get_allocator`: Get allocator
 
 ## Non-member function overloads
-- [ ] `relational operators`: Relational operators for vector (function template )
+- [x] `relational operators`: Relational operators for vector (function template )
 - [x] `swap`: Exchange contents of vectors (function template )
 
 # Map
@@ -99,6 +99,6 @@
 
 ## Functions
 
-- [ ] `equal`
-- [ ] `lexicographical_compare`
+- [x] `equal`
+- [x] `lexicographical_compare`
 - [ ] `make_pair`

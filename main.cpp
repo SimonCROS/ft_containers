@@ -23,18 +23,18 @@ public:
     Test(const Test &s): uid(guid), id(s.id), issou(s.issou) {
         guid++;
         gid++;
-        std::cout << "> " << issou << " - " << id << " - copy from " << s.id << std::endl;
+        std::cout << "> " << issou << " - " << uid << " - copy from " << s.uid << std::endl;
         a = new std::string("Hey");
     }
 
     Test(std::string issou): uid(guid), id(gid), issou(issou) {
         guid++;
-        std::cout << "> " << issou << " - " << id << std::endl;
+        std::cout << "> " << issou << " - " << uid << std::endl;
         a = new std::string("");
     }
 
     ~Test() {
-        std::cout << "< " << issou << " - " << id << std::endl;
+        std::cout << "< " << issou << " - " << uid << std::endl;
         delete a;
     }
 
@@ -42,7 +42,7 @@ public:
         *this->a = *rhs.a;
         this->id = rhs.id;
         this->issou = rhs.issou;
-        std::cout << "= " << issou << " - " << id << " - assign from " << rhs.id << std::endl;
+        std::cout << "= " << issou << " - " << uid << " - assign from " << rhs.uid << std::endl;
         return *this;
     }
 };
@@ -383,88 +383,54 @@ void test19() {
 
 void test_operator(const ft::vector<Test>& vec, const ft::vector<Test>& base, bool (*op)(const ft::vector<Test>&, const ft::vector<Test>&), bool expected, std::string str) {
     if (op(vec, base) == expected)
-        std::cout << "+ " << str << " OK" << std::endl;
+        std::cout << "+ " << str << " OK (" << (expected == true ? "true" : "false") << ")" << std::endl;
     else
-        std::cout << "- " << str << " KO" << std::endl;
+        std::cout << "- " << str << " KO (expected " << (expected == true ? "true" : "false") << ")" << std::endl;
+}
+
+void test_all_operators(const ft::vector<Test>& vec, const ft::vector<Test>& base,
+    bool a, bool b, bool c, bool d, bool e, bool f) {
+    test_operator(vec, base, &ft::operator==, a, "==");
+    test_operator(vec, base, &ft::operator!=, b, "!=");
+    test_operator(vec, base, &ft::operator< , c, "< ");
+    test_operator(vec, base, &ft::operator> , d, "> ");
+    test_operator(vec, base, &ft::operator<=, e, "<=");
+    test_operator(vec, base, &ft::operator>=, f, ">=");
 }
 
 // Operators
 void test20() {
-    ft::vector<Test> base(2, Test("Fill"));
+    ft::vector<Test> base;
+    base.reserve(4);
+    base.assign(2, Test("Fill"));
     std::cout << "--- ---" << std::endl;
     ft::vector<Test> vec;
     std::cout << "--- ---" << std::endl;
 
-    test_operator(vec, base, &ft::operator==, 0, "==");
-    test_operator(vec, base, &ft::operator!=, 1, "!=");
-    test_operator(vec, base, &ft::operator< , 1, "< ");
-    test_operator(vec, base, &ft::operator> , 0, "> ");
-    test_operator(vec, base, &ft::operator<=, 1, "<=");
-    test_operator(vec, base, &ft::operator>=, 0, ">=");
-
+    test_all_operators(vec, base, 0, 1, 1, 0, 1, 0);
     std::cout << "--- ---" << std::endl;
     vec = base;
     std::cout << "--- ---" << std::endl;
-
-    test_operator(vec, base, &ft::operator==, 1, "==");
-    test_operator(vec, base, &ft::operator!=, 0, "!=");
-    test_operator(vec, base, &ft::operator< , 0, "< ");
-    test_operator(vec, base, &ft::operator> , 0, "> ");
-    test_operator(vec, base, &ft::operator<=, 1, "<=");
-    test_operator(vec, base, &ft::operator>=, 1, ">=");
-
+    test_all_operators(vec, base, 1, 0, 0, 0, 1, 1);
     vec.front().id++;
     std::cout << "--- ---" << std::endl;
-
-    test_operator(vec, base, &ft::operator==, 0, "==");
-    test_operator(vec, base, &ft::operator!=, 1, "!=");
-    test_operator(vec, base, &ft::operator< , 0, "< ");
-    test_operator(vec, base, &ft::operator> , 1, "> ");
-    test_operator(vec, base, &ft::operator<=, 0, "<=");
-    test_operator(vec, base, &ft::operator>=, 1, ">=");
-
+    test_all_operators(vec, base, 0, 1, 0, 1, 0, 1);
     vec.back().id--;
     std::cout << "--- ---" << std::endl;
-
-    test_operator(vec, base, &ft::operator==, 0, "==");
-    test_operator(vec, base, &ft::operator!=, 1, "!=");
-    test_operator(vec, base, &ft::operator< , 0, "< ");
-    test_operator(vec, base, &ft::operator> , 1, "> ");
-    test_operator(vec, base, &ft::operator<=, 0, "<=");
-    test_operator(vec, base, &ft::operator>=, 1, ">=");
-
+    test_all_operators(vec, base, 0, 1, 0, 1, 0, 1);
     vec.front().id--;
     std::cout << "--- ---" << std::endl;
-
-    test_operator(vec, base, &ft::operator==, 0, "==");
-    test_operator(vec, base, &ft::operator!=, 1, "!=");
-    test_operator(vec, base, &ft::operator< , 1, "< ");
-    test_operator(vec, base, &ft::operator> , 0, "> ");
-    test_operator(vec, base, &ft::operator<=, 1, "<=");
-    test_operator(vec, base, &ft::operator>=, 0, ">=");
-
+    test_all_operators(vec, base, 0, 1, 1, 0, 1, 0);
     std::cout << "--- ---" << std::endl;
     vec.erase(vec.end() - 1);
     std::cout << "--- ---" << std::endl;
-
-    test_operator(vec, base, &ft::operator==, 0, "==");
-    test_operator(vec, base, &ft::operator!=, 1, "!=");
-    test_operator(vec, base, &ft::operator< , 1, "< ");
-    test_operator(vec, base, &ft::operator> , 0, "> ");
-    test_operator(vec, base, &ft::operator<=, 1, "<=");
-    test_operator(vec, base, &ft::operator>=, 0, ">=");
-
+    test_all_operators(vec, base, 0, 1, 1, 0, 1, 0);
     vec.front().id++;
     std::cout << "--- ---" << std::endl;
-
-    test_operator(vec, base, &ft::operator==, 0, "==");
-    test_operator(vec, base, &ft::operator!=, 1, "!=");
-    test_operator(vec, base, &ft::operator< , 0, "< ");
-    test_operator(vec, base, &ft::operator> , 1, "> ");
-    test_operator(vec, base, &ft::operator<=, 0, "<=");
-    test_operator(vec, base, &ft::operator>=, 1, ">=");
-
+    test_all_operators(vec, base, 0, 1, 0, 1, 0, 1);
     std::cout << "--- ---" << std::endl;
+    vec = base;
+    std::cout << "--- "; show_cap(vec);
 }
 
 int main() {
