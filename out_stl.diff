@@ -1,0 +1,64 @@
+========= TEST 20 =========
+> Fill - 0
+> Fill - 0 - copy from 0
+> Fill - 0 - copy from 0
+< Fill - 0
+--- ---
+--- ---
++ == OK
++ != OK
++ <  OK
++ >  OK
++ <= OK
++ >= OK
+--- ---
+> Fill - 0 - copy from 0
+> Fill - 0 - copy from 0
+--- ---
++ == OK
++ != OK
++ <  OK
++ >  OK
++ <= OK
++ >= OK
+--- ---
++ == OK
++ != OK
++ <  OK
++ >  OK
++ <= OK
++ >= OK
+--- ---
++ == OK
++ != OK
++ <  OK
++ >  OK
++ <= OK
++ >= OK
+--- ---
++ == OK
++ != OK
++ <  OK
++ >  OK
++ <= OK
++ >= OK
+--- ---
+< Fill - -1
+--- ---
++ == OK
++ != OK
++ <  OK
++ >  OK
++ <= OK
++ >= OK
+--- ---
++ == OK
++ != OK
++ <  OK
++ >  OK
++ <= OK
++ >= OK
+--- ---
+< Fill - 1
+< Fill - 0
+< Fill - 0

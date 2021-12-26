@@ -13,19 +13,22 @@
 
 class Test {
 public:
+    static int guid;
+    const int uid;
     static int gid;
-    const int id;
+    int id;
     std::string issou;
     std::string *a;
 
-    Test(const Test &s): id(gid), issou(s.issou) {
+    Test(const Test &s): uid(guid), id(s.id), issou(s.issou) {
+        guid++;
         gid++;
         std::cout << "> " << issou << " - " << id << " - copy from " << s.id << std::endl;
         a = new std::string("Hey");
     }
 
-    Test(std::string issou): id(gid), issou(issou) {
-        gid++;
+    Test(std::string issou): uid(guid), id(gid), issou(issou) {
+        guid++;
         std::cout << "> " << issou << " - " << id << std::endl;
         a = new std::string("");
     }
@@ -37,18 +40,27 @@ public:
 
     Test &operator=(const Test &rhs) {
         *this->a = *rhs.a;
+        this->id = rhs.id;
         this->issou = rhs.issou;
         std::cout << "= " << issou << " - " << id << " - assign from " << rhs.id << std::endl;
         return *this;
     }
 };
 
+int Test::guid = 0;
 int Test::gid = 0;
 
 std::ostream &operator<<(std::ostream &lhs, const Test &rhs) {
-    lhs << rhs.issou << " - " << rhs.id;
+    lhs << rhs.issou << " - " << rhs.uid;
     return lhs;
 }
+
+bool operator== (const Test& lhs, const Test& rhs) { return lhs.id == rhs.id; }
+bool operator!= (const Test& lhs, const Test& rhs) { return lhs.id != rhs.id; }
+bool operator<  (const Test& lhs, const Test& rhs) { return lhs.id <  rhs.id; }
+bool operator<= (const Test& lhs, const Test& rhs) { return lhs.id <= rhs.id; }
+bool operator>  (const Test& lhs, const Test& rhs) { return lhs.id >  rhs.id; }
+bool operator>= (const Test& lhs, const Test& rhs) { return lhs.id >= rhs.id; }
 
 template<class T>
 void show_cap(ft::vector<T> &vec) {
@@ -369,6 +381,92 @@ void test19() {
     std::cout << "--- "; show_cap(vec);
 }
 
+void test_operator(const ft::vector<Test>& vec, const ft::vector<Test>& base, bool (*op)(const ft::vector<Test>&, const ft::vector<Test>&), bool expected, std::string str) {
+    if (op(vec, base) == expected)
+        std::cout << "+ " << str << " OK" << std::endl;
+    else
+        std::cout << "- " << str << " KO" << std::endl;
+}
+
+// Operators
+void test20() {
+    ft::vector<Test> base(2, Test("Fill"));
+    std::cout << "--- ---" << std::endl;
+    ft::vector<Test> vec;
+    std::cout << "--- ---" << std::endl;
+
+    test_operator(vec, base, &ft::operator==, 0, "==");
+    test_operator(vec, base, &ft::operator!=, 1, "!=");
+    test_operator(vec, base, &ft::operator< , 1, "< ");
+    test_operator(vec, base, &ft::operator> , 0, "> ");
+    test_operator(vec, base, &ft::operator<=, 1, "<=");
+    test_operator(vec, base, &ft::operator>=, 0, ">=");
+
+    std::cout << "--- ---" << std::endl;
+    vec = base;
+    std::cout << "--- ---" << std::endl;
+
+    test_operator(vec, base, &ft::operator==, 1, "==");
+    test_operator(vec, base, &ft::operator!=, 0, "!=");
+    test_operator(vec, base, &ft::operator< , 0, "< ");
+    test_operator(vec, base, &ft::operator> , 0, "> ");
+    test_operator(vec, base, &ft::operator<=, 1, "<=");
+    test_operator(vec, base, &ft::operator>=, 1, ">=");
+
+    vec.front().id++;
+    std::cout << "--- ---" << std::endl;
+
+    test_operator(vec, base, &ft::operator==, 0, "==");
+    test_operator(vec, base, &ft::operator!=, 1, "!=");
+    test_operator(vec, base, &ft::operator< , 0, "< ");
+    test_operator(vec, base, &ft::operator> , 1, "> ");
+    test_operator(vec, base, &ft::operator<=, 0, "<=");
+    test_operator(vec, base, &ft::operator>=, 1, ">=");
+
+    vec.back().id--;
+    std::cout << "--- ---" << std::endl;
+
+    test_operator(vec, base, &ft::operator==, 0, "==");
+    test_operator(vec, base, &ft::operator!=, 1, "!=");
+    test_operator(vec, base, &ft::operator< , 0, "< ");
+    test_operator(vec, base, &ft::operator> , 1, "> ");
+    test_operator(vec, base, &ft::operator<=, 0, "<=");
+    test_operator(vec, base, &ft::operator>=, 1, ">=");
+
+    vec.front().id--;
+    std::cout << "--- ---" << std::endl;
+
+    test_operator(vec, base, &ft::operator==, 0, "==");
+    test_operator(vec, base, &ft::operator!=, 1, "!=");
+    test_operator(vec, base, &ft::operator< , 1, "< ");
+    test_operator(vec, base, &ft::operator> , 0, "> ");
+    test_operator(vec, base, &ft::operator<=, 1, "<=");
+    test_operator(vec, base, &ft::operator>=, 0, ">=");
+
+    std::cout << "--- ---" << std::endl;
+    vec.erase(vec.end() - 1);
+    std::cout << "--- ---" << std::endl;
+
+    test_operator(vec, base, &ft::operator==, 0, "==");
+    test_operator(vec, base, &ft::operator!=, 1, "!=");
+    test_operator(vec, base, &ft::operator< , 1, "< ");
+    test_operator(vec, base, &ft::operator> , 0, "> ");
+    test_operator(vec, base, &ft::operator<=, 1, "<=");
+    test_operator(vec, base, &ft::operator>=, 0, ">=");
+
+    vec.front().id++;
+    std::cout << "--- ---" << std::endl;
+
+    test_operator(vec, base, &ft::operator==, 0, "==");
+    test_operator(vec, base, &ft::operator!=, 1, "!=");
+    test_operator(vec, base, &ft::operator< , 0, "< ");
+    test_operator(vec, base, &ft::operator> , 1, "> ");
+    test_operator(vec, base, &ft::operator<=, 0, "<=");
+    test_operator(vec, base, &ft::operator>=, 1, ">=");
+
+    std::cout << "--- ---" << std::endl;
+}
+
 int main() {
     // std::cout << "========= TEST 1 =========" << std::endl;
     // test1();
@@ -408,80 +506,82 @@ int main() {
     // test18();
     // std::cout << "========= TEST 19 =========" << std::endl;
     // test19();
+    std::cout << "========= TEST 20 =========" << std::endl;
+    test20();
 
-    ft::vector<std::string> vec;
-    try {
-        std::cout << vec.at(2) << std::endl;
-    } catch (const std::out_of_range &e) {
-        std::cout << "Error : " << e.what() << std::endl;
-    }
-    std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
-    vec.reserve(3);
-    show_cap(vec);
-    vec.push_back("zero");
-    show_cap(vec);
-    vec.push_back("one");
-    show_cap(vec);
-    vec.push_back("two");
-    show_cap(vec);
-    vec.push_back("three");
-    show_cap(vec);
-    vec.push_back("four");
-    show(vec);
-    std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
+    // ft::vector<std::string> vec;
+    // try {
+    //     std::cout << vec.at(2) << std::endl;
+    // } catch (const std::out_of_range &e) {
+    //     std::cout << "Error : " << e.what() << std::endl;
+    // }
+    // std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
+    // vec.reserve(3);
+    // show_cap(vec);
+    // vec.push_back("zero");
+    // show_cap(vec);
+    // vec.push_back("one");
+    // show_cap(vec);
+    // vec.push_back("two");
+    // show_cap(vec);
+    // vec.push_back("three");
+    // show_cap(vec);
+    // vec.push_back("four");
+    // show(vec);
+    // std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
 
-    std::cout << "========== Iterator ==========" << std::endl;
-    ft::vector<std::string>::iterator iter = vec.begin();
-    std::cout << *iter++ << std::endl;
-    std::cout << *iter << std::endl;
-    std::cout << *++iter << std::endl;
-    std::cout << (iter < iter + 1) << std::endl;
+    // std::cout << "========== Iterator ==========" << std::endl;
+    // ft::vector<std::string>::iterator iter = vec.begin();
+    // std::cout << *iter++ << std::endl;
+    // std::cout << *iter << std::endl;
+    // std::cout << *++iter << std::endl;
+    // std::cout << (iter < iter + 1) << std::endl;
 
-    std::cout << "====== Reverse Iterator ======" << std::endl;
-    ft::vector<std::string>::reverse_iterator riter = vec.rbegin();
-    std::cout << *riter++ << std::endl;
-    std::cout << *riter << std::endl;
-    std::cout << *++riter << std::endl;
-    std::cout << (riter < riter + 1) << std::endl;
+    // std::cout << "====== Reverse Iterator ======" << std::endl;
+    // ft::vector<std::string>::reverse_iterator riter = vec.rbegin();
+    // std::cout << *riter++ << std::endl;
+    // std::cout << *riter << std::endl;
+    // std::cout << *++riter << std::endl;
+    // std::cout << (riter < riter + 1) << std::endl;
 
-    std::cout << "======= Const Iterator =======" << std::endl;
-    ft::vector<std::string>::const_iterator citer = vec.begin();
-    std::cout << *citer++ << std::endl;
-    std::cout << *citer << std::endl;
-    std::cout << *++citer << std::endl;
-    std::cout << (iter < iter + 1) << std::endl;
+    // std::cout << "======= Const Iterator =======" << std::endl;
+    // ft::vector<std::string>::const_iterator citer = vec.begin();
+    // std::cout << *citer++ << std::endl;
+    // std::cout << *citer << std::endl;
+    // std::cout << *++citer << std::endl;
+    // std::cout << (iter < iter + 1) << std::endl;
 
-    std::cout << "=========== Assign ===========" << std::endl;
-    show(vec);
+    // std::cout << "=========== Assign ===========" << std::endl;
+    // show(vec);
 
-    std::string strs[] = { "a", "b", "c", "d" };
-    vec.assign(strs, strs + 4);
-    show(vec);
+    // std::string strs[] = { "a", "b", "c", "d" };
+    // vec.assign(strs, strs + 4);
+    // show(vec);
 
-    vec.assign(3, "Hey");
-    show(vec);
+    // vec.assign(3, "Hey");
+    // show(vec);
 
-    vec.assign(10, "Hey ho");
-    show(vec);
+    // vec.assign(10, "Hey ho");
+    // show(vec);
 
-    std::cout << "========== Pop back ==========" << std::endl;
-    vec.pop_back();
-    show(vec);
+    // std::cout << "========== Pop back ==========" << std::endl;
+    // vec.pop_back();
+    // show(vec);
 
-    std::cout << "=========== Insert ===========" << std::endl;
-    std::cout << "insert ⮐  " << *vec.insert(vec.begin(), "\033[32mNot hey\033[0m") << std::endl;
-    show(vec);
-    vec.insert(vec.begin() + 2, 9, "\033[33mMiddle\033[0m");
-    show(vec);
-    vec.insert(vec.begin() + 3, 22, "Other");
-    show(vec);
-    std::cout << "insert ⮐  " << *vec.insert(vec.end(), "\033[31mNot ho\033[0m") << std::endl;
-    show(vec);
+    // std::cout << "=========== Insert ===========" << std::endl;
+    // std::cout << "insert ⮐  " << *vec.insert(vec.begin(), "\033[32mNot hey\033[0m") << std::endl;
+    // show(vec);
+    // vec.insert(vec.begin() + 2, 9, "\033[33mMiddle\033[0m");
+    // show(vec);
+    // vec.insert(vec.begin() + 3, 22, "Other");
+    // show(vec);
+    // std::cout << "insert ⮐  " << *vec.insert(vec.end(), "\033[31mNot ho\033[0m") << std::endl;
+    // show(vec);
 
-    std::cout << "======== Clear vector ========" << std::endl;
-    vec.clear();
-    std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
-    show_cap(vec);
+    // std::cout << "======== Clear vector ========" << std::endl;
+    // vec.clear();
+    // std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
+    // show_cap(vec);
 
-    std::cout << "------ end ------" << std::endl;
+    // std::cout << "------ end ------" << std::endl;
 }

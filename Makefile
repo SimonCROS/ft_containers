@@ -41,8 +41,12 @@ fclean:		clean
 
 re:			fclean all
 
-test:		all
-			./$(STL_NAME) > $(STL_OUT)
+ft_test:	$(NAME)
 			./$(NAME) > $(FT_OUT)
 
-.PHONY:		all clean fclean re test
+stl_test:	$(STL_NAME)
+			./$(STL_NAME) > $(STL_OUT)
+
+test:		stl_test ft_test
+
+.PHONY:		all clean fclean re test ft_test stl_test
