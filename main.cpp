@@ -345,13 +345,25 @@ void test17() {
     std::cout << "--- "; show_cap(vec);
 }
 
-// 
+// Reserve
 void test18() {
-    ft::vector<Test> base(5, Test("Fill"));
-    base.assign(20, Test("Aaa"));
-    std::cout << "--- "; show_cap(base);
+    ft::vector<Test> vec(2, Test("Fill"));
+    std::cout << "--- "; show_cap(vec);
+    vec.reserve(4);
+    std::cout << "--- "; show_cap(vec);
+    vec.reserve(2);
+    std::cout << "--- "; show_cap(vec);
+}
 
-    ft::vector<Test> vec(base);
+// Resize
+void test19() {
+    ft::vector<Test> vec(2, Test("Fill"));
+    std::cout << "--- "; show_cap(vec);
+    vec.resize(10, Test("New size"));
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+    vec.resize(6, Test("Reduce"));
     std::cout << "--- "; show_cap(vec);
     print(vec);
     std::cout << "--- "; show_cap(vec);
@@ -394,6 +406,8 @@ int main() {
     // test17();
     std::cout << "========= TEST 18 =========" << std::endl;
     test18();
+    std::cout << "========= TEST 19 =========" << std::endl;
+    test19();
 
     // ft::vector<std::string> vec;
     // try {

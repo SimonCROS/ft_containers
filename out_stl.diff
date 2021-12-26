@@ -1,0 +1,66 @@
+========= TEST 18 =========
+> Fill - 0
+> Fill - 1 - copy from 0
+> Fill - 2 - copy from 0
+< Fill - 0
+--- 2 - 2
+> Fill - 3 - copy from 2
+> Fill - 4 - copy from 1
+< Fill - 2
+< Fill - 1
+--- 2 - 4
+--- 2 - 4
+< Fill - 3
+< Fill - 4
+========= TEST 19 =========
+> Fill - 5
+> Fill - 6 - copy from 5
+> Fill - 7 - copy from 5
+< Fill - 5
+--- 2 - 2
+> New size - 8
+> New size - 9 - copy from 8
+> New size - 10 - copy from 8
+> New size - 11 - copy from 8
+> New size - 12 - copy from 8
+> New size - 13 - copy from 8
+> New size - 14 - copy from 8
+> New size - 15 - copy from 8
+> New size - 16 - copy from 8
+> Fill - 17 - copy from 7
+> Fill - 18 - copy from 6
+< Fill - 7
+< Fill - 6
+< New size - 8
+--- 10 - 10
+Fill - 18
+Fill - 17
+New size - 9
+New size - 10
+New size - 11
+New size - 12
+New size - 13
+New size - 14
+New size - 15
+New size - 16
+--- 10 - 10
+> Reduce - 19
+< New size - 16
+< New size - 15
+< New size - 14
+< New size - 13
+< Reduce - 19
+--- 6 - 10
+Fill - 18
+Fill - 17
+New size - 9
+New size - 10
+New size - 11
+New size - 12
+--- 6 - 10
+< New size - 12
+< New size - 11
+< New size - 10
+< New size - 9
+< Fill - 17
+< Fill - 18

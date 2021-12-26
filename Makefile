@@ -31,7 +31,7 @@ $(NAME):	$(SRCS) $(HEADERS)
 			$(CPPC) $(CPPFLAGS) -o $@ $(SRCS)
 
 $(STL_NAME):	$(SRCS) $(HEADERS)
-			$(CPPC) $(CPPFLAGS) -o $@ $(SRCS) -DSTL_CONTAINERS
+			$(CPPC) $(CPPFLAGS) -DSTL_CONTAINERS -o $@ $(SRCS)
 
 clean:
 			$(RM) $(FT_OUT) $(STL_OUT)

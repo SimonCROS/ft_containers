@@ -42,24 +42,6 @@ namespace ft {
                 _alloc.destroy(--__end_);
         }
 
-        void __realloc(size_type n) {
-            size_type s = this->size();
-            pointer tmp = _alloc.allocate(n);
-            for (size_type i = 0; i < s && i < n; i++)
-                _alloc.construct(tmp + i, __begin_[i]);
-            this->clear();
-            _alloc.deallocate(__begin_, _capacity);
-            __begin_ = tmp;
-            __end_ = __begin_ + s;
-            _capacity = n;
-        }
-
-        void __append(size_type n, const value_type &val) {
-            if (this->size() + n > _capacity)
-                __realloc(this->size() + n);
-            __construct_at_end(n, val);
-        }
-
         void __out_of_range() const {
             throw std::out_of_range("vector");
         }
@@ -90,14 +72,6 @@ namespace ft {
                     to[length] = begin[length];
             }
         }
-
-        void __resize(size_type count, const value_type &val) {
-            size_type __cs = size();
-            if (__cs < count)
-                __append(count - __cs, val);
-            else if (__cs > count)
-                __destruct_at_end(__end_ - static_cast<difference_type>(__cs - count));
-        }
     public:
 
         // default
@@ -126,14 +100,27 @@ namespace ft {
             __reset();
         }
 
-        // TODO Test
         void resize(size_type count, value_type value = value_type()) {
-            __resize(count, value);
+            size_type old_size = size();
+            if (old_size < count)
+                insert(__end_, count - old_size, value);
+            else if (old_size > count)
+                __destruct_at_end(__end_ - static_cast<difference_type>(old_size - count));
         }
 
         void reserve(size_type new_cap) {
-            if (new_cap > _capacity)
-                __realloc(new_cap);
+            if (new_cap > _capacity) {
+                size_type s = this->size();
+                pointer tmp = _alloc.allocate(new_cap);
+                int i = s;
+                while (i--)
+                    _alloc.construct(tmp + i, __begin_[i]);
+                this->clear();
+                _alloc.deallocate(__begin_, _capacity);
+                __begin_ = tmp;
+                __end_ = __begin_ + s;
+                _capacity = new_cap;
+            }
         }
 
         void push_back(const value_type &value)
