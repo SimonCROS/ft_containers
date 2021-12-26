@@ -83,3 +83,22 @@
 
 #### Allocator:
 - [ ] `get_allocator`: Get allocator
+
+# Others
+
+## Classes
+
+- [x] `iterators_traits`
+- [x] `reverse_iterator`
+
+## Structures
+
+- [x] `enable_if`
+- [ ] `is_integral`
+- [ ] `pair`
+
+## Functions
+
+- [ ] `equal`
+- [ ] `lexicographical_compare`
+- [ ] `make_pair`

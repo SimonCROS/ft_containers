@@ -8,7 +8,7 @@ STL_OUT				:= out_stl.diff
 # Commands
 
 override CPPC		:= clang++
-override CPPFLAGS	:= -std=c++98 -Wall -Wextra# -Werror
+override CPPFLAGS	:= -Wall -Wextra -Werror -std=c++98
 override RM			:= rm -rf
 
 # Sources

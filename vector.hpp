@@ -72,6 +72,50 @@ namespace ft {
                     to[length] = begin[length];
             }
         }
+
+        iterator _insert(iterator pos, size_type count, const value_type &value) {
+            iterator ret = pos;
+            if (size() + count > capacity()) {
+                size_type old_size = size();
+                size_type new_capacity = capacity() * 2;
+                if (old_size + count > new_capacity)
+                    new_capacity = old_size + count;
+
+                difference_type distance = pos - begin();
+
+                pointer tmp = _alloc.allocate(new_capacity);
+                ret = iterator(tmp + distance);
+                for (size_type i = 0; i < count; i++)
+                    _alloc.construct(tmp + i + distance, value);
+                for (size_type i = distance; i > 0; i--)
+                    _alloc.construct(tmp + (i - 1), __begin_[i - 1]);
+                for (size_type i = distance; i < old_size; i++)
+                    _alloc.construct(tmp + i + count, __begin_[i]);
+                clear();
+                _alloc.deallocate(__begin_, _capacity);
+                __begin_ = tmp;
+                __end_ = __begin_ + old_size + count;
+                _capacity = new_capacity;
+            } else {
+                pointer start = this->__begin_ + (pos - begin());
+                pointer old_end = __end_;
+                size_type construct_count = count;
+                size_type overflow_count = 0;
+                while (construct_count && start + construct_count > old_end) {
+                    __construct_at_end(1, value);
+                    overflow_count++;
+                    construct_count--;
+                }
+                while (construct_count) {
+                    __construct_at_end(1, *(old_end - construct_count));
+                    construct_count--;
+                }
+                __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
+                for (size_type i = 0; i < count - overflow_count; i++)
+                    start[i] = value;
+            }
+            return ret;
+        }
     public:
 
         // default
@@ -149,49 +193,11 @@ namespace ft {
         // }
 
         iterator insert(iterator pos, const value_type &value) {
-            insert(pos, 1, value);
-            return pos;
+            return _insert(pos, 1, value);
         }
 
         void insert(iterator pos, size_type count, const value_type &value) {
-            if (size() + count > capacity()) {
-                size_type old_size = size();
-                size_type new_capacity = capacity() * 2;
-                if (old_size + count > new_capacity)
-                    new_capacity = old_size + count;
-
-                difference_type distance = pos - begin();
-
-                pointer tmp = _alloc.allocate(new_capacity);
-                for (size_type i = 0; i < count; i++)
-                    _alloc.construct(tmp + i + distance, value);
-                for (size_type i = distance; i > 0; i--)
-                    _alloc.construct(tmp + (i - 1), __begin_[i - 1]);
-                for (size_type i = distance; i < old_size; i++)
-                    _alloc.construct(tmp + i + count, __begin_[i]);
-                clear();
-                _alloc.deallocate(__begin_, _capacity);
-                __begin_ = tmp;
-                __end_ = __begin_ + old_size + count;
-                _capacity = new_capacity;
-            } else {
-                pointer start = this->__begin_ + (pos - begin());
-                pointer old_end = __end_;
-                size_type construct_count = count;
-                size_type overflow_count = 0;
-                while (construct_count && start + construct_count > old_end) {
-                    __construct_at_end(1, value);
-                    overflow_count++;
-                    construct_count--;
-                }
-                while (construct_count) {
-                    __construct_at_end(1, *(old_end - construct_count));
-                    construct_count--;
-                }
-                __move_range(start, old_end - (count - overflow_count), start + (count - overflow_count));
-                for (size_type i = 0; i < count - overflow_count; i++)
-                    start[i] = value;
-            }
+            _insert(pos, count, value);
         }
 
         template <class InputIterator>
