@@ -33,7 +33,7 @@ namespace ft {
         pointer __end_;
 
         template<class U>
-        void __construct_at_end(size_type n, const U &val) {
+        void __construct_at_end(size_type n, const U& val) {
             while (n--)
                 _alloc.construct(__end_++, val);
         }
@@ -74,7 +74,7 @@ namespace ft {
             }
         }
 
-        iterator _insert(iterator pos, size_type count, const value_type &value) {
+        iterator _insert(iterator pos, size_type count, const value_type& value) {
             iterator ret = pos;
             if (size() + count > capacity()) {
                 size_type old_size = size();
@@ -120,24 +120,24 @@ namespace ft {
     public:
 
         // default
-        explicit vector(const allocator_type &alloc = allocator_type()) : _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
+        explicit vector(const allocator_type& alloc = allocator_type()) : _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
         }
 
         // fill
-        explicit vector(size_type n, const value_type &val = value_type(),
-                        const allocator_type &alloc = allocator_type()): _capacity(n), _alloc(alloc) {
+        explicit vector(size_type n, const value_type& val = value_type(),
+                        const allocator_type& alloc = allocator_type()): _capacity(n), _alloc(alloc) {
             __begin_ = __end_ = _alloc.allocate(n);
             __construct_at_end(n, val);
         }
 
         // range
         template<class InputIterator>
-        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()): _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
+        vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
             assign(first, last);
         }
 
         // copy
-        vector(const vector &x): _capacity(0), _alloc(x._alloc), __begin_(nullptr), __end_(nullptr) {
+        vector(const vector& x): _capacity(0), _alloc(x._alloc), __begin_(nullptr), __end_(nullptr) {
             assign(x.__begin_, x.__end_);
         }
 
@@ -173,7 +173,7 @@ namespace ft {
             }
         }
 
-        void push_back(const value_type &value)
+        void push_back(const value_type& value)
         {
             insert(end(), value);
         }
@@ -194,15 +194,15 @@ namespace ft {
             return _alloc;
         }
 
-        // vector &operator=(const vector &other) {
+        // vector& operator=(const vector& other) {
         //     return *this;
         // }
 
-        iterator insert(iterator pos, const value_type &value) {
+        iterator insert(iterator pos, const value_type& value) {
             return _insert(pos, 1, value);
         }
 
-        void insert(iterator pos, size_type count, const value_type &value) {
+        void insert(iterator pos, size_type count, const value_type& value) {
             _insert(pos, count, value);
         }
 
@@ -263,7 +263,7 @@ namespace ft {
             return first;
         }
 
-        void swap(vector &x) {
+        void swap(vector& x) {
             std::swap(this->_capacity, x._capacity);
             std::swap(this->_alloc, x._alloc);
             std::swap(this->__begin_, x.__begin_);
@@ -290,7 +290,7 @@ namespace ft {
                 __construct_at_end(1, *first++);
         }
 
-        void assign(size_type count, const value_type &val) {
+        void assign(size_type count, const value_type& val) {
             if (count > capacity()) {
                 clear();
                 reserve(count);

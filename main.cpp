@@ -20,7 +20,7 @@ public:
     std::string issou;
     std::string *a;
 
-    Test(const Test &s): uid(guid), id(s.id), issou(s.issou) {
+    Test(const Test& s): uid(guid), id(s.id), issou(s.issou) {
         guid++;
         gid++;
         std::cout << "> " << issou << " - " << uid << " - copy from " << s.uid << std::endl;
@@ -38,7 +38,7 @@ public:
         delete a;
     }
 
-    Test &operator=(const Test &rhs) {
+    Test& operator=(const Test& rhs) {
         *this->a = *rhs.a;
         this->id = rhs.id;
         this->issou = rhs.issou;
@@ -50,7 +50,7 @@ public:
 int Test::guid = 0;
 int Test::gid = 0;
 
-std::ostream &operator<<(std::ostream &lhs, const Test &rhs) {
+std::ostream& operator<<(std::ostream& lhs, const Test& rhs) {
     lhs << rhs.issou << " - " << rhs.uid;
     return lhs;
 }
@@ -63,18 +63,18 @@ bool operator>  (const Test& lhs, const Test& rhs) { return lhs.id >  rhs.id; }
 bool operator>= (const Test& lhs, const Test& rhs) { return lhs.id >= rhs.id; }
 
 template<class T>
-void show_cap(ft::vector<T> &vec) {
+void show_cap(ft::vector<T>& vec) {
     std::cout << vec.size() << " - " << vec.capacity() << std::endl;
 }
 
 template<class T>
-void show(ft::vector<T> &vec) {
+void show(ft::vector<T>& vec) {
     show_cap(vec);
     std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
 }
 
 template<class T>
-void print(ft::vector<T> &vec) {
+void print(ft::vector<T>& vec) {
     typename ft::vector<T>::iterator first = vec.begin();
     typename ft::vector<T>::iterator last = vec.end();
     while (first < last)
@@ -98,7 +98,7 @@ void test1() {
     std::cout << "--- "; show_cap(vec);
     print(vec);
     std::cout << "--- "; show_cap(vec);
-    Test &t = *vec.insert(vec.begin(), Test("Issou"));
+    Test& t = *vec.insert(vec.begin(), Test("Issou"));
     std::cout << "*** " << t << std::endl;
     std::cout << "--- "; show_cap(vec);
     vec.insert(vec.begin() + 2, 2, Test("Mow"));
@@ -176,7 +176,7 @@ void test5() {
     ft::vector<Test> vec;
     vec.insert(vec.begin(), lst + 0, lst + 20);
     std::cout << "--- "; show_cap(vec);
-    Test &t = *vec.erase(vec.begin() + 10);
+    Test& t = *vec.erase(vec.begin() + 10);
     std::cout << "*** " << t << std::endl;
     std::cout << "--- "; show_cap(vec);
     print(vec);
@@ -192,7 +192,7 @@ void test6() {
     ft::vector<Test> vec;
     vec.insert(vec.begin(), lst + 0, lst + 20);
     std::cout << "--- "; show_cap(vec);
-    Test &t = *vec.erase(vec.begin() + 8, vec.begin() + 12);
+    Test& t = *vec.erase(vec.begin() + 8, vec.begin() + 12);
     std::cout << "*** " << t << std::endl;
     std::cout << "--- "; show_cap(vec);
     print(vec);
@@ -434,51 +434,51 @@ void test20() {
 }
 
 int main() {
-    // std::cout << "========= TEST 1 =========" << std::endl;
-    // test1();
-    // std::cout << "========= TEST 2 =========" << std::endl;
-    // test2();
-    // std::cout << "========= TEST 3 =========" << std::endl;
-    // test3();
-    // std::cout << "========= TEST 4 =========" << std::endl;
-    // test4();
-    // std::cout << "========= TEST 5 =========" << std::endl;
-    // test5();
-    // std::cout << "========= TEST 6 =========" << std::endl;
-    // test6();
-    // std::cout << "========= TEST 7 =========" << std::endl;
-    // test7();
-    // std::cout << "========= TEST 8 =========" << std::endl;
-    // test8();
-    // std::cout << "========= TEST 9 =========" << std::endl;
-    // test9();
-    // std::cout << "========= TEST 10 =========" << std::endl;
-    // test10();
-    // std::cout << "========= TEST 11 =========" << std::endl;
-    // test11();
-    // std::cout << "========= TEST 12 =========" << std::endl;
-    // test12();
-    // std::cout << "========= TEST 13 =========" << std::endl;
-    // test13();
-    // std::cout << "========= TEST 14 =========" << std::endl;
-    // test14();
-    // std::cout << "========= TEST 15 =========" << std::endl;
-    // test15();
-    // std::cout << "========= TEST 16 =========" << std::endl;
-    // test16();
-    // std::cout << "========= TEST 17 =========" << std::endl;
-    // test17();
-    // std::cout << "========= TEST 18 =========" << std::endl;
-    // test18();
-    // std::cout << "========= TEST 19 =========" << std::endl;
-    // test19();
+    std::cout << "========= TEST 1 =========" << std::endl;
+    test1();
+    std::cout << "========= TEST 2 =========" << std::endl;
+    test2();
+    std::cout << "========= TEST 3 =========" << std::endl;
+    test3();
+    std::cout << "========= TEST 4 =========" << std::endl;
+    test4();
+    std::cout << "========= TEST 5 =========" << std::endl;
+    test5();
+    std::cout << "========= TEST 6 =========" << std::endl;
+    test6();
+    std::cout << "========= TEST 7 =========" << std::endl;
+    test7();
+    std::cout << "========= TEST 8 =========" << std::endl;
+    test8();
+    std::cout << "========= TEST 9 =========" << std::endl;
+    test9();
+    std::cout << "========= TEST 10 =========" << std::endl;
+    test10();
+    std::cout << "========= TEST 11 =========" << std::endl;
+    test11();
+    std::cout << "========= TEST 12 =========" << std::endl;
+    test12();
+    std::cout << "========= TEST 13 =========" << std::endl;
+    test13();
+    std::cout << "========= TEST 14 =========" << std::endl;
+    test14();
+    std::cout << "========= TEST 15 =========" << std::endl;
+    test15();
+    std::cout << "========= TEST 16 =========" << std::endl;
+    test16();
+    std::cout << "========= TEST 17 =========" << std::endl;
+    test17();
+    std::cout << "========= TEST 18 =========" << std::endl;
+    test18();
+    std::cout << "========= TEST 19 =========" << std::endl;
+    test19();
     std::cout << "========= TEST 20 =========" << std::endl;
     test20();
 
     // ft::vector<std::string> vec;
     // try {
     //     std::cout << vec.at(2) << std::endl;
-    // } catch (const std::out_of_range &e) {
+    // } catch (const std::out_of_range& e) {
     //     std::cout << "Error : " << e.what() << std::endl;
     // }
     // std::cout << "Vector " << (vec.empty() ? "empty" : "not empty") << std::endl;
