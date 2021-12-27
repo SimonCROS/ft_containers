@@ -7,13 +7,13 @@
 
 namespace ft {
 
-	template<bool B, class T = void>
+	template <bool B, class T = void>
 	struct enable_if {};
 	
-	template<class T>
+	template <class T>
 	struct enable_if<true, T> { typedef T type; };
 
-	template<class InputIterator1, class InputIterator2>
+	template <class InputIterator1, class InputIterator2>
 	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2) {
 		while (first1 != last1) {
 			if (!(*first1 == *first2))   // or: if (!pred(*first1,*first2)), for version 2
@@ -24,7 +24,7 @@ namespace ft {
 		return true;
 	}
 
-	template<class InputIterator1, class InputIterator2, class BinaryPredicate>
+	template <class InputIterator1, class InputIterator2, class BinaryPredicate>
 	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate pred) {
 		while (first1 != last1) {
 			if (!pred(*first1, *first2))

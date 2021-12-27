@@ -10,7 +10,7 @@
 #include "iterator.hpp"
 
 namespace ft {
-	template<class T1, class T2>
+	template <class T1, class T2>
 	struct pair {
 		typedef T1 first_type;
 		typedef T2 second_type;
@@ -20,7 +20,7 @@ namespace ft {
 
 		pair();
 
-		template<class U, class V>
+		template <class U, class V>
 		pair(const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
 
 		pair(const first_type& a, const second_type& b) : first(a), second(b) {}
@@ -39,12 +39,12 @@ namespace ft {
 	template <class T1, class T2>
 	bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) { return !(lhs < rhs); }
 
-	template<class T1, class T2>
+	template <class T1, class T2>
 	pair<T1, T2> make_pair(T1 x, T2 y) {
 		return pair<T1, T2>(x, y);
 	}
 
-	template<class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key,T> > >
+	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key,T> > >
 	class map {
 	public:
 		typedef Key key_type;
@@ -79,6 +79,52 @@ namespace ft {
 				}
 		};
 	private:
+		enum color {
+			RED,
+			BLACK
+		};
+
+		struct node {
+			node *parent;
+			node *left;
+			node *right;
+			color color;
+			value_type value;
+		};
+
+		node *root;
+
+		void __rotate_left(node *x) {
+			node* y = x->right;
+			x->right = y->left;
+			if (y->left)
+				y->left->parent = x;
+			y->parent = x->parent;
+			if (!x->parent)
+				root = y;
+			else if (x == x->parent->left)
+				x->parent->left = y;
+			else
+				x->parent->right = y;
+			y->left = x;
+			x->parent = y;
+		}
+
+		void __rotate_right(node *x) {
+			node* y = x->left;
+			x->left = y->right;
+			if (y->right)
+				y->right->parent = x;
+			y->parent = x->parent;
+			if (!x->parent)
+				root = y;
+			else if (x == x->parent->right)
+				x->parent->right = y;
+			else
+				x->parent->left = y;
+			y->right = x;
+			x->parent = y;
+		}
 	public:
 	};
 }

@@ -11,7 +11,7 @@
 
 namespace ft {
 
-    template<class T, class Alloc = std::allocator<T> >
+    template <class T, class Alloc = std::allocator<T> >
     class vector {
     public:
         typedef T value_type;
@@ -32,7 +32,7 @@ namespace ft {
         pointer __begin_;
         pointer __end_;
 
-        template<class U>
+        template <class U>
         void __construct_at_end(size_type n, const U& val) {
             while (n--)
                 _alloc.construct(__end_++, val);
@@ -53,7 +53,7 @@ namespace ft {
             __begin_ = __end_ = nullptr;
         }
 
-        template<class InputIterator>
+        template <class InputIterator>
         typename iterator_traits<InputIterator>::difference_type __distance(InputIterator first, InputIterator last) {
             typename iterator_traits<InputIterator>::difference_type dist = 0;
             while (first < last) {
@@ -131,7 +131,7 @@ namespace ft {
         }
 
         // range
-        template<class InputIterator>
+        template <class InputIterator>
         vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
             assign(first, last);
         }
@@ -206,7 +206,7 @@ namespace ft {
             _insert(pos, count, value);
         }
 
-        template<class InputIterator>
+        template <class InputIterator>
         void insert(iterator pos, InputIterator first, InputIterator last) {
             size_type count = static_cast<size_type>(__distance(first, last));
             if (size() + count > capacity()) {
@@ -274,7 +274,7 @@ namespace ft {
             __destruct_at_end(__end_ - 1);
         }
 
-        template<class InputIterator>
+        template <class InputIterator>
         void assign(InputIterator first, InputIterator last) {
             size_type count = static_cast<size_type>(__distance(first, last));
             if (count > capacity()) {
@@ -326,22 +326,22 @@ namespace ft {
         const_reference at(size_type n) const           { if (n >= size()) __out_of_range(); return __begin_[n]; }
     };
 
-    template<class T, class Alloc>
+    template <class T, class Alloc>
     void swap(vector<T,Alloc>& x, vector<T,Alloc>& y) {
         x.swap(y);
     }
 
-    template<class T, class Alloc>
+    template <class T, class Alloc>
     bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()); }
-    template<class T, class Alloc>
+    template <class T, class Alloc>
     bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(lhs == rhs); }
-    template<class T, class Alloc>
+    template <class T, class Alloc>
     bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()); }
-    template<class T, class Alloc>
+    template <class T, class Alloc>
     bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(rhs < lhs); }
-    template<class T, class Alloc>
+    template <class T, class Alloc>
     bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return rhs < lhs; }
-    template<class T, class Alloc>
+    template <class T, class Alloc>
     bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return !(lhs < rhs); }
 }
 

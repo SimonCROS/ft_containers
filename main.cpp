@@ -62,18 +62,18 @@ bool operator<= (const Test& lhs, const Test& rhs) { return lhs.id <= rhs.id; }
 bool operator>  (const Test& lhs, const Test& rhs) { return lhs.id >  rhs.id; }
 bool operator>= (const Test& lhs, const Test& rhs) { return lhs.id >= rhs.id; }
 
-template<class T>
+template <class T>
 void show_cap(ft::vector<T>& vec) {
     std::cout << vec.size() << " - " << vec.capacity() << std::endl;
 }
 
-template<class T>
+template <class T>
 void show(ft::vector<T>& vec) {
     show_cap(vec);
     std::cout << vec.front() << " - " << vec[1] << " - " << vec.at(2) << " - " << vec.back() << std::endl;
 }
 
-template<class T>
+template <class T>
 void print(ft::vector<T>& vec) {
     typename ft::vector<T>::iterator first = vec.begin();
     typename ft::vector<T>::iterator last = vec.end();

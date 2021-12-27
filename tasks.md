@@ -39,8 +39,8 @@
 - [x] `get_allocator`: Get allocator
 
 ## Non-member function overloads
-- [x] `relational operators`: Relational operators for vector (function template )
-- [x] `swap`: Exchange contents of vectors (function template )
+- [x] `relational operators`: Relational operators for vector
+- [x] `swap`: Exchange contents of vectors
 
 # Map
 
