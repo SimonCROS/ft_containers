@@ -95,10 +95,10 @@
 
 - [x] `enable_if`
 - [ ] `is_integral`
-- [ ] `pair`
+- [x] `pair`
 
 ## Functions
 
 - [x] `equal`
 - [x] `lexicographical_compare`
-- [ ] `make_pair`
+- [x] `make_pair`
