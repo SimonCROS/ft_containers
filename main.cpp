@@ -433,6 +433,61 @@ void test20() {
     std::cout << "--- "; show_cap(vec);
 }
 
+// at
+void test21() {
+    std::string lst[3];
+    for (size_t i = 0; i < 3; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    vec.reserve(5);
+    vec.assign(lst + 0, lst + 3);
+    std::cout << "--- ---" << std::endl;
+    try {
+        vec.at(8);
+        std::cout << "- KO" << std::endl;
+    } catch(const std::exception& e) {
+        std::cout << "+ OK" << std::endl;
+    }
+    std::cout << "--- ---" << std::endl;
+    try {
+        vec.at(4);
+        std::cout << "- KO" << std::endl;
+    } catch(const std::exception& e) {
+        std::cout << "+ OK" << std::endl;
+    }
+    std::cout << "--- ---" << std::endl;
+    try {
+        if (vec.at(2).issou == "Range 2")
+            std::cout << "+ OK" << std::endl;
+        else
+            std::cout << "- KO" << std::endl;
+    } catch(const std::exception& e) {
+        std::cout << "- KO" << std::endl;
+    }
+    std::cout << "--- ---" << std::endl;
+}
+
+// pop_back
+void test22() {
+    std::string lst[3];
+    for (size_t i = 0; i < 3; i++)
+        lst[i] = "Range " + std::to_string(i);
+
+    ft::vector<Test> vec;
+    vec.reserve(5);
+    vec.assign(lst + 0, lst + 3);
+    std::cout << "--- "; show_cap(vec);
+    print(vec);
+    std::cout << "--- "; show_cap(vec);
+    vec.pop_back();
+    std::cout << "--- "; show_cap(vec);
+    vec.pop_back();
+    std::cout << "--- "; show_cap(vec);
+    vec.pop_back();
+    std::cout << "--- "; show_cap(vec);
+}
+
 int main() {
     std::cout << "========= TEST 1 =========" << std::endl;
     test1();
@@ -474,6 +529,10 @@ int main() {
     test19();
     std::cout << "========= TEST 20 =========" << std::endl;
     test20();
+    std::cout << "========= TEST 21 =========" << std::endl;
+    test21();
+    std::cout << "========= TEST 22 =========" << std::endl;
+    test22();
 
     // ft::vector<std::string> vec;
     // try {
