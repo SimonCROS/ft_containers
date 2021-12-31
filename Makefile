@@ -21,6 +21,7 @@ override HEADERS	:=							\
 				iterator.hpp					\
 				vector.hpp						\
 				stack.hpp						\
+				tree.hpp						\
 				map.hpp							\
 
 # Rules

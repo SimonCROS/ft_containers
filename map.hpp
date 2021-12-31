@@ -8,6 +8,7 @@
 #include <functional>
 #include "type_traits.hpp"
 #include "iterator.hpp"
+#include "tree.hpp"
 
 namespace ft {
 	template <class T1, class T2>
@@ -63,69 +64,42 @@ namespace ft {
 		typedef std::ptrdiff_t difference_type;
 		typedef std::size_t size_type;
 
-		class value_compare : public std::binary_function<value_type,value_type,bool>
+		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
 			protected:
-				Compare comp;
-				value_compare(Compare c) : comp(c) {}
+				key_compare comp;
 			public:
-				typedef bool result_type;
-				typedef value_type first_argument_type;
-				typedef value_type second_argument_type;
-
-				bool operator() (const value_type& x, const value_type& y) const
-				{
+				value_compare(key_compare c) : comp(c) {}
+				bool operator() (const value_type& x, const value_type& y) const {
 					return comp(x.first, y.first);
 				}
 		};
+
 	private:
-		enum color {
-			RED,
-			BLACK
-		};
+		Tree<value_type, value_compare> __tree;
 
-		struct node {
-			node *parent;
-			node *left;
-			node *right;
-			color color;
-			value_type value;
-		};
-
-		node *root;
-
-		void __rotate_left(node *x) {
-			node* y = x->right;
-			x->right = y->left;
-			if (y->left)
-				y->left->parent = x;
-			y->parent = x->parent;
-			if (!x->parent)
-				root = y;
-			else if (x == x->parent->left)
-				x->parent->left = y;
-			else
-				x->parent->right = y;
-			y->left = x;
-			x->parent = y;
-		}
-
-		void __rotate_right(node *x) {
-			node* y = x->left;
-			x->left = y->right;
-			if (y->right)
-				y->right->parent = x;
-			y->parent = x->parent;
-			if (!x->parent)
-				root = y;
-			else if (x == x->parent->right)
-				x->parent->right = y;
-			else
-				x->parent->left = y;
-			y->right = x;
-			x->parent = y;
-		}
 	public:
+		map() : __tree(value_compare(key_compare())) {
+			std::cout << "Initialize map" << std::endl;
+
+			__tree.test(make_pair(1, mapped_type()));
+
+			__tree.insert(make_pair(1, 0));
+			__tree.insert(make_pair(8, 1));
+			__tree.insert(make_pair(4, 2));
+			__tree.insert(make_pair(9, 3));
+			__tree.insert(make_pair(2, 4));
+
+			__tree.test(make_pair(8, mapped_type()));
+			__tree.test(make_pair(2, mapped_type()));
+			__tree.test(make_pair(5, mapped_type()));
+			__tree.test(make_pair(3, mapped_type()));
+			__tree.test(make_pair(1, mapped_type()));
+
+			std::cout << "==============" << std::endl;
+
+			__tree.print_all();
+		}
 	};
 }
 
