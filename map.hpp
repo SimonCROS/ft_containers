@@ -115,6 +115,33 @@ namespace ft {
 
 			__tree.print_all();
 		}
+
+		// pair<iterator,bool> insert(const value_type& val) {
+			
+		// }
+
+		// iterator insert(iterator position, const value_type& val) {
+
+		// }
+
+		// template <class InputIterator>
+		// void insert(InputIterator first, InputIterator last) {
+
+		// }
+
+		// size_type size() const							{ return static_cast<size_type>(__end_ - __begin_); }
+		// size_type max_size() const						{ return _alloc.max_size(); }
+		// size_type capacity() const						{ return _capacity; }
+		bool empty() const								{ return __tree.empty(); }
+
+		// iterator begin()								{ return iterator(__begin_); }
+		// const_iterator begin() const					{ return const_iterator(__begin_); }
+		// iterator end()									{ return iterator(__end_); }
+		// const_iterator end() const						{ return const_iterator(__end_); }
+		// reverse_iterator rbegin()						{ return reverse_iterator(end()); }
+		// const_reverse_iterator rbegin() const			{ return const_reverse_iterator(end()); }
+		// reverse_iterator rend()							{ return reverse_iterator(begin()); }
+		// const_reverse_iterator rend() const				{ return const_reverse_iterator(begin()); }
 	};
 }
 

@@ -491,6 +491,8 @@ void test22() {
 // various
 void test23() {
     ft::vector<std::string> vec;
+    std::cout << vec.max_size() << std::endl;
+    show_cap(vec);
     try {
         std::cout << vec.at(2) << std::endl;
     } catch (const std::out_of_range& e) {
@@ -567,6 +569,13 @@ void test23() {
     std::cout << "------ end ------" << std::endl;
 }
 
+void test24() {
+    ft::map<int, int> m;
+    std::cout << m.empty() << std::endl;
+    // m.insert(ft::make_pair(12, 13));
+    // std::cout << m.empty() << std::endl;
+}
+
 int main() {
     // std::cout << "========= TEST 1 =========" << std::endl;
     // test1();
@@ -614,6 +623,6 @@ int main() {
     // test22();
     // std::cout << "========= TEST 23 =========" << std::endl;
     // test23();
-
-    ft::map<int, int> m;
+    std::cout << "========= TEST 24 =========" << std::endl;
+    test24();
 }

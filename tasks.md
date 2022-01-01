@@ -57,7 +57,7 @@
 - [ ] `rend`: Return reverse iterator to reverse end
 
 #### Capacity:
-- [ ] `empty`: Test whether container is empty
+- [x] `empty`: Test whether container is empty
 - [ ] `size`: Return container size
 - [ ] `max_size`: Return maximum size
 

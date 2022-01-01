@@ -303,6 +303,10 @@ namespace ft {
 				std::cout << " " << n->value.first << " = " << n->value.second;
 			std::cout << std::endl;
 		}
+
+		bool empty() {
+			return !__root;
+		}
 	};
 }
 
