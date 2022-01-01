@@ -43,7 +43,7 @@ fclean:		clean
 re:			fclean all
 
 ft_test:	$(NAME)
-			./$(NAME) > $(FT_OUT)
+			./$(NAME)
 
 stl_test:	$(STL_NAME)
 			./$(STL_NAME) > $(STL_OUT)

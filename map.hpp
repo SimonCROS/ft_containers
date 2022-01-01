@@ -82,21 +82,36 @@ namespace ft {
 		map() : __tree(value_compare(key_compare())) {
 			std::cout << "Initialize map" << std::endl;
 
-			__tree.test(make_pair(1, mapped_type()));
-
-			__tree.insert(make_pair(1, 0));
-			__tree.insert(make_pair(8, 1));
-			__tree.insert(make_pair(4, 2));
-			__tree.insert(make_pair(9, 3));
-			__tree.insert(make_pair(2, 4));
-
-			__tree.test(make_pair(8, mapped_type()));
-			__tree.test(make_pair(2, mapped_type()));
-			__tree.test(make_pair(5, mapped_type()));
-			__tree.test(make_pair(3, mapped_type()));
-			__tree.test(make_pair(1, mapped_type()));
-
 			std::cout << "==============" << std::endl;
+
+			// __tree.test(make_pair(1, mapped_type()));
+
+			__tree.insert(make_pair(4, 2));
+			__tree.insert(make_pair(8, 1));
+			__tree.insert(make_pair(2, 4));
+			__tree.insert(make_pair(1, 0));
+			__tree.insert(make_pair(10, 5));
+			__tree.insert(make_pair(9, 3));
+
+			__tree.insert(make_pair(11, 3));
+			__tree.insert(make_pair(12, 3));
+			__tree.insert(make_pair(13, 3));
+			__tree.insert(make_pair(14, 3));
+			__tree.insert(make_pair(15, 3));
+			__tree.insert(make_pair(16, 3));
+			__tree.insert(make_pair(17, 3));
+			__tree.insert(make_pair(18, 3));
+			__tree.insert(make_pair(19, 3));
+			__tree.insert(make_pair(20, 3));
+			__tree.insert(make_pair(21, 3));
+			__tree.insert(make_pair(22, 3));
+			__tree.insert(make_pair(23, 3));
+
+			// __tree.test(make_pair(8, mapped_type()));
+			// __tree.test(make_pair(2, mapped_type()));
+			// __tree.test(make_pair(5, mapped_type()));
+			// __tree.test(make_pair(3, mapped_type()));
+			// __tree.test(make_pair(1, mapped_type()));
 
 			__tree.print_all();
 		}
