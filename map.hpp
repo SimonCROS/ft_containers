@@ -19,7 +19,7 @@ namespace ft {
 		first_type first;
 		second_type second;
 
-		pair();
+		pair() : first(), second() {}
 
 		template <class U, class V>
 		pair(const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
@@ -45,6 +45,67 @@ namespace ft {
 		return pair<T1, T2>(x, y);
 	}
 
+    template <class Iterator>
+    class __map_iterator {
+    private:
+        Iterator current;
+    public:
+        typedef Iterator iterator_type;
+        typedef typename iterator_type::iterator_type node_type;
+        typedef typename iterator_traits<iterator_type>::difference_type difference_type;
+        typedef typename iterator_traits<node_type>::value_type::value_type value_type;
+        typedef value_type *pointer;
+        typedef value_type& reference;
+        typedef bidirectional_iterator_tag iterator_category;
+
+        __map_iterator() {}
+
+        __map_iterator(iterator_type __x) : current(__x) {}
+
+        template <typename _Iter>
+        __map_iterator(const __map_iterator<_Iter>& __x) : current(__x.base()) {}
+
+        virtual ~__map_iterator() {}
+
+        __map_iterator& operator=(const __map_iterator& rhs) {
+            this->current = rhs.current;
+            return *this;
+        }
+
+        reference operator*() const { return current->value; }
+
+        pointer operator->() const { return &current->value; }
+
+        __map_iterator& operator++() {
+            ++current;
+            return *this;
+        }
+
+        __map_iterator operator++(int) {
+            __map_iterator __tmp(*this);
+            this->operator++();
+            return __tmp;
+        }
+
+        __map_iterator& operator--() {
+			--current;
+            return *this;
+        }
+
+        __map_iterator operator--(int) {
+            __map_iterator __tmp(*this);
+            this->operator--();
+            return __tmp;
+        }
+
+        Iterator base() const { return current; }
+    };
+
+    template <class Iterator>
+    bool operator== (const __map_iterator<Iterator>& lhs, const __map_iterator<Iterator>& rhs) { return lhs.base() == rhs.base(); }
+    template <class Iterator>
+    bool operator!= (const __map_iterator<Iterator>& lhs, const __map_iterator<Iterator>& rhs) { return lhs.base() != rhs.base(); }
+
 	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key,T> > >
 	class map {
 	public:
@@ -57,12 +118,6 @@ namespace ft {
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef typename ft::__normal_iterator<pointer> iterator;
-		typedef typename ft::__normal_iterator<const_pointer> const_iterator;
-		typedef typename ft::reverse_iterator<iterator> reverse_iterator;
-		typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
-		typedef std::ptrdiff_t difference_type;
-		typedef std::size_t size_type;
 
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{
@@ -76,7 +131,18 @@ namespace ft {
 		};
 
 	private:
-		Tree<value_type, value_compare> __tree;
+		typedef typename ft::tree<value_type, value_compare> tree_type;
+	
+	public:
+		typedef typename ft::__map_iterator<typename tree_type::iterator> iterator;
+		typedef typename ft::__map_iterator<typename tree_type::const_iterator> const_iterator;
+		typedef typename ft::reverse_iterator<iterator> reverse_iterator;
+		typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
+		typedef std::ptrdiff_t difference_type;
+		typedef std::size_t size_type;
+
+	private:
+		tree_type __tree;
 
 	public:
 		map() : __tree(value_compare(key_compare())) {
@@ -129,18 +195,18 @@ namespace ft {
 
 		// }
 
-		// size_type size() const							{ return static_cast<size_type>(__end_ - __begin_); }
-		size_type max_size() const						{ return _alloc.max_size(); }
 		bool empty() const								{ return __tree.empty(); }
+		// size_type size() const							{ return static_cast<size_type>(__end_ - __begin_); }
+		// size_type max_size() const						{ return _alloc.max_size(); }
 
-		// iterator begin()								{ return iterator(__begin_); }
-		// const_iterator begin() const					{ return const_iterator(__begin_); }
-		// iterator end()									{ return iterator(__end_); }
-		// const_iterator end() const						{ return const_iterator(__end_); }
-		// reverse_iterator rbegin()						{ return reverse_iterator(end()); }
-		// const_reverse_iterator rbegin() const			{ return const_reverse_iterator(end()); }
-		// reverse_iterator rend()							{ return reverse_iterator(begin()); }
-		// const_reverse_iterator rend() const				{ return const_reverse_iterator(begin()); }
+		iterator begin()								{ return iterator(__tree.begin()); }
+		const_iterator begin() const					{ return const_iterator(__tree.begin()); }
+		iterator end()									{ return iterator(__tree.end()); }
+		const_iterator end() const						{ return const_iterator(__tree.end()); }
+		reverse_iterator rbegin()						{ return reverse_iterator(end()); }
+		const_reverse_iterator rbegin() const			{ return const_reverse_iterator(end()); }
+		reverse_iterator rend()							{ return reverse_iterator(begin()); }
+		const_reverse_iterator rend() const				{ return const_reverse_iterator(begin()); }
 	};
 }
 

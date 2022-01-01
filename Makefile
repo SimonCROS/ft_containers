@@ -22,6 +22,7 @@ override HEADERS	:=							\
 				vector.hpp						\
 				stack.hpp						\
 				tree.hpp						\
+				node.hpp						\
 				map.hpp							\
 
 # Rules

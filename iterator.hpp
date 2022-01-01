@@ -80,7 +80,7 @@ namespace ft {
 
         __normal_iterator operator++(int) {
             __normal_iterator __tmp(*this);
-            ++current;
+            this->operator++();
             return __tmp;
         }
 
@@ -91,7 +91,7 @@ namespace ft {
 
         __normal_iterator operator--(int) {
             __normal_iterator __tmp(*this);
-            --current;
+            this->operator--();
             return __tmp;
         }
 
@@ -189,8 +189,7 @@ namespace ft {
         }
 
         pointer operator->() const {
-            T __tmp = current;
-            return --__tmp;
+            return &this->operator*();
         }
 
         reverse_iterator& operator++() {
@@ -200,7 +199,7 @@ namespace ft {
 
         reverse_iterator operator++(int) {
             reverse_iterator __tmp(*this);
-            --current;
+            this->operator++();
             return __tmp;
         }
 
@@ -211,7 +210,7 @@ namespace ft {
 
         reverse_iterator operator--(int) {
             reverse_iterator __tmp(*this);
-            ++current;
+            this->operator--();
             return __tmp;
         }
 
@@ -229,7 +228,7 @@ namespace ft {
             return *this;
         }
 
-        reference operator[](difference_type __n) const { return current[__n]; }
+        reference operator[](difference_type __n) const { return current[-__n - 1]; }
 
         iterator_type base() const { return current; }
     };

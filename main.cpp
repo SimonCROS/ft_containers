@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 #ifdef STL_CONTAINERS
     #include <map>
     #include <stack>
@@ -20,15 +21,22 @@ public:
     std::string issou;
     std::string *a;
 
-    Test(const Test& s): uid(guid), id(s.id), issou(s.issou) {
+    Test(): uid(guid), id(gid), issou("default") {
         guid++;
         gid++;
+        std::cout << "> " << issou << " - " << uid << " - default" << std::endl;
+        a = new std::string("");
+    }
+
+    Test(const Test& s): uid(guid), id(s.id), issou(s.issou) {
+        guid++;
         std::cout << "> " << issou << " - " << uid << " - copy from " << s.uid << std::endl;
         a = new std::string("Hey");
     }
 
     Test(std::string issou): uid(guid), id(gid), issou(issou) {
         guid++;
+        gid++;
         std::cout << "> " << issou << " - " << uid << std::endl;
         a = new std::string("");
     }
@@ -571,11 +579,30 @@ void test23() {
 
 void test24() {
     ft::map<int, int> m;
-    std::cout << m.empty() << std::endl;
-    // m.insert(ft::make_pair(12, 13));
-    // std::cout << m.empty() << std::endl;
+
+    ft::map<int, int>::iterator it;
+    for (it = m.begin(); it != m.end(); it++)
+        std::cout << (it->first) << std::endl;
+    std::cout << "--- Rev ----" << std::endl;
+    ft::map<int, int>::reverse_iterator rit;
+    for (rit = m.rbegin(); rit != m.rend(); rit++)
+        std::cout << (rit->first) << std::endl;
+
+    // std::map<int, Test> m;
+    // m.insert(std::make_pair(13, Test("first")));
+
+    // std::map<int, Test>::iterator it;
+    // for (it = m.begin(); it != m.end(); it++)
+    //     std::cout << (it->second) << std::endl;
+    // m[3];
+    // std::map<int, Test>::iterator eit = m.end();
+    // m.insert(std::make_pair(14, Test("second")));
+    // std::cout << (eit->second) << std::endl;
+    // eit--;
+    // std::cout << (eit->second) << std::endl;
 }
 
+// TODO Test iterators
 int main() {
     // std::cout << "========= TEST 1 =========" << std::endl;
     // test1();

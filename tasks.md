@@ -59,7 +59,7 @@
 #### Capacity:
 - [x] `empty`: Test whether container is empty
 - [ ] `size`: Return container size
-- [x] `max_size`: Return maximum size
+- [ ] `max_size`: Return maximum size
 
 #### Element access:
 - [ ] `operator[]`: Access element
