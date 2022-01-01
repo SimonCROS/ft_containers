@@ -130,8 +130,7 @@ namespace ft {
 		// }
 
 		// size_type size() const							{ return static_cast<size_type>(__end_ - __begin_); }
-		// size_type max_size() const						{ return _alloc.max_size(); }
-		// size_type capacity() const						{ return _capacity; }
+		size_type max_size() const						{ return _alloc.max_size(); }
 		bool empty() const								{ return __tree.empty(); }
 
 		// iterator begin()								{ return iterator(__begin_); }
