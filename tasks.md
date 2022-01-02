@@ -82,7 +82,7 @@
 - [ ] `equal_range`: Get range of equal elements
 
 #### Allocator:
-- [ ] `get_allocator`: Get allocator
+- [x] `get_allocator`: Get allocator
 
 # Others
 
