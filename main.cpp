@@ -705,13 +705,28 @@ void test28() {
 
     p = m.insert(m.end(), ft::make_pair(7, 3));
     std::cout << p->second << std::endl;
-    p = m.insert(m.end(), ft::make_pair(7, 8));
+    p = m.insert(p, ft::make_pair(7, 8));
     std::cout << p->second << std::endl;
     p->second = 7;
-    p = m.insert(m.end(), ft::make_pair(7, 3));
+    p = m.insert(p, ft::make_pair(7, 3));
     std::cout << p->second << std::endl;
-    p = m.insert(m.end(), ft::make_pair(2, 2));
+    p = m.insert(p, ft::make_pair(2, 2));
     std::cout << p->second << std::endl;
+    p = m.insert(p, ft::make_pair(4, 2));
+    p = m.insert(p, ft::make_pair(8, 1));
+    p = m.insert(p, ft::make_pair(2, 4));
+    p = m.insert(p, ft::make_pair(1, 0));
+    std::cout << m.size() << std::endl;
+    p = m.insert(p, ft::make_pair(10, 5));
+    p = m.insert(p, ft::make_pair(9, 3));
+    p = m.insert(p, ft::make_pair(11, 3));
+    p = m.insert(p, ft::make_pair(12, 3));
+    std::cout << m.size() << std::endl;
+    p = m.insert(p, ft::make_pair(13, 3));
+    p = m.insert(p, ft::make_pair(14, 3));
+    p = m.insert(p, ft::make_pair(15, 3));
+    p = m.insert(p, ft::make_pair(16, 3));
+    std::cout << m.size() << std::endl;
 }
 
 // TODO Test iterators
