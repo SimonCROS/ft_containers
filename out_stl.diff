@@ -1,13 +1,13 @@
 ========= TEST 24 =========
---- Iterator     ++ ****
---- Iterator     -- ****
+--- Iterator	 ++ ****
+--- Iterator	 -- ****
 --- Rev iterator ++ ****
 --- Rev iterator -- ****
 ========= TEST 25 =========
---- Iterator     ++ ****
+--- Iterator	 ++ ****
 4
 8
---- Iterator     -- ****
+--- Iterator	 -- ****
 8
 4
 --- Rev iterator ++ ****
@@ -35,3 +35,17 @@ Inside 0 (7)
 5
 9
 13
+========= TEST 29 =========
+--- Iterator	 ++ ****
+1
+2
+4
+8
+--- Iterator	 ++ ****
+1
+2
+4
+8
+========= TEST 30 =========
+Not found
+4 = 2

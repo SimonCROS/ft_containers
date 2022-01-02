@@ -56,7 +56,7 @@ namespace ft {
 		template <class InputIterator>
 		typename iterator_traits<InputIterator>::difference_type __distance(InputIterator first, InputIterator last) {
 			typename iterator_traits<InputIterator>::difference_type dist = 0;
-			while (first < last) {
+			while (first != last) {
 				first++;
 				dist++;
 			}
@@ -269,7 +269,7 @@ namespace ft {
 			for (w = 0; w < s && w < count; w++)
 				__begin_[w] = *first++;
 			__destruct_at_end(__begin_ + w);
-			while (first < last)
+			while (first != last)
 				__construct_at_end(1, *first++);
 		}
 

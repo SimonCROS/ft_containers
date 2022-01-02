@@ -105,8 +105,8 @@ namespace ft {
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef typename ft::__tree_iterator<pointer, tree<value_type, value_compare> > iterator;
-		typedef typename ft::__tree_iterator<const_pointer, const tree<value_type, value_compare> > const_iterator;
+		typedef typename ft::__tree_iterator<pointer, ft::tree<value_type, value_compare> > iterator;
+		typedef typename ft::__tree_iterator<const_pointer, const ft::tree<value_type, value_compare> > const_iterator;
 		typedef std::ptrdiff_t difference_type;
 		typedef std::size_t size_type;
 
@@ -421,6 +421,14 @@ namespace ft {
 			while (tmp->right)
 				tmp = tmp->right;
 			return tmp;
+		}
+
+		iterator find(const value_type& v) {
+			return iterator(__search(v, __root), this);
+		}
+
+		const_iterator find(const value_type& v) const {
+			return const_iterator(__search(v, __root), this);
 		}
 
 		bool empty() const								{ return !__root; }

@@ -65,7 +65,7 @@
 - [ ] `operator[]`: Access element
 
 #### Modifiers:
-- [ ] `insert`: Insert elements
+- [x] `insert`: Insert elements
 - [ ] `erase`: Erase elements
 - [ ] `swap`: Swap content
 - [ ] `clear`: Clear content

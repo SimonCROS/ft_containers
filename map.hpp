@@ -123,10 +123,13 @@ namespace ft {
 			return iterator(__tree.insert(position.base(), val));
 		}
 
-		// template <class InputIterator>
-		// void insert(InputIterator first, InputIterator last) {
+		template <class InputIterator>
+		void insert(InputIterator first, InputIterator last) {
+			typename tree_type::iterator prev = __tree.end();
 
-		// }
+			while (first != last)
+				prev = __tree.insert(prev, *first++);
+		}
 
 		key_compare key_comp() const {
 			return key_compare();
@@ -134,6 +137,14 @@ namespace ft {
 
 		key_compare value_comp() const {
 			return value_compare(key_comp());
+		}
+
+		iterator find(const key_type& k) {
+			return iterator(__tree.find(ft::make_pair(k, mapped_type())));
+		}
+
+		const_iterator find(const key_type& k) const {
+			return const_iterator(__tree.find(ft::make_pair(k, mapped_type())));
 		}
 
 		bool empty() const								{ return __tree.empty(); }
