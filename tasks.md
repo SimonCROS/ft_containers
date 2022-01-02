@@ -75,7 +75,7 @@
 - [x] `value_comp`: Return value comparison object
 
 #### Operations:
-- [ ] `find`: Get iterator to element
+- [x] `find`: Get iterator to element
 - [ ] `count`: Count elements with a specific key
 - [ ] `lower_bound`: Return iterator to lower bound
 - [ ] `upper_bound`: Return iterator to upper bound

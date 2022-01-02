@@ -226,7 +226,7 @@ namespace ft {
 			x->parent = y;
 		}
 
-		pointer __search(const value_type& v, pointer pos) {
+		pointer __search(const value_type& v, pointer pos) const {
 			if (!pos)
 				return nullptr;
 			else if (comp(v, pos->value))

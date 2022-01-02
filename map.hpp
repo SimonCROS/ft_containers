@@ -147,6 +147,15 @@ namespace ft {
 			return const_iterator(__tree.find(ft::make_pair(k, mapped_type())));
 		}
 
+		mapped_type& operator[](const key_type& k) {
+			ft::pair<iterator, bool> it = insert(ft::make_pair(k, mapped_type()));
+			return it.first->second;
+		}
+
+		size_type count(const key_type& k) const {
+			return find(k) != end();
+		}
+
 		bool empty() const								{ return __tree.empty(); }
 		size_type size() const							{ return __tree.size(); }
 		// size_type max_size() const						{ return _alloc.max_size(); }

@@ -46,6 +46,16 @@ Inside 0 (7)
 2
 4
 8
+4
 ========= TEST 30 =========
 Not found
+Count : 0
 4 = 2
+Count : 1
+Size : 4
+========= TEST 31 =========
+42 = 21
+Count : 1
+Not found
+Count : 0
+Size : 1

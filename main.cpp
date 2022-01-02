@@ -751,9 +751,11 @@ void test29() {
 
 	for (it = new_m.begin(); it != new_m.end(); it++)
 		std::cout << (it->first) << std::endl;
+
+	std::cout << new_m.size() << std::endl;
 }
 
-// map find
+// map find and count
 void test30() {
 	ft::map<int, int> m;
 	ft::map<int, int>::iterator it;
@@ -768,12 +770,38 @@ void test30() {
 		std::cout << "Not found" << std::endl;
 	else
 		std::cout << it->first << " = " << it->second << std::endl;
+	std::cout << "Count : " << m.count(42) << std::endl;
 
 	it = m.find(4);
 	if (it == m.end())
 		std::cout << "Not found" << std::endl;
 	else
 		std::cout << it->first << " = " << it->second << std::endl;
+	std::cout << "Count : " << m.count(4) << std::endl;
+	std::cout << "Size : " << m.size() << std::endl;
+}
+
+// map access operator
+void test31() {
+	ft::map<int, int> m;
+	ft::map<int, int>::iterator it;
+
+	m[42] = 21;
+
+	it = m.find(42);
+	if (it == m.end())
+		std::cout << "Not found" << std::endl;
+	else
+		std::cout << it->first << " = " << it->second << std::endl;
+	std::cout << "Count : " << m.count(42) << std::endl;
+
+	it = m.find(4);
+	if (it == m.end())
+		std::cout << "Not found" << std::endl;
+	else
+		std::cout << it->first << " = " << it->second << std::endl;
+	std::cout << "Count : " << m.count(4) << std::endl;
+	std::cout << "Size : " << m.size() << std::endl;
 }
 
 // TODO Test iterators
@@ -842,4 +870,6 @@ int main() {
 	test29();
 	std::cout << "========= TEST 30 =========" << std::endl;
 	test30();
+	std::cout << "========= TEST 31 =========" << std::endl;
+	test31();
 }
