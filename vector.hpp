@@ -177,8 +177,6 @@ namespace ft {
 			insert(end(), value);
 		}
 
-		allocator_type get_allocator() const { return _alloc; }
-
 		// vector& operator=(const vector& other) {
 		//	 return *this;
 		// }
@@ -314,6 +312,8 @@ namespace ft {
 		const_reference operator[](size_type n) const   { return __begin_[n]; }
 		reference at(size_type n)						{ if (n >= size()) __out_of_range(); return __begin_[n]; }
 		const_reference at(size_type n) const			{ if (n >= size()) __out_of_range(); return __begin_[n]; }
+
+		allocator_type get_allocator() const			{ return _alloc; }
 	};
 
 	template <class T, class Alloc>

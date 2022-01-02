@@ -535,10 +535,6 @@ void test23() {
     std::cout << *++riter << std::endl;
     std::cout << (riter < riter + 1) << std::endl;
 
-    // ft::vector<std::string>::const_iterator ddd;
-    // for (ddd = vec.begin(); ddd != vec.end(); ddd++)
-    //     std::cout << *ddd << std::endl;
-
     std::cout << "======= Const Iterator =======" << std::endl;
     ft::vector<std::string>::const_iterator citer = vec.begin();
     std::cout << *citer++ << std::endl;
@@ -585,24 +581,143 @@ void test23() {
 #include <vector>
 #include <map>
 
+// map empty iterator
 void test24() {
     ft::map<int, int> m;
+
+    std::cout << "--- Iterator     ++ ****" << std::endl;
  
-    ft::map<int, int>::const_iterator it = m.begin();
-    ft::map<int, int>::const_iterator ite = m.end();
-    for (; it != ite; it++)
+    ft::map<int, int>::iterator it;
+    for (it = m.begin(); it != m.end(); it++)
         std::cout << (it->first) << std::endl;
 
-    std::cout << "--- Rev ----" << std::endl;
+    std::cout << "--- Iterator     -- ****" << std::endl;
+ 
+    while (it != m.begin()) {
+        --it;
+        std::cout << (it->first) << std::endl;
+    }
 
-    ft::map<int, int>::const_reverse_iterator rit = m.rbegin();
-    ft::map<int, int>::const_reverse_iterator rite = m.rend();
-    for (; rit != rite; rit++)
+    std::cout << "--- Rev iterator ++ ****" << std::endl;
+
+    ft::map<int, int>::reverse_iterator rit;
+    for (rit = m.rbegin(); rit != m.rend(); rit++)
         std::cout << (rit->first) << std::endl;
+
+    std::cout << "--- Rev iterator -- ****" << std::endl;
+
+    while (rit != m.rbegin()) {
+        --rit;
+        std::cout << (rit->first) << std::endl;
+    }
+}
+
+// map iterator
+void test25() {
+    ft::map<int, int> m;
+
+    m.insert(ft::make_pair(4, 2));
+    m.insert(ft::make_pair(8, 1));
+
+    std::cout << "--- Iterator     ++ ****" << std::endl;
+ 
+    ft::map<int, int>::iterator it;
+    for (it = m.begin(); it != m.end(); it++)
+        std::cout << (it->first) << std::endl;
+
+    std::cout << "--- Iterator     -- ****" << std::endl;
+ 
+    while (it != m.begin()) {
+        --it;
+        std::cout << (it->first) << std::endl;
+    }
+
+    std::cout << "--- Rev iterator ++ ****" << std::endl;
+
+    ft::map<int, int>::reverse_iterator rit;
+    for (rit = m.rbegin(); rit != m.rend(); rit++)
+        std::cout << (rit->first) << std::endl;
+
+    std::cout << "--- Rev iterator -- ****" << std::endl;
+
+    while (rit != m.rbegin()) {
+        --rit;
+        std::cout << (rit->first) << std::endl;
+    }
+}
+
+// map size
+void test26() {
+    ft::map<int, int> m;
+
+    m.insert(ft::make_pair(4, 2));
+    m.insert(ft::make_pair(8, 1));
+    m.insert(ft::make_pair(2, 4));
+    m.insert(ft::make_pair(1, 0));
+    std::cout << m.size() << std::endl;
+    m.insert(ft::make_pair(10, 5));
+    m.insert(ft::make_pair(9, 3));
+    m.insert(ft::make_pair(11, 3));
+    m.insert(ft::make_pair(12, 3));
+    std::cout << m.size() << std::endl;
+    m.insert(ft::make_pair(13, 3));
+    m.insert(ft::make_pair(14, 3));
+    m.insert(ft::make_pair(15, 3));
+    m.insert(ft::make_pair(16, 3));
+    std::cout << m.size() << std::endl;
+    m.insert(ft::make_pair(17, 3));
+    m.insert(ft::make_pair(18, 3));
+    m.insert(ft::make_pair(19, 3));
+    m.insert(ft::make_pair(20, 3));
+    std::cout << m.size() << std::endl;
+    m.insert(ft::make_pair(21, 3));
+    m.insert(ft::make_pair(22, 3));
+    m.insert(ft::make_pair(23, 3));
+    m.insert(ft::make_pair(3, 3));
+    std::cout << m.size() << std::endl;
+    m.insert(ft::make_pair(21, 3));
+    m.insert(ft::make_pair(22, 3));
+    m.insert(ft::make_pair(23, 3));
+    m.insert(ft::make_pair(7, 3));
+    std::cout << m.size() << std::endl;
+}
+
+// map insert return
+void test27() {
+    ft::map<int, int> m;
+
+    ft::pair<ft::map<int, int>::iterator, bool> p;
+
+    p = m.insert(ft::make_pair(7, 3));
+    std::cout << "Inside " << p.second << " (" << p.first->second << ")" << std::endl;
+    p = m.insert(ft::make_pair(7, 8));
+    std::cout << "Inside " << p.second << " (" << p.first->second << ")" << std::endl;
+    p.first->second = 7;
+    p = m.insert(ft::make_pair(7, 3));
+    std::cout << "Inside " << p.second << " (" << p.first->second << ")" << std::endl;
+}
+
+// map insert pos
+void test28() {
+    ft::map<int, int> m;
+
+    ft::map<int, int>::iterator p;
+
+    p = m.insert(m.end(), ft::make_pair(7, 3));
+    std::cout << p->second << std::endl;
+    p = m.insert(m.end(), ft::make_pair(7, 8));
+    std::cout << p->second << std::endl;
+    p->second = 7;
+    p = m.insert(m.end(), ft::make_pair(7, 3));
+    std::cout << p->second << std::endl;
+    p = m.insert(m.end(), ft::make_pair(2, 2));
+    std::cout << p->second << std::endl;
 }
 
 // TODO Test iterators
 int main() {
+    // Vector
+
     // std::cout << "========= TEST 1 =========" << std::endl;
     // test1();
     // std::cout << "========= TEST 2 =========" << std::endl;
@@ -649,6 +764,16 @@ int main() {
     // test22();
     // std::cout << "========= TEST 23 =========" << std::endl;
     // test23();
+
+    // Map
     std::cout << "========= TEST 24 =========" << std::endl;
     test24();
+    std::cout << "========= TEST 25 =========" << std::endl;
+    test25();
+    std::cout << "========= TEST 26 =========" << std::endl;
+    test26();
+    std::cout << "========= TEST 27 =========" << std::endl;
+    test27();
+    std::cout << "========= TEST 28 =========" << std::endl;
+    test28();
 }

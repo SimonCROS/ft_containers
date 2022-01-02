@@ -1,10 +1,11 @@
 //
-// Created by Simon Cros on 29/12/1021.
+// Created by Simon Cros on 29/12/2021.
 //
 
 #ifndef FT_CONTAINERS_TREE_HPP
 #define FT_CONTAINERS_TREE_HPP
 
+#include "utility.hpp"
 #include "node.hpp"
 
 // TODO tmp
@@ -90,22 +91,26 @@ namespace ft {
     };
 
     template <class _Node, class _Tree>
-    bool operator== (const __tree_iterator<_Node, _Tree>& lhs, const __tree_iterator<_Node, _Tree>& rhs) { return lhs.base() == rhs.base(); }
+    bool operator== (const ft::__tree_iterator<_Node, _Tree>& lhs, const ft::__tree_iterator<_Node, _Tree>& rhs) { return lhs.base() == rhs.base(); }
     template <class _Node, class _Tree>
-    bool operator!= (const __tree_iterator<_Node, _Tree>& lhs, const __tree_iterator<_Node, _Tree>& rhs) { return lhs.base() != rhs.base(); }
+    bool operator!= (const ft::__tree_iterator<_Node, _Tree>& lhs, const ft::__tree_iterator<_Node, _Tree>& rhs) { return lhs.base() != rhs.base(); }
 
-	template <class Value, class Compare>
+	template <class Value, class Compare, class Alloc = std::allocator<ft::node<Value> > >
 	class tree {
 	public:
 		typedef Value value_type;
-		typedef node<Value> node_type;
 		typedef Compare value_compare;
+		typedef Alloc allocator_type;
+		typedef typename allocator_type::reference reference;
+		typedef typename allocator_type::const_reference const_reference;
+		typedef typename allocator_type::pointer pointer;
+		typedef typename allocator_type::const_pointer const_pointer;
+		typedef typename ft::__tree_iterator<pointer, tree<value_type, value_compare> > iterator;
+		typedef typename ft::__tree_iterator<const_pointer, const tree<value_type, value_compare> > const_iterator;
 		typedef std::ptrdiff_t difference_type;
 		typedef std::size_t size_type;
-		typedef typename ft::__tree_iterator<node_type*, tree<value_type, value_compare> > iterator;
-		typedef typename ft::__tree_iterator<const node_type*, const tree<value_type, value_compare> > const_iterator;
 
-		int _print_t(node_type *tree, int is_left, int offset, int depth, char s[15][255], const node_type *selected)
+		int _print_t(pointer tree, int is_left, int offset, int depth, char s[15][255], const_pointer selected)
 		{
 			char b[20];
 			int real_width = 13;
@@ -172,7 +177,7 @@ namespace ft {
 			return left + width + right;
 		}
 
-		void print_t(node_type *tree, const node_type *selected) {
+		void print_t(pointer tree, const_pointer selected) {
 			char s[15][255];
 			for (int i = 0; i < 15; i++)
 				sprintf(s[i], "%150s", " ");
@@ -184,12 +189,13 @@ namespace ft {
 		}
 
 	private:
+		allocator_type _alloc;
 		size_type __size;
 		value_compare comp;
-		node_type *__root;
+		pointer __root;
 
-		void __rotate_left(node_type *x) {
-			node_type* y = x->right;
+		void __rotate_left(pointer x) {
+			pointer y = x->right;
 			x->right = y->left;
 			if (y->left)
 				y->left->parent = x;
@@ -204,8 +210,8 @@ namespace ft {
 			x->parent = y;
 		}
 
-		void __rotate_right(node_type *x) {
-			node_type* y = x->left;
+		void __rotate_right(pointer x) {
+			pointer y = x->left;
 			x->left = y->right;
 			if (y->right)
 				y->right->parent = x;
@@ -220,7 +226,7 @@ namespace ft {
 			x->parent = y;
 		}
 
-		node_type *__search(const value_type& v, node_type *pos) {
+		pointer __search(const value_type& v, pointer pos) {
 			if (!pos)
 				return nullptr;
 			else if (comp(v, pos->value))
@@ -231,36 +237,35 @@ namespace ft {
 				return pos;
 		}
 
-		node_type **__insert_r(node_type *n, node_type *&pos, node_type *parent) {
+		pointer *__insert_r(pointer n, pointer &pos, pointer parent) {
 			if (!pos)
 			{
 				n->parent = parent;
 				pos = n;
-			}
-			else if (comp(n->value, pos->value))
-				__insert_r(n, pos->left, pos);
+				return nullptr;
+			} else if (comp(n->value, pos->value))
+				return __insert_r(n, pos->left, pos);
 			else if (comp(pos->value, n->value))
-				__insert_r(n, pos->right, pos);
+				return __insert_r(n, pos->right, pos);
 			else
 				return &pos;
-			return nullptr;
 		}
 
-		node_type *__parent(node_type *n) {
+		pointer __parent(pointer n) {
 			if (!n)
 				return nullptr;
 			return n->parent;
 		}
 
-		node_type *__grand_parent(node_type *n) {
-			node_type *parent = __parent(n);
+		pointer __grand_parent(pointer n) {
+			pointer parent = __parent(n);
 			if (!parent)
 				return nullptr;
 			return parent->parent;
 		}
 
-		node_type *__brother(node_type *n) {
-			node_type *parent = __parent(n);
+		pointer __brother(pointer n) {
+			pointer parent = __parent(n);
 			if (!parent)
 				return nullptr;
 			else if (parent->left == n)
@@ -269,13 +274,13 @@ namespace ft {
 				return parent->left;
 		}
 
-		node_type *__uncle(node_type *n) {
+		pointer __uncle(pointer n) {
 			return __brother(__parent(n));
 		}
 
-		void insert_line(node_type *n) {
-			node_type *p = __parent(n);
-			node_type *g = __grand_parent(n);
+		void insert_line(pointer n) {
+			pointer p = __parent(n);
+			pointer g = __grand_parent(n);
 
 			if (n == p->left)
 				__rotate_right(g);
@@ -288,9 +293,9 @@ namespace ft {
 			print_all(n);
 		}
 
-		void insert_triangle(node_type *n) {
-			node_type *p = __parent(n);
-			node_type *g = __grand_parent(n);
+		void insert_triangle(pointer n) {
+			pointer p = __parent(n);
+			pointer g = __grand_parent(n);
 
 			if (g->left && n == g->left->right) {
 				__rotate_left(p);
@@ -305,19 +310,19 @@ namespace ft {
 			insert_line(n);
 		}
 
-		void __repair(node_type *n) {
+		void __repair(pointer n) {
 			if (!n)
 				return;
 			print_all(n);
-			node_type *p = __parent(n);
+			pointer p = __parent(n);
 			if (!p) {
 				n->color = BLACK;
 				print_all(n);
 			}
 			else if (p->color == RED) {
-				node_type *g = __grand_parent(n);
+				pointer g = __grand_parent(n);
 				if (g) {
-					node_type *u = __uncle(n);
+					pointer u = __uncle(n);
 					if (u && u->color == RED) {
 						g->color = RED;
 						p->color = BLACK;
@@ -332,18 +337,40 @@ namespace ft {
 		}
 
 	public:
-		tree(value_compare comp) : __size(0), comp(comp), __root(nullptr) {
-			std::cout << "Initialize tree" << std::endl;
-		}
+		tree(value_compare comp, allocator_type alloc = allocator_type()) : _alloc(alloc), __size(0), comp(comp), __root(nullptr) {}
 
-		void insert(const value_type &val) {
-			node_type *n = new node_type(val);
-			__insert_r(n, __root, __root);
+		pair<iterator, bool> insert(const value_type &val) {
+			pointer *tmp;
+			pointer n = _alloc.allocate(1);
+			_alloc.construct(n, val);
+
+			tmp = __insert_r(n, __root, nullptr);
+			if (tmp)
+				return ft::make_pair(iterator(*tmp, this), false);
+
 			__repair(n);
 			__size++;
+			return ft::make_pair(iterator(n, this), true);
 		}
 
-		void print_r(const node_type *n) {
+		iterator insert(iterator position, const value_type& val) {
+			pointer tmp_node = position.base();
+			if (!tmp_node || comp(val, tmp_node->value))
+				return insert(val).first;
+			pointer *tmp;
+			pointer n = _alloc.allocate(1);
+			_alloc.construct(n, val);
+
+			tmp = __insert_r(n, tmp_node, tmp_node->parent);
+			if (tmp)
+				return iterator(*tmp, this);
+
+			__repair(n);
+			__size++;
+			return iterator(n, this);
+		}
+
+		void print_r(const_pointer n) {
 			if (!n)
 				return ;
 			print_r(n->left);
@@ -351,19 +378,20 @@ namespace ft {
 			print_r(n->right);
 		}
 
-		void print_all(node_type *selected = nullptr) {
-			static int first = 1;
+		void print_all(pointer selected = nullptr) {
+			(void)selected;
+			// static int first = 1;
 
-			if (!first)
-				std::cout << "\033[16A";
-			first = 0;
-			print_t(__root, selected);
+			// if (!first)
+			// 	std::cout << "\033[16A";
+			// first = 0;
+			// print_t(__root, selected);
 			// char ch;
 			// scanf("%c",&ch);
 		}
 
 		void test(const value_type &val) {
-			node_type *n = __search(val, __root);
+			pointer n = __search(val, __root);
 
 			if (n)
 				std::cout << (n->color == BLACK ? "B" : "R");
@@ -375,8 +403,8 @@ namespace ft {
 			std::cout << std::endl;
 		}
 
-		node_type *left() const {
-			node_type *tmp = __root; 
+		pointer left() const {
+			pointer tmp = __root; 
 			if (!tmp)
 				return nullptr;
 
@@ -385,8 +413,8 @@ namespace ft {
 			return tmp;
 		}
 
-		node_type *right() const {
-			node_type *tmp = __root; 
+		pointer right() const {
+			pointer tmp = __root; 
 			if (!tmp)
 				return nullptr;
 
@@ -396,6 +424,7 @@ namespace ft {
 		}
 
 		bool empty() const								{ return !__root; }
+		size_type size() const							{ return __size; }
 
 		iterator begin()								{ return iterator(left(), this); }
 		const_iterator begin() const					{ return const_iterator(left(), this); }

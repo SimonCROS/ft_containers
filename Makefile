@@ -19,6 +19,7 @@ override SRCS		:=							\
 override HEADERS	:=							\
 				type_traits.hpp					\
 				iterator.hpp					\
+				utility.hpp						\
 				vector.hpp						\
 				stack.hpp						\
 				tree.hpp						\
@@ -44,6 +45,7 @@ fclean:		clean
 re:			fclean all
 
 ft_test:	$(NAME)
+			./$(STL_NAME) > $(FT_OUT)
 			./$(NAME)
 
 stl_test:	$(STL_NAME)

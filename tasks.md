@@ -58,7 +58,7 @@
 
 #### Capacity:
 - [x] `empty`: Test whether container is empty
-- [ ] `size`: Return container size
+- [x] `size`: Return container size
 - [ ] `max_size`: Return maximum size
 
 #### Element access:
@@ -71,8 +71,8 @@
 - [ ] `clear`: Clear content
 
 #### Observers:
-- [ ] `key_comp`: Return key comparison object
-- [ ] `value_comp`: Return value comparison object
+- [x] `key_comp`: Return key comparison object
+- [x] `value_comp`: Return value comparison object
 
 #### Operations:
 - [ ] `find`: Get iterator to element

@@ -1,0 +1,34 @@
+========= TEST 24 =========
+--- Iterator     ++ ****
+--- Iterator     -- ****
+--- Rev iterator ++ ****
+--- Rev iterator -- ****
+========= TEST 25 =========
+--- Iterator     ++ ****
+4
+8
+--- Iterator     -- ****
+8
+4
+--- Rev iterator ++ ****
+8
+4
+--- Rev iterator -- ****
+4
+8
+========= TEST 26 =========
+4
+8
+12
+16
+20
+21
+========= TEST 27 =========
+Inside 1 (3)
+Inside 0 (3)
+Inside 0 (7)
+========= TEST 28 =========
+3
+3
+7
+2
