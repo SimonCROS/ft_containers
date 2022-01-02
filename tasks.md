@@ -51,10 +51,10 @@
 - [ ] `operator=`: Copy container content
 
 #### Iterators:
-- [ ] `begin`: Return iterator to beginning
-- [ ] `end`: Return iterator to end
-- [ ] `rbegin`: Return reverse iterator to reverse beginning
-- [ ] `rend`: Return reverse iterator to reverse end
+- [x] `begin`: Return iterator to beginning
+- [x] `end`: Return iterator to end
+- [x] `rbegin`: Return reverse iterator to reverse beginning
+- [x] `rend`: Return reverse iterator to reverse end
 
 #### Capacity:
 - [x] `empty`: Test whether container is empty

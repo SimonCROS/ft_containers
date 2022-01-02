@@ -45,7 +45,7 @@ namespace ft {
 		return pair<T1, T2>(x, y);
 	}
 
-    template <class Iterator>
+    template <class Value, class Iterator>
     class __map_iterator {
     private:
         Iterator current;
@@ -53,17 +53,17 @@ namespace ft {
         typedef Iterator iterator_type;
         typedef typename iterator_type::iterator_type node_type;
         typedef typename iterator_traits<iterator_type>::difference_type difference_type;
-        typedef typename iterator_traits<node_type>::value_type::value_type value_type;
-        typedef value_type *pointer;
-        typedef value_type& reference;
+        typedef typename iterator_traits<Value>::value_type value_type;
+        typedef typename iterator_traits<Value>::pointer pointer;
+        typedef typename iterator_traits<Value>::reference reference;
         typedef bidirectional_iterator_tag iterator_category;
 
         __map_iterator() {}
 
         __map_iterator(iterator_type __x) : current(__x) {}
 
-        template <typename _Iter>
-        __map_iterator(const __map_iterator<_Iter>& __x) : current(__x.base()) {}
+        template <class _Value, class _Iterator>
+        __map_iterator(const __map_iterator<_Value, _Iterator>& __x) : current(__x.base()) {}
 
         virtual ~__map_iterator() {}
 
@@ -101,10 +101,10 @@ namespace ft {
         Iterator base() const { return current; }
     };
 
-    template <class Iterator>
-    bool operator== (const __map_iterator<Iterator>& lhs, const __map_iterator<Iterator>& rhs) { return lhs.base() == rhs.base(); }
-    template <class Iterator>
-    bool operator!= (const __map_iterator<Iterator>& lhs, const __map_iterator<Iterator>& rhs) { return lhs.base() != rhs.base(); }
+    template <class Value, class Iterator>
+    bool operator== (const __map_iterator<Value, Iterator>& lhs, const __map_iterator<Value, Iterator>& rhs) { return lhs.base() == rhs.base(); }
+    template <class Value, class Iterator>
+    bool operator!= (const __map_iterator<Value, Iterator>& lhs, const __map_iterator<Value, Iterator>& rhs) { return lhs.base() != rhs.base(); }
 
 	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key,T> > >
 	class map {
@@ -134,8 +134,8 @@ namespace ft {
 		typedef typename ft::tree<value_type, value_compare> tree_type;
 	
 	public:
-		typedef typename ft::__map_iterator<typename tree_type::iterator> iterator;
-		typedef typename ft::__map_iterator<typename tree_type::const_iterator> const_iterator;
+		typedef typename ft::__map_iterator<pointer, typename tree_type::iterator> iterator;
+		typedef typename ft::__map_iterator<const_pointer, typename tree_type::const_iterator> const_iterator;
 		typedef typename ft::reverse_iterator<iterator> reverse_iterator;
 		typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		typedef std::ptrdiff_t difference_type;

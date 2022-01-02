@@ -31,7 +31,7 @@ namespace ft {
         __tree_iterator(pointer __x, Tree *__t) : current(__x), __tree(__t) {}
 
         template <class _Node, class _Tree>
-        __tree_iterator(const __tree_iterator<_Node, _Tree>& __x) : current(__x.current), __tree(__x.__tree) {}
+        __tree_iterator(const __tree_iterator<_Node, _Tree>& __x) : current(__x.base()), __tree(__x.tree()) {}
 
         virtual ~__tree_iterator() {}
 
@@ -85,7 +85,8 @@ namespace ft {
             return __tmp;
         }
 
-        Node base() const { return current; }
+        iterator_type base() const { return current; }
+		Tree *tree() const { return __tree; }
     };
 
     template <class _Node, class _Tree>
@@ -102,7 +103,7 @@ namespace ft {
 		typedef std::ptrdiff_t difference_type;
 		typedef std::size_t size_type;
 		typedef typename ft::__tree_iterator<node_type*, tree<value_type, value_compare> > iterator;
-		typedef typename ft::__tree_iterator<const node_type*, tree<value_type, value_compare> > const_iterator;
+		typedef typename ft::__tree_iterator<const node_type*, const tree<value_type, value_compare> > const_iterator;
 
 		int _print_t(node_type *tree, int is_left, int offset, int depth, char s[15][255], const node_type *selected)
 		{
@@ -374,7 +375,7 @@ namespace ft {
 			std::cout << std::endl;
 		}
 
-		node_type *left() {
+		node_type *left() const {
 			node_type *tmp = __root; 
 			if (!tmp)
 				return nullptr;
@@ -384,7 +385,7 @@ namespace ft {
 			return tmp;
 		}
 
-		node_type *right() {
+		node_type *right() const {
 			node_type *tmp = __root; 
 			if (!tmp)
 				return nullptr;

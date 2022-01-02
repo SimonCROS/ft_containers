@@ -535,6 +535,10 @@ void test23() {
     std::cout << *++riter << std::endl;
     std::cout << (riter < riter + 1) << std::endl;
 
+    // ft::vector<std::string>::const_iterator ddd;
+    // for (ddd = vec.begin(); ddd != vec.end(); ddd++)
+    //     std::cout << *ddd << std::endl;
+
     std::cout << "======= Const Iterator =======" << std::endl;
     ft::vector<std::string>::const_iterator citer = vec.begin();
     std::cout << *citer++ << std::endl;
@@ -577,29 +581,24 @@ void test23() {
     std::cout << "------ end ------" << std::endl;
 }
 
+// TEST
+#include <vector>
+#include <map>
+
 void test24() {
     ft::map<int, int> m;
-
-    ft::map<int, int>::iterator it;
-    for (it = m.begin(); it != m.end(); it++)
+ 
+    ft::map<int, int>::const_iterator it = m.begin();
+    ft::map<int, int>::const_iterator ite = m.end();
+    for (; it != ite; it++)
         std::cout << (it->first) << std::endl;
+
     std::cout << "--- Rev ----" << std::endl;
-    ft::map<int, int>::reverse_iterator rit;
-    for (rit = m.rbegin(); rit != m.rend(); rit++)
+
+    ft::map<int, int>::const_reverse_iterator rit = m.rbegin();
+    ft::map<int, int>::const_reverse_iterator rite = m.rend();
+    for (; rit != rite; rit++)
         std::cout << (rit->first) << std::endl;
-
-    // std::map<int, Test> m;
-    // m.insert(std::make_pair(13, Test("first")));
-
-    // std::map<int, Test>::iterator it;
-    // for (it = m.begin(); it != m.end(); it++)
-    //     std::cout << (it->second) << std::endl;
-    // m[3];
-    // std::map<int, Test>::iterator eit = m.end();
-    // m.insert(std::make_pair(14, Test("second")));
-    // std::cout << (eit->second) << std::endl;
-    // eit--;
-    // std::cout << (eit->second) << std::endl;
 }
 
 // TODO Test iterators
