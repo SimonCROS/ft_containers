@@ -84,6 +84,19 @@
 #### Allocator:
 - [x] `get_allocator`: Get allocator
 
+# Stack
+
+## Member functions
+- [x] `(constructor)`: Construct stack
+- [x] `empty`: Test whether container is empty
+- [x] `size`: Return size
+- [x] `top`: Access next element
+- [x] `push`: Insert element
+- [x] `pop`: Remove top element
+
+## Non-member function overloads
+- [x] `relational operators`: Relational operators for stack
+
 # Others
 
 ## Classes
