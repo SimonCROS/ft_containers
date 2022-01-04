@@ -378,13 +378,25 @@ namespace ft {
 			clear();
 		}
 
-		iterator upper_bound(const key_type& k) {
-		} // TODO
+		iterator lower_bound(const value_type& val) {
+			iterator it = begin();
+			while (begin != end() && _comp(*it, val) == true)
+				begin++;
+			return it;
+		}
 
-		iterator lower_bound(const key_type& k) {
-		} // TODO
+		iterator upper_bound(const value_type& val) {
+			iterator it = begin();
+			while (begin != end() && _comp(val, *it) == false)
+				begin++;
+			return it;
+		}
 
-		pair<iterator, bool> insert(const value_type &val) {
+		ft::pair<iterator,iterator> equal_range(const value_type& val) {
+			return ft::make_pair(upper_bound(val), lower_bound(val));
+		}
+
+		ft::pair<iterator, bool> insert(const value_type &val) {
 			pointer *tmp;
 			pointer n = _alloc.allocate(1);
 			_alloc.construct(n, val);

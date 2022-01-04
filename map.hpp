@@ -200,11 +200,21 @@ namespace ft {
 		size_type size() const								{ return _tree.size(); }
 		// size_type max_size() const							{ return _alloc.max_size(); }
 
-		iterator upper_bound(const key_type& k)				{ return iterator(_tree.upper_bound()); }
-		const_iterator upper_bound(const key_type& k) const	{ return const_iterator(_tree.upper_bound()); }
+		iterator lower_bound(const key_type& k)				{ return iterator(_tree.lower_bound(ft::make_pair(k, mapped_type()))); }
+		const_iterator lower_bound(const key_type& k) const	{ return const_iterator(_tree.lower_bound(ft::make_pair(k, mapped_type()))); }
 
-		iterator lower_bound(const key_type& k)				{ return iterator(_tree.lower_bound()); }
-		const_iterator lower_bound(const key_type& k) const	{ return const_iterator(_tree.lower_bound()); }
+		iterator upper_bound(const key_type& k)				{ return iterator(_tree.upper_bound(ft::make_pair(k, mapped_type()))); }
+		const_iterator upper_bound(const key_type& k) const	{ return const_iterator(_tree.upper_bound(ft::make_pair(k, mapped_type()))); }
+
+		ft::pair<iterator,iterator> equal_range(const key_type& k) {
+			ft::pair<typename tree_type::iterator, typename tree_type::iterator> tmp = _tree.equal_range(ft::make_pair(k, mapped_type()));
+			return ft::make_pair(iterator(tmp.first), iterator(tmp.second));
+		}
+		
+		pair<const_iterator,const_iterator> equal_range(const key_type& k) const {
+			ft::pair<typename tree_type::iterator, typename tree_type::iterator> tmp = _tree.equal_range(ft::make_pair(k, mapped_type()));
+			return ft::make_pair(const_iterator(tmp.first), const_iterator(tmp.second));
+		}
 
 		iterator begin()									{ return iterator(_tree.begin()); }
 		const_iterator begin() const						{ return const_iterator(_tree.begin()); }

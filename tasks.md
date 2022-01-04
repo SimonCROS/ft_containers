@@ -77,9 +77,9 @@
 #### Operations:
 - [x] `find`: Get iterator to element
 - [x] `count`: Count elements with a specific key
-- [ ] `lower_bound`: Return iterator to lower bound
-- [ ] `upper_bound`: Return iterator to upper bound
-- [ ] `equal_range`: Get range of equal elements
+- [x] `lower_bound`: Return iterator to lower bound
+- [x] `upper_bound`: Return iterator to upper bound
+- [x] `equal_range`: Get range of equal elements
 
 #### Allocator:
 - [x] `get_allocator`: Get allocator
