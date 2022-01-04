@@ -378,6 +378,12 @@ namespace ft {
 			clear();
 		}
 
+		iterator upper_bound(const key_type& k) {
+		} // TODO
+
+		iterator lower_bound(const key_type& k) {
+		} // TODO
+
 		pair<iterator, bool> insert(const value_type &val) {
 			pointer *tmp;
 			pointer n = _alloc.allocate(1);

@@ -196,20 +196,26 @@ namespace ft {
 			std::swap(this->_alloc, x._alloc);
 		}
 
-		bool empty() const								{ return _tree.empty(); }
-		size_type size() const							{ return _tree.size(); }
-		// size_type max_size() const						{ return _alloc.max_size(); }
+		bool empty() const									{ return _tree.empty(); }
+		size_type size() const								{ return _tree.size(); }
+		// size_type max_size() const							{ return _alloc.max_size(); }
 
-		iterator begin()								{ return iterator(_tree.begin()); }
-		const_iterator begin() const					{ return const_iterator(_tree.begin()); }
-		iterator end()									{ return iterator(_tree.end()); }
-		const_iterator end() const						{ return const_iterator(_tree.end()); }
-		reverse_iterator rbegin()						{ return reverse_iterator(end()); }
-		const_reverse_iterator rbegin() const			{ return const_reverse_iterator(end()); }
-		reverse_iterator rend()							{ return reverse_iterator(begin()); }
-		const_reverse_iterator rend() const				{ return const_reverse_iterator(begin()); }
+		iterator upper_bound(const key_type& k)				{ return iterator(_tree.upper_bound()); }
+		const_iterator upper_bound(const key_type& k) const	{ return const_iterator(_tree.upper_bound()); }
 
-		allocator_type get_allocator() const			{ return _alloc; };
+		iterator lower_bound(const key_type& k)				{ return iterator(_tree.lower_bound()); }
+		const_iterator lower_bound(const key_type& k) const	{ return const_iterator(_tree.lower_bound()); }
+
+		iterator begin()									{ return iterator(_tree.begin()); }
+		const_iterator begin() const						{ return const_iterator(_tree.begin()); }
+		iterator end()										{ return iterator(_tree.end()); }
+		const_iterator end() const							{ return const_iterator(_tree.end()); }
+		reverse_iterator rbegin()							{ return reverse_iterator(end()); }
+		const_reverse_iterator rbegin() const				{ return const_reverse_iterator(end()); }
+		reverse_iterator rend()								{ return reverse_iterator(begin()); }
+		const_reverse_iterator rend() const					{ return const_reverse_iterator(begin()); }
+
+		allocator_type get_allocator() const				{ return _alloc; };
 	};
 
 	template <class Key, class T, class Compare, class Alloc>
