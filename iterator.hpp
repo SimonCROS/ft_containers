@@ -136,12 +136,12 @@ namespace ft {
     bool operator>= (const __normal_iterator<Iterator>& lhs, const __normal_iterator<Iterator>& rhs) { return lhs.base() >= rhs.base(); }
 
     template <class _Iter1, class _Iter2>
-    inline typename __normal_iterator<_Iter1>::difference_type operator+(const __normal_iterator<_Iter1>& lhs, const __normal_iterator<_Iter2>& rhs) {
+    typename __normal_iterator<_Iter1>::difference_type operator+(const __normal_iterator<_Iter1>& lhs, const __normal_iterator<_Iter2>& rhs) {
         return lhs.base() + rhs.base();
     }
 
     template <class _Iter1, class _Iter2>
-    inline typename __normal_iterator<_Iter1>::difference_type operator-(const __normal_iterator<_Iter1>& lhs, const __normal_iterator<_Iter2>& rhs) {
+    typename __normal_iterator<_Iter1>::difference_type operator-(const __normal_iterator<_Iter1>& lhs, const __normal_iterator<_Iter2>& rhs) {
         return lhs.base() - rhs.base();
     }
 
@@ -247,12 +247,12 @@ namespace ft {
     bool operator>= (const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs) { return lhs.base() <= rhs.base(); }
 
     template <class _Iter1, class _Iter2>
-    inline typename reverse_iterator<_Iter1>::difference_type operator+(const reverse_iterator<_Iter1>& lhs, const reverse_iterator<_Iter2>& rhs) {
+    typename reverse_iterator<_Iter1>::difference_type operator+(const reverse_iterator<_Iter1>& lhs, const reverse_iterator<_Iter2>& rhs) {
         return lhs.base() - rhs.base();
     }
 
     template <class _Iter1, class _Iter2>
-    inline typename reverse_iterator<_Iter1>::difference_type operator-(const reverse_iterator<_Iter1>& lhs, const reverse_iterator<_Iter2>& rhs) {
+    typename reverse_iterator<_Iter1>::difference_type operator-(const reverse_iterator<_Iter1>& lhs, const reverse_iterator<_Iter2>& rhs) {
         return lhs.base() + rhs.base();
     }
 }
