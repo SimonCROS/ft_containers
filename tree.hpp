@@ -336,8 +336,25 @@ namespace ft {
 			}
 		}
 
+		void __delete_node(pointer n) {
+			_alloc.destroy(n);
+			_alloc.deallocate(n, sizeof(value_type));
+		}
+
+		void __clear(pointer from) {
+			if (!from)
+				return;
+			__clear(from->left);
+			__clear(from->right);
+			__delete_node(from);
+		}
+
 	public:
 		tree(value_compare comp, allocator_type alloc = allocator_type()) : _alloc(alloc), __size(0), comp(comp), __root(nullptr) {}
+
+		~tree() {
+			clear();
+		}
 
 		pair<iterator, bool> insert(const value_type &val) {
 			pointer *tmp;
@@ -345,8 +362,10 @@ namespace ft {
 			_alloc.construct(n, val);
 
 			tmp = __insert_r(n, __root, nullptr);
-			if (tmp)
+			if (tmp) {
+				__delete_node(n);
 				return ft::make_pair(iterator(*tmp, this), false);
+			}
 
 			__repair(n);
 			__size++;
@@ -362,20 +381,19 @@ namespace ft {
 			_alloc.construct(n, val);
 
 			tmp = __insert_r(n, tmp_node, tmp_node->parent);
-			if (tmp)
+			if (tmp) {
+				__delete_node(n);
 				return iterator(*tmp, this);
+			}
 
 			__repair(n);
 			__size++;
 			return iterator(n, this);
 		}
 
-		void print_r(const_pointer n) {
-			if (!n)
-				return ;
-			print_r(n->left);
-			std::cout << (n->color == BLACK ? "B" : "R") << " " << n <<" " << n->value.first << " = " << n->value.second << std::endl;
-			print_r(n->right);
+		void clear() {
+			__clear(__root);
+			__size = 0;
 		}
 
 		void print_all(pointer selected = nullptr) {

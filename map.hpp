@@ -109,26 +109,49 @@ namespace ft {
 
 	private:
 		allocator_type _alloc;
-		tree_type __tree;
+		tree_type _tree;
 
 	public:
-		map(const allocator_type& alloc = allocator_type()) : _alloc(alloc), __tree(value_compare(key_compare())) {}
+		map(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _tree(value_compare(key_compare())) {}
+
+		~map() {}
+
+		void clear() {
+			_tree.clear();
+		}
 
 		ft::pair<iterator, bool> insert(const value_type& val) {
-			ft::pair<typename tree_type::iterator, bool> tmp = __tree.insert(val);
+			ft::pair<typename tree_type::iterator, bool> tmp = _tree.insert(val);
 			return ft::make_pair(iterator(tmp.first), tmp.second);
 		}
 
 		iterator insert(iterator position, const value_type& val) {
-			return iterator(__tree.insert(position.base(), val));
+			return iterator(_tree.insert(position.base(), val));
 		}
 
 		template <class InputIterator>
 		void insert(InputIterator first, InputIterator last) {
-			typename tree_type::iterator prev = __tree.end();
+			typename tree_type::iterator prev = _tree.end();
 
 			while (first != last)
-				prev = __tree.insert(prev, *first++);
+				prev = _tree.insert(prev, *first++);
+		}
+
+		void erase(iterator position) {
+			(void)position;
+		}
+
+		size_type erase(const key_type& k) {
+			iterator it = find(k);
+			if (it == end())
+				return 0;
+			erase();
+			return 1;
+		}
+
+		void erase(iterator first, iterator last) {
+			while (first != last)
+				erase(first++);
 		}
 
 		key_compare key_comp() const {
@@ -140,11 +163,11 @@ namespace ft {
 		}
 
 		iterator find(const key_type& k) {
-			return iterator(__tree.find(ft::make_pair(k, mapped_type())));
+			return iterator(_tree.find(ft::make_pair(k, mapped_type())));
 		}
 
 		const_iterator find(const key_type& k) const {
-			return const_iterator(__tree.find(ft::make_pair(k, mapped_type())));
+			return const_iterator(_tree.find(ft::make_pair(k, mapped_type())));
 		}
 
 		mapped_type& operator[](const key_type& k) {
@@ -156,14 +179,19 @@ namespace ft {
 			return find(k) != end();
 		}
 
-		bool empty() const								{ return __tree.empty(); }
-		size_type size() const							{ return __tree.size(); }
+		void swap(map& x) {
+			std::swap(this->_tree, x._tree);
+			std::swap(this->_alloc, x._alloc);
+		}
+
+		bool empty() const								{ return _tree.empty(); }
+		size_type size() const							{ return _tree.size(); }
 		// size_type max_size() const						{ return _alloc.max_size(); }
 
-		iterator begin()								{ return iterator(__tree.begin()); }
-		const_iterator begin() const					{ return const_iterator(__tree.begin()); }
-		iterator end()									{ return iterator(__tree.end()); }
-		const_iterator end() const						{ return const_iterator(__tree.end()); }
+		iterator begin()								{ return iterator(_tree.begin()); }
+		const_iterator begin() const					{ return const_iterator(_tree.begin()); }
+		iterator end()									{ return iterator(_tree.end()); }
+		const_iterator end() const						{ return const_iterator(_tree.end()); }
 		reverse_iterator rbegin()						{ return reverse_iterator(end()); }
 		const_reverse_iterator rbegin() const			{ return const_reverse_iterator(end()); }
 		reverse_iterator rend()							{ return reverse_iterator(begin()); }
@@ -171,6 +199,11 @@ namespace ft {
 
 		allocator_type get_allocator() const			{ return _alloc; };
 	};
+
+	template <class Key, class T, class Compare, class Alloc>
+	void swap(map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y) {
+		x.swap(y);
+	}
 }
 
 #endif //FT_CONTAINERS_MAP_HPP

@@ -577,10 +577,6 @@ void test23() {
 	std::cout << "------ end ------" << std::endl;
 }
 
-// TEST
-#include <vector>
-#include <map>
-
 // map empty iterator
 void test24() {
 	ft::map<int, int> m;
@@ -856,6 +852,7 @@ int main() {
 	// test23();
 
 	// Map
+
 	std::cout << "========= TEST 24 =========" << std::endl;
 	test24();
 	std::cout << "========= TEST 25 =========" << std::endl;

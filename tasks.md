@@ -47,7 +47,7 @@
 ## Member functions
 
 - [ ] `(constructor)`: Construct map
-- [ ] `(destructor)`: Map destructor
+- [x] `(destructor)`: Map destructor
 - [ ] `operator=`: Copy container content
 
 #### Iterators:
@@ -67,8 +67,8 @@
 #### Modifiers:
 - [x] `insert`: Insert elements
 - [ ] `erase`: Erase elements
-- [ ] `swap`: Swap content
-- [ ] `clear`: Clear content
+- [x] `swap`: Swap content
+- [x] `clear`: Clear content
 
 #### Observers:
 - [x] `key_comp`: Return key comparison object
@@ -83,6 +83,7 @@
 
 #### Allocator:
 - [x] `get_allocator`: Get allocator
+- [x] `swap`: Exchange contents of maps
 
 # Stack
 
