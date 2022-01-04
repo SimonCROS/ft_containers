@@ -800,6 +800,72 @@ void test31() {
 	std::cout << "Size : " << m.size() << std::endl;
 }
 
+// map copy
+void test32() {
+	ft::map<int, int>::iterator it;
+	ft::map<int, int> m;
+	ft::map<int, int> cpy;
+
+	m.insert(ft::make_pair(4, 2));
+	m.insert(ft::make_pair(8, 1));
+	m.insert(ft::make_pair(2, 4));
+	m.insert(ft::make_pair(1, 0));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+ 
+	for (it = m.begin(); it != m.end(); it++)
+		std::cout << (it->first) << std::endl;
+
+	cpy = m;
+
+	std::cout << "size: " << m.size() << std::endl;
+	m.clear();
+	std::cout << "size: " << m.size() << std::endl;
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+ 
+	for (it = cpy.begin(); it != cpy.end(); it++)
+		std::cout << (it->first) << std::endl;
+
+	ft::map<int, int> ccpy(cpy);
+
+	std::cout << "size: " << cpy.size() << std::endl;
+	cpy.clear();
+	std::cout << "size: " << cpy.size() << std::endl;
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+ 
+	for (it = ccpy.begin(); it != ccpy.end(); it++)
+		std::cout << (it->first) << std::endl;
+
+	std::cout << "size: " << ccpy.size() << std::endl;
+}
+
+// map range constructor
+void test33() {
+	ft::map<int, int> m;
+
+	m.insert(ft::make_pair(4, 2));
+	m.insert(ft::make_pair(8, 1));
+	m.insert(ft::make_pair(2, 4));
+	m.insert(ft::make_pair(1, 0));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+ 
+	ft::map<int, int>::iterator it;
+	for (it = m.begin(); it != m.end(); it++)
+		std::cout << (it->first) << std::endl;
+
+	ft::map<int, int> new_m(m.begin(), m.end());
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+
+	for (it = new_m.begin(); it != new_m.end(); it++)
+		std::cout << (it->first) << std::endl;
+
+	std::cout << new_m.size() << std::endl;
+}
+
 // TODO Test iterators
 int main() {
 	// Vector
@@ -853,20 +919,24 @@ int main() {
 
 	// Map
 
-	std::cout << "========= TEST 24 =========" << std::endl;
-	test24();
-	std::cout << "========= TEST 25 =========" << std::endl;
-	test25();
-	std::cout << "========= TEST 26 =========" << std::endl;
-	test26();
-	std::cout << "========= TEST 27 =========" << std::endl;
-	test27();
-	std::cout << "========= TEST 28 =========" << std::endl;
-	test28();
-	std::cout << "========= TEST 29 =========" << std::endl;
-	test29();
-	std::cout << "========= TEST 30 =========" << std::endl;
-	test30();
-	std::cout << "========= TEST 31 =========" << std::endl;
-	test31();
+	// std::cout << "========= TEST 24 =========" << std::endl;
+	// test24();
+	// std::cout << "========= TEST 25 =========" << std::endl;
+	// test25();
+	// std::cout << "========= TEST 26 =========" << std::endl;
+	// test26();
+	// std::cout << "========= TEST 27 =========" << std::endl;
+	// test27();
+	// std::cout << "========= TEST 28 =========" << std::endl;
+	// test28();
+	// std::cout << "========= TEST 29 =========" << std::endl;
+	// test29();
+	// std::cout << "========= TEST 30 =========" << std::endl;
+	// test30();
+	// std::cout << "========= TEST 31 =========" << std::endl;
+	// test31();
+	std::cout << "========= TEST 32 =========" << std::endl;
+	test32();
+	std::cout << "========= TEST 32 =========" << std::endl;
+	test33();
 }

@@ -190,9 +190,9 @@ namespace ft {
 
 	private:
 		allocator_type _alloc;
-		size_type __size;
-		value_compare comp;
-		pointer __root;
+		size_type _size;
+		value_compare _comp;
+		pointer _root;
 
 		void __rotate_left(pointer x) {
 			pointer y = x->right;
@@ -201,7 +201,7 @@ namespace ft {
 				y->left->parent = x;
 			y->parent = x->parent;
 			if (!x->parent)
-				__root = y;
+				_root = y;
 			else if (x == x->parent->left)
 				x->parent->left = y;
 			else
@@ -217,7 +217,7 @@ namespace ft {
 				y->right->parent = x;
 			y->parent = x->parent;
 			if (!x->parent)
-				__root = y;
+				_root = y;
 			else if (x == x->parent->right)
 				x->parent->right = y;
 			else
@@ -229,9 +229,9 @@ namespace ft {
 		pointer __search(const value_type& v, pointer pos) const {
 			if (!pos)
 				return nullptr;
-			else if (comp(v, pos->value))
+			else if (_comp(v, pos->value))
 				return __search(v, pos->left);
-			else if (comp(pos->value, v))
+			else if (_comp(pos->value, v))
 				return __search(v, pos->right);
 			else
 				return pos;
@@ -243,9 +243,9 @@ namespace ft {
 				n->parent = parent;
 				pos = n;
 				return nullptr;
-			} else if (comp(n->value, pos->value))
+			} else if (_comp(n->value, pos->value))
 				return __insert_r(n, pos->left, pos);
-			else if (comp(pos->value, n->value))
+			else if (_comp(pos->value, n->value))
 				return __insert_r(n, pos->right, pos);
 			else
 				return &pos;
@@ -336,6 +336,16 @@ namespace ft {
 			}
 		}
 
+		void __copy(pointer n, pointer& to, pointer parent) {
+			if (!n)
+				return;
+			to = _alloc.allocate(1);
+			_alloc.construct(to, *n);
+			to->parent = parent;
+			__copy(n->left, to->left, to);
+			__copy(n->right, to->right, to);
+		}
+
 		void __delete_node(pointer n) {
 			_alloc.destroy(n);
 			_alloc.deallocate(n, sizeof(value_type));
@@ -350,7 +360,19 @@ namespace ft {
 		}
 
 	public:
-		tree(value_compare comp, allocator_type alloc = allocator_type()) : _alloc(alloc), __size(0), comp(comp), __root(nullptr) {}
+		tree(value_compare comp, allocator_type alloc = allocator_type()) : _alloc(alloc), _size(0), _comp(comp), _root(nullptr) {}
+
+		tree(const tree& src) : _alloc(src._alloc), _size(0), _comp(src._comp), _root(nullptr) {
+			this->operator=(src);
+		}
+
+		tree& operator=(const tree& rhs) {
+			clear();
+			_size = rhs._size;
+			_comp = rhs._comp;
+			__copy(rhs._root, _root, nullptr);
+			return *this;
+		}
 
 		~tree() {
 			clear();
@@ -361,20 +383,20 @@ namespace ft {
 			pointer n = _alloc.allocate(1);
 			_alloc.construct(n, val);
 
-			tmp = __insert_r(n, __root, nullptr);
+			tmp = __insert_r(n, _root, nullptr);
 			if (tmp) {
 				__delete_node(n);
 				return ft::make_pair(iterator(*tmp, this), false);
 			}
 
 			__repair(n);
-			__size++;
+			_size++;
 			return ft::make_pair(iterator(n, this), true);
 		}
 
 		iterator insert(iterator position, const value_type& val) {
 			pointer tmp_node = position.base();
-			if (!tmp_node || comp(val, tmp_node->value))
+			if (!tmp_node || _comp(val, tmp_node->value))
 				return insert(val).first;
 			pointer *tmp;
 			pointer n = _alloc.allocate(1);
@@ -387,13 +409,14 @@ namespace ft {
 			}
 
 			__repair(n);
-			__size++;
+			_size++;
 			return iterator(n, this);
 		}
 
 		void clear() {
-			__clear(__root);
-			__size = 0;
+			__clear(_root);
+			_root = nullptr;
+			_size = 0;
 		}
 
 		void print_all(pointer selected = nullptr) {
@@ -403,13 +426,13 @@ namespace ft {
 			// if (!first)
 			// 	std::cout << "\033[16A";
 			// first = 0;
-			// print_t(__root, selected);
+			// print_t(_root, selected);
 			// char ch;
 			// scanf("%c",&ch);
 		}
 
 		void test(const value_type &val) {
-			pointer n = __search(val, __root);
+			pointer n = __search(val, _root);
 
 			if (n)
 				std::cout << (n->color == BLACK ? "B" : "R");
@@ -422,7 +445,7 @@ namespace ft {
 		}
 
 		pointer left() const {
-			pointer tmp = __root; 
+			pointer tmp = _root; 
 			if (!tmp)
 				return nullptr;
 
@@ -432,7 +455,7 @@ namespace ft {
 		}
 
 		pointer right() const {
-			pointer tmp = __root; 
+			pointer tmp = _root; 
 			if (!tmp)
 				return nullptr;
 
@@ -442,15 +465,15 @@ namespace ft {
 		}
 
 		iterator find(const value_type& v) {
-			return iterator(__search(v, __root), this);
+			return iterator(__search(v, _root), this);
 		}
 
 		const_iterator find(const value_type& v) const {
-			return const_iterator(__search(v, __root), this);
+			return const_iterator(__search(v, _root), this);
 		}
 
-		bool empty() const								{ return !__root; }
-		size_type size() const							{ return __size; }
+		bool empty() const								{ return !_root; }
+		size_type size() const							{ return _size; }
 
 		iterator begin()								{ return iterator(left(), this); }
 		const_iterator begin() const					{ return const_iterator(left(), this); }

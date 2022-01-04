@@ -46,9 +46,9 @@
 
 ## Member functions
 
-- [ ] `(constructor)`: Construct map
+- [x] `(constructor)`: Construct map
 - [x] `(destructor)`: Map destructor
-- [ ] `operator=`: Copy container content
+- [x] `operator=`: Copy container content
 
 #### Iterators:
 - [x] `begin`: Return iterator to beginning

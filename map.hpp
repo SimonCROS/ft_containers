@@ -112,7 +112,19 @@ namespace ft {
 		tree_type _tree;
 
 	public:
-		map(const allocator_type& alloc = allocator_type()) : _alloc(alloc), _tree(value_compare(key_compare())) {}
+		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _tree(value_compare(comp), alloc) {}
+
+		template <class InputIterator>
+		map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _alloc(alloc), _tree(value_compare(comp), alloc) {
+			insert(first, last);
+		}
+
+		map(const map& x) : _alloc(x._alloc), _tree(x._tree) {}
+
+		map& operator=(const map& x) {
+			this->_tree = x._tree;
+			return *this;
+		}
 
 		~map() {}
 
