@@ -380,20 +380,20 @@ namespace ft {
 
 		iterator lower_bound(const value_type& val) {
 			iterator it = begin();
-			while (begin != end() && _comp(*it, val) == true)
-				begin++;
+			while (it != end() && _comp(it->value, val) == true)
+				it++;
 			return it;
 		}
 
 		iterator upper_bound(const value_type& val) {
 			iterator it = begin();
-			while (begin != end() && _comp(val, *it) == false)
-				begin++;
+			while (it != end() && _comp(val, it->value) == false)
+				it++;
 			return it;
 		}
 
 		ft::pair<iterator,iterator> equal_range(const value_type& val) {
-			return ft::make_pair(upper_bound(val), lower_bound(val));
+			return ft::make_pair(lower_bound(val), upper_bound(val));
 		}
 
 		ft::pair<iterator, bool> insert(const value_type &val) {

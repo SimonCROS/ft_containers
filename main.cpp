@@ -866,6 +866,52 @@ void test33() {
 	std::cout << new_m.size() << std::endl;
 }
 
+void test_lower_upper(ft::map<int, int> m, int n) {
+	ft::map<int, int>::iterator lower;
+	ft::map<int, int>::iterator upper;
+	ft::pair<ft::map<int, int>::iterator, ft::map<int, int>::iterator> range;
+
+	lower = m.lower_bound(n);
+	if (lower == m.end())
+		std::cout << "lower == end" << std::endl;
+	else
+		std::cout << "lower == " << (lower->second) << std::endl;
+
+	upper = m.upper_bound(n);
+	if (upper == m.end())
+		std::cout << "upper == end" << std::endl;
+	else
+		std::cout << "upper == " << (upper->second) << std::endl;
+
+	range = m.equal_range(n);
+	if (range.first == m.end())
+		std::cout << "range.first == end" << std::endl;
+	else
+		std::cout << "range.first == " << (range.first->second) << std::endl;
+	if (range.second == m.end())
+		std::cout << "range.second == end" << std::endl;
+	else
+		std::cout << "range.second == " << (range.second->second) << std::endl;
+}
+
+// map upper/lower bounds
+void test34() {
+	ft::map<int, int> m;
+
+	m.insert(ft::make_pair(4, 2));
+	m.insert(ft::make_pair(8, 1));
+	m.insert(ft::make_pair(2, 4));
+	m.insert(ft::make_pair(1, 0));
+
+	test_lower_upper(m, 8);
+	std::cout << "=====================" << std::endl;
+	test_lower_upper(m, 18);
+	std::cout << "=====================" << std::endl;
+	test_lower_upper(m, 2);
+	std::cout << "=====================" << std::endl;
+	test_lower_upper(m, 3);
+}
+
 // TODO Test iterators
 int main() {
 	// Vector
@@ -935,9 +981,10 @@ int main() {
 	// test30();
 	// std::cout << "========= TEST 31 =========" << std::endl;
 	// test31();
-	std::cout << "========= TEST 32 =========" << std::endl;
-	test32();
-	std::cout << "========= TEST 32 =========" << std::endl;
-	test33();
-	// TODO Test upper/lower bound and equal range
+	// std::cout << "========= TEST 32 =========" << std::endl;
+	// test32();
+	// std::cout << "========= TEST 33 =========" << std::endl;
+	// test33();
+	std::cout << "========= TEST 34 =========" << std::endl;
+	test34();
 }
