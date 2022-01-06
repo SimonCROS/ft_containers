@@ -921,6 +921,22 @@ void test35() {
 	std::cout << mc.max_size() << std::endl;
 }
 
+// map erase
+void test36() {
+}
+
+// is_integral
+void test37() {
+	std::cout << std::boolalpha;
+	std::cout << "is_integral:" << std::endl;
+	std::cout << "char: " << ft::is_integral<char>::value << std::endl;
+	std::cout << "int: " << ft::is_integral<int>::value << std::endl;
+	std::cout << "const int: " << ft::is_integral<const int>::value << std::endl;
+	std::cout << "volatile int: " << ft::is_integral<volatile int>::value << std::endl;
+	std::cout << "const volatile int: " << ft::is_integral<const volatile int>::value << std::endl;
+	std::cout << "float: " << ft::is_integral<float>::value << std::endl;
+}
+
 // TODO Test iterators
 int main() {
 	// Vector
@@ -996,6 +1012,13 @@ int main() {
 	// test33();
 	// std::cout << "========= TEST 34 =========" << std::endl;
 	// test34();
-	std::cout << "========= TEST 35 =========" << std::endl;
-	test35();
+	// std::cout << "========= TEST 35 =========" << std::endl;
+	// test35();
+	// std::cout << "========= TEST 36 =========" << std::endl; // TODO
+	// test36();
+
+	// Misc
+
+	std::cout << "========= TEST 37 =========" << std::endl;
+	test37();
 }

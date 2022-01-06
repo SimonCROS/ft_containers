@@ -108,7 +108,7 @@
 ## Structures
 
 - [x] `enable_if`
-- [ ] `is_integral`
+- [x] `is_integral`
 - [x] `pair`
 
 ## Functions
