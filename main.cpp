@@ -577,15 +577,19 @@ void test23() {
 	std::cout << "------ end ------" << std::endl;
 }
 
-// map empty iterator
-void test24() {
-	ft::map<int, int> m;
-
-	std::cout << "--- Iterator	 ++ ****" << std::endl;
- 
+void print_map(ft::map<int, int> m) {
 	ft::map<int, int>::iterator it;
 	for (it = m.begin(); it != m.end(); it++)
 		std::cout << (it->first) << std::endl;
+}
+
+// map empty iterator
+void test24() {
+	ft::map<int, int> m;
+	ft::map<int, int>::iterator it;
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
 
 	std::cout << "--- Iterator	 -- ****" << std::endl;
  
@@ -611,15 +615,13 @@ void test24() {
 // map iterator
 void test25() {
 	ft::map<int, int> m;
+	ft::map<int, int>::iterator it;
 
 	m.insert(ft::make_pair(4, 2));
 	m.insert(ft::make_pair(8, 1));
 
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
- 
-	ft::map<int, int>::iterator it;
-	for (it = m.begin(); it != m.end(); it++)
-		std::cout << (it->first) << std::endl;
+	print_map(m);
 
 	std::cout << "--- Iterator	 -- ****" << std::endl;
  
@@ -735,18 +737,13 @@ void test29() {
 	m.insert(ft::make_pair(1, 0));
 
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
- 
-	ft::map<int, int>::iterator it;
-	for (it = m.begin(); it != m.end(); it++)
-		std::cout << (it->first) << std::endl;
+	print_map(m);
 
 	ft::map<int, int> new_m;
 	new_m.insert(m.begin(), m.end());
 
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
-
-	for (it = new_m.begin(); it != new_m.end(); it++)
-		std::cout << (it->first) << std::endl;
+	print_map(new_m);
 
 	std::cout << new_m.size() << std::endl;
 }
@@ -812,9 +809,7 @@ void test32() {
 	m.insert(ft::make_pair(1, 0));
 
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
- 
-	for (it = m.begin(); it != m.end(); it++)
-		std::cout << (it->first) << std::endl;
+	print_map(m);
 
 	cpy = m;
 
@@ -851,17 +846,12 @@ void test33() {
 	m.insert(ft::make_pair(1, 0));
 
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
- 
-	ft::map<int, int>::iterator it;
-	for (it = m.begin(); it != m.end(); it++)
-		std::cout << (it->first) << std::endl;
+	print_map(m);
 
 	ft::map<int, int> new_m(m.begin(), m.end());
 
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
-
-	for (it = new_m.begin(); it != new_m.end(); it++)
-		std::cout << (it->first) << std::endl;
+	print_map(new_m);
 
 	std::cout << new_m.size() << std::endl;
 }
@@ -921,8 +911,27 @@ void test35() {
 	std::cout << mc.max_size() << std::endl;
 }
 
+#include <map>
+
 // map erase
 void test36() {
+	ft::map<int, int> m;
+	ft::map<int, int>::iterator it;
+
+	m.insert(ft::make_pair(4, 2));
+	m.insert(ft::make_pair(8, 1));
+	m.insert(ft::make_pair(2, 4));
+	m.insert(ft::make_pair(1, 0));
+
+	// std::cout << "--- Iterator	 ++ ****" << std::endl;
+	// print_map(m);
+
+	m.erase(m.find(2));
+
+	// std::cout << "--- Iterator	 ++ ****" << std::endl;
+	// print_map(m);
+
+	m.erase(m.begin());
 }
 
 // is_integral
@@ -1014,11 +1023,11 @@ int main() {
 	// test34();
 	// std::cout << "========= TEST 35 =========" << std::endl;
 	// test35();
-	// std::cout << "========= TEST 36 =========" << std::endl; // TODO
-	// test36();
+	std::cout << "========= TEST 36 =========" << std::endl; // TODO
+	test36();
 
 	// Misc
 
-	std::cout << "========= TEST 37 =========" << std::endl;
-	test37();
+	// std::cout << "========= TEST 37 =========" << std::endl;
+	// test37();
 }

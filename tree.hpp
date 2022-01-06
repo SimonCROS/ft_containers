@@ -112,6 +112,106 @@ namespace ft {
 		value_compare _comp;
 		pointer _root;
 
+		// ========================
+		// ========================
+		// ========================
+
+		int _print_t(pointer tree, int is_left, int offset, int depth, char s[15][255], const_pointer selected)
+		{
+			char b[20];
+			int real_width = 13;
+			int width = 4;
+
+			if (!tree) return 0;
+
+			if (tree == selected && tree->color == RED)
+				sprintf(b, "*\033[31m%03d\033[0m", tree->value.first);
+			else if (tree == selected)
+				sprintf(b, "*\033[37m%03d\033[0m", tree->value.first);
+			else if (tree->color == RED)
+				sprintf(b, " \033[31m%03d\033[0m", tree->value.first);
+			else
+				sprintf(b, " \033[37m%03d\033[0m", tree->value.first);
+
+			int left  = _print_t(tree->left,  1, offset,                depth + 1, s, selected);
+			int right = _print_t(tree->right, 0, offset + left + width, depth + 1, s, selected);
+
+		#ifdef COMPACT
+			for (int i = 0; i < width; i++)
+				s[depth][offset + left + i] = b[i];
+
+			if (depth && is_left) {
+
+				for (int i = 0; i < width + right; i++)
+					s[depth - 1][offset + left + width/2 + i] = '-';
+
+				s[depth - 1][offset + left + width/2] = '.';
+
+			} else if (depth && !is_left) {
+
+				for (int i = 0; i < left + width; i++)
+					s[depth - 1][offset - width/2 + i] = '-';
+
+				s[depth - 1][offset + left + width/2] = '.';
+			}
+		#else
+			std::string l = std::string(s[2 * depth]);
+			int n = std::count(l.begin(), l.end(), '\033');
+			for (int i = 0; i < real_width; i++)
+			{
+				s[2 * depth][offset + left + (n / 2 * 7) + n + i] = b[i];
+			}
+
+			if (depth && is_left) {
+
+				for (int i = 0; i < width + right; i++)
+					s[2 * depth - 1][offset + left + width/2 + i] = '-';
+
+				s[2 * depth - 1][offset + left + width/2] = '+';
+				s[2 * depth - 1][offset + left + width + right + width/2] = '+';
+
+			} else if (depth && !is_left) {
+
+				for (int i = 0; i < left + width; i++)
+					s[2 * depth - 1][offset - width/2 + i] = '-';
+
+				s[2 * depth - 1][offset + left + width/2] = '+';
+				s[2 * depth - 1][offset - width/2 - 1] = '+';
+			}
+		#endif
+
+			return left + width + right;
+		}
+
+		void print_t(pointer tree, const_pointer selected) {
+			char s[15][255];
+			for (int i = 0; i < 15; i++)
+				sprintf(s[i], "%150s", " ");
+
+			_print_t(tree, 0, 0, 0, s, selected);
+
+			for (int i = 0; i < 15; i++)
+				printf("%s\n", s[i]);
+		}
+
+		void print_all(std::string str, pointer selected = nullptr) {
+			static int first = 1;
+
+			if (!first)
+				std::cout << "\033[17A";
+			if (str.empty())
+				str = "                   ";
+			std::cout << str << std::endl;
+			first = 0;
+			print_t(_root, selected);
+			char ch;
+			scanf("%c",&ch);
+		}
+
+		// ========================
+		// ========================
+		// ========================
+
 		void __rotate_left(pointer x) {
 			pointer y = x->right;
 			x->right = y->left;
@@ -126,6 +226,7 @@ namespace ft {
 				x->parent->right = y;
 			y->left = x;
 			x->parent = y;
+			print_all("", x);
 		}
 
 		void __rotate_right(pointer x) {
@@ -142,6 +243,7 @@ namespace ft {
 				x->parent->left = y;
 			y->right = x;
 			x->parent = y;
+			print_all("", x);
 		}
 
 		pointer __search(const value_type& v, pointer pos) const {
@@ -186,10 +288,10 @@ namespace ft {
 			pointer parent = __parent(n);
 			if (!parent)
 				return nullptr;
-			else if (parent->left == n)
-				return parent->right;
-			else
+			else if (parent->left != n)
 				return parent->left;
+			else
+				return parent->right;
 		}
 
 		pointer __uncle(pointer n) {
@@ -208,7 +310,6 @@ namespace ft {
 			p->color = BLACK;
 			g->color = RED;
 
-			print_all(n);
 		}
 
 		void insert_triangle(pointer n) {
@@ -222,9 +323,6 @@ namespace ft {
 				__rotate_right(p);
 				n = n->right;
 			}
-
-			print_all(n);
-
 			insert_line(n);
 		}
 
@@ -235,13 +333,10 @@ namespace ft {
 		void __repair(pointer n) {
 			if (!n)
 				return;
-			print_all(n);
 			pointer p = __parent(n);
 			if (!p) {
 				n->color = BLACK;
-				print_all(n);
-			}
-			else if (p->color == RED) {
+			} else if (p->color == RED) {
 				pointer g = __grand_parent(n);
 				if (g) {
 					pointer u = __uncle(n);
@@ -253,7 +348,6 @@ namespace ft {
 					} else {
 						insert_triangle(n);
 					}
-					print_all(n);
 				}
 			}
 		}
@@ -273,21 +367,31 @@ namespace ft {
 			_alloc.deallocate(n, sizeof(value_type));
 		}
 
+		pointer *__get_parent_ptr(pointer n) {
+			if (__is_left_child(n))
+				return &__parent(n)->left;
+			return __parent(n) ? &__parent(n)->right : &_root;
+		}
+
 		void __soft_delete_node(pointer n) {
 			if (!n)
 				return;
-			pointer p = __parent(n);
-
-			if (p) {
-				if (p->left == n)
-					p->left = nullptr;
-				else
-					p->right = nullptr;
-			} else {
-				_root = nullptr;
-			}
-			--__size;
+			*__get_parent_ptr(n) = nullptr;
+			--_size;
 			__delete_node(n);
+		}
+		
+		bool __is_left_child(pointer n) {
+			pointer p = __parent(n);
+			return p && p->left == n;
+		}
+
+		void __copy_node(pointer src, pointer dst) {
+			*__get_parent_ptr(dst) = src;
+			dst->parent = src->parent;
+			dst->color = src->color;
+			dst->left = src->left;
+			dst->right = src->right;
 		}
 
 		void __clear(pointer from) {
@@ -322,23 +426,72 @@ namespace ft {
 			pointer v;
 			if (!n)
 				return;
-			pointer p = __parent(n);
-			if (!n->left && !n->right)						// no childs
+			print_all("", n);
+			if (!n->left && !n->right) { // good ?
 				v = n;
-			else if (!n->right)								// left child only
-				*n = *(v = n->left);
-			else if (!n->left)								// right child only
-				*n = *(v = n->right);
-			else											// two childs
-				*n = *(v = (++pos).base());
+			} else if (!n->right) {
+				v = n->left;
+				print_all("0", v);
+				__copy_node(v, n);
+			} else if (!n->left) {
+				v = n->right;
+				__copy_node(v, n);
+			} else {
+				v = (++pos).base();
+				__copy_node(v, n);
+			}
+			print_all("1", v);
 
 			pointer u = v->left ? v->left : v->right;
-			if (__is_red(v) || __is_red(u)) {				// one red
+			if (__is_red(v) || __is_red(u)) {
 				v->color = BLACK;
-			} else {										// two blacks
-
+				print_all("2", v);
+			} else {
+				while (1) {
+					pointer s = __brother(u);
+					print_all("3 (u)", u);
+					print_all("3 (s)", s);
+					if (u == _root) {
+						u->color = BLACK;
+						break;
+					} else if (!__is_red(s) && (__is_red(s->left) || __is_red(s->right))) {
+						pointer p = __parent(s);
+						print_all("2.2", u);
+						if (__is_left_child(s)) {
+							if (!__is_red(s->left))
+								__rotate_right(s);
+							__rotate_left(p);
+						} else {
+							if (!__is_red(s->right))
+								__rotate_left(s);
+							__rotate_right(p);
+						}
+						break;
+					} else if (!__is_red(s)) {
+						s->color = RED;
+						u = __parent(s);
+						print_all("", u);
+						if (__is_red(u)) {
+							u->color = BLACK;
+							break;
+						}
+					} else {
+						print_all("", u);
+						if (__is_left_child(s))
+							__rotate_right(__parent(s));
+						else
+							__rotate_left(__parent(s));
+						s = __brother(u);
+						if (__is_left_child(s))
+							__rotate_right(__parent(s));
+						else
+							__rotate_left(__parent(s));
+						break;
+					}
+				}
 			}
-			__soft_delete_node(v);
+			__soft_delete_node(n);
+			print_all("");
 		}
 
 		iterator lower_bound(const value_type& val) {
