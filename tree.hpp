@@ -8,10 +8,6 @@
 #include "utility.hpp"
 #include "node.hpp"
 
-// TODO tmp
-#include <iostream>
-#include <unistd.h>
-
 namespace ft {
 	template <class Node, class Tree>
     class __tree_iterator {
@@ -109,84 +105,6 @@ namespace ft {
 		typedef typename ft::__tree_iterator<const_pointer, const ft::tree<value_type, value_compare> > const_iterator;
 		typedef std::ptrdiff_t difference_type;
 		typedef std::size_t size_type;
-
-		int _print_t(pointer tree, int is_left, int offset, int depth, char s[15][255], const_pointer selected)
-		{
-			char b[20];
-			int real_width = 13;
-			int width = 4;
-
-			if (!tree) return 0;
-
-			if (tree == selected && tree->color == RED)
-				sprintf(b, "*\033[31m%03d\033[0m", tree->value.first);
-			else if (tree == selected)
-				sprintf(b, "*\033[37m%03d\033[0m", tree->value.first);
-			else if (tree->color == RED)
-				sprintf(b, " \033[31m%03d\033[0m", tree->value.first);
-			else
-				sprintf(b, " \033[37m%03d\033[0m", tree->value.first);
-
-			int left  = _print_t(tree->left,  1, offset,                depth + 1, s, selected);
-			int right = _print_t(tree->right, 0, offset + left + width, depth + 1, s, selected);
-
-		#ifdef COMPACT
-			for (int i = 0; i < width; i++)
-				s[depth][offset + left + i] = b[i];
-
-			if (depth && is_left) {
-
-				for (int i = 0; i < width + right; i++)
-					s[depth - 1][offset + left + width/2 + i] = '-';
-
-				s[depth - 1][offset + left + width/2] = '.';
-
-			} else if (depth && !is_left) {
-
-				for (int i = 0; i < left + width; i++)
-					s[depth - 1][offset - width/2 + i] = '-';
-
-				s[depth - 1][offset + left + width/2] = '.';
-			}
-		#else
-			std::string l = std::string(s[2 * depth]);
-			int n = std::count(l.begin(), l.end(), '\033');
-			for (int i = 0; i < real_width; i++)
-			{
-				s[2 * depth][offset + left + (n / 2 * 7) + n + i] = b[i];
-			}
-
-			if (depth && is_left) {
-
-				for (int i = 0; i < width + right; i++)
-					s[2 * depth - 1][offset + left + width/2 + i] = '-';
-
-				s[2 * depth - 1][offset + left + width/2] = '+';
-				s[2 * depth - 1][offset + left + width + right + width/2] = '+';
-
-			} else if (depth && !is_left) {
-
-				for (int i = 0; i < left + width; i++)
-					s[2 * depth - 1][offset - width/2 + i] = '-';
-
-				s[2 * depth - 1][offset + left + width/2] = '+';
-				s[2 * depth - 1][offset - width/2 - 1] = '+';
-			}
-		#endif
-
-			return left + width + right;
-		}
-
-		void print_t(pointer tree, const_pointer selected) {
-			char s[15][255];
-			for (int i = 0; i < 15; i++)
-				sprintf(s[i], "%150s", " ");
-
-			_print_t(tree, 0, 0, 0, s, selected);
-
-			for (int i = 0; i < 15; i++)
-				printf("%s\n", s[i]);
-		}
 
 	private:
 		allocator_type _alloc;
@@ -310,6 +228,10 @@ namespace ft {
 			insert_line(n);
 		}
 
+		bool __is_red(pointer n) {
+			return n && n->color == RED;
+		}
+
 		void __repair(pointer n) {
 			if (!n)
 				return;
@@ -323,7 +245,7 @@ namespace ft {
 				pointer g = __grand_parent(n);
 				if (g) {
 					pointer u = __uncle(n);
-					if (u && u->color == RED) {
+					if (__is_red(u)) {
 						g->color = RED;
 						p->color = BLACK;
 						u->color = BLACK;
@@ -351,6 +273,23 @@ namespace ft {
 			_alloc.deallocate(n, sizeof(value_type));
 		}
 
+		void __soft_delete_node(pointer n) {
+			if (!n)
+				return;
+			pointer p = __parent(n);
+
+			if (p) {
+				if (p->left == n)
+					p->left = nullptr;
+				else
+					p->right = nullptr;
+			} else {
+				_root = nullptr;
+			}
+			--__size;
+			__delete_node(n);
+		}
+
 		void __clear(pointer from) {
 			if (!from)
 				return;
@@ -376,6 +315,30 @@ namespace ft {
 
 		~tree() {
 			clear();
+		}
+
+		void erase(iterator pos) {
+			pointer n = pos.base();
+			pointer v;
+			if (!n)
+				return;
+			pointer p = __parent(n);
+			if (!n->left && !n->right)						// no childs
+				v = n;
+			else if (!n->right)								// left child only
+				*n = *(v = n->left);
+			else if (!n->left)								// right child only
+				*n = *(v = n->right);
+			else											// two childs
+				*n = *(v = (++pos).base());
+
+			pointer u = v->left ? v->left : v->right;
+			if (__is_red(v) || __is_red(u)) {				// one red
+				v->color = BLACK;
+			} else {										// two blacks
+
+			}
+			__soft_delete_node(v);
 		}
 
 		iterator lower_bound(const value_type& val) {
@@ -435,31 +398,6 @@ namespace ft {
 			__clear(_root);
 			_root = nullptr;
 			_size = 0;
-		}
-
-		void print_all(pointer selected = nullptr) {
-			(void)selected;
-			// static int first = 1;
-
-			// if (!first)
-			// 	std::cout << "\033[16A";
-			// first = 0;
-			// print_t(_root, selected);
-			// char ch;
-			// scanf("%c",&ch);
-		}
-
-		void test(const value_type &val) {
-			pointer n = __search(val, _root);
-
-			if (n)
-				std::cout << (n->color == BLACK ? "B" : "R");
-			else
-				std::cout << "B";
-			std::cout << " " << n;
-			if (n)
-				std::cout << " " << n->value.first << " = " << n->value.second;
-			std::cout << std::endl;
 		}
 
 		pointer left() const {

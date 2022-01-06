@@ -150,20 +150,21 @@ namespace ft {
 		}
 
 		void erase(iterator position) {
-			(void)position;
+			_tree.erase(position.base());
 		}
 
 		size_type erase(const key_type& k) {
 			iterator it = find(k);
 			if (it == end())
 				return 0;
-			erase();
+			erase(it);
 			return 1;
 		}
 
 		void erase(iterator first, iterator last) {
-			while (first != last)
-				erase(first++);
+			// first and last became invalide afrer the first loop, to change
+			// while (first != last)
+			// 	erase(first++);
 		}
 
 		key_compare key_comp() const {
