@@ -198,7 +198,7 @@ namespace ft {
 
 		bool empty() const									{ return _tree.empty(); }
 		size_type size() const								{ return _tree.size(); }
-		// size_type max_size() const							{ return _alloc.max_size(); }
+		size_type max_size() const							{ return _tree.max_size(); }
 
 		iterator lower_bound(const key_type& k)				{ return iterator(_tree.lower_bound(ft::make_pair(k, mapped_type()))); }
 		const_iterator lower_bound(const key_type& k) const	{ return const_iterator(_tree.lower_bound(ft::make_pair(k, mapped_type()))); }

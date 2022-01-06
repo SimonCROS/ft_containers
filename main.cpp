@@ -912,6 +912,15 @@ void test34() {
 	test_lower_upper(m, 3);
 }
 
+// map max_size
+void test35() {
+	ft::map<int, int> mi;
+	std::cout << mi.max_size() << std::endl;
+
+	ft::map<char, char> mc;
+	std::cout << mc.max_size() << std::endl;
+}
+
 // TODO Test iterators
 int main() {
 	// Vector
@@ -985,6 +994,8 @@ int main() {
 	// test32();
 	// std::cout << "========= TEST 33 =========" << std::endl;
 	// test33();
-	std::cout << "========= TEST 34 =========" << std::endl;
-	test34();
+	// std::cout << "========= TEST 34 =========" << std::endl;
+	// test34();
+	std::cout << "========= TEST 35 =========" << std::endl;
+	test35();
 }

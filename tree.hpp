@@ -492,6 +492,7 @@ namespace ft {
 
 		bool empty() const								{ return !_root; }
 		size_type size() const							{ return _size; }
+		size_type max_size() const						{ return std::min<size_type>(std::numeric_limits<size_type>::max() / sizeof(node<value_type>), std::numeric_limits<difference_type>::max()); }
 
 		iterator begin()								{ return iterator(left(), this); }
 		const_iterator begin() const					{ return const_iterator(left(), this); }
