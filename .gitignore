@@ -1,5 +1,11 @@
 build
 cmake-build-debug/
+.diff
+.vscode
+*.code-workspace
+*.diff
+ft_containers
+stl_containers
 
 # Prerequisites
 *.d

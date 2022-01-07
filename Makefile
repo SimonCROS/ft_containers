@@ -30,11 +30,11 @@ override HEADERS	:=							\
 
 all:		$(NAME) $(STL_NAME)
 
-$(NAME):	$(SRCS) $(HEADERS)
-			$(CPPC) $(CPPFLAGS) -o $@ $(SRCS)
+$(NAME):	$(SRCS) $(addprefix includes/, $(HEADERS))
+			$(CPPC) $(CPPFLAGS) -Iincludes -o $@ $(SRCS)
 
-$(STL_NAME):	$(SRCS) $(HEADERS)
-			$(CPPC) $(CPPFLAGS) -DSTL_CONTAINERS -o $@ $(SRCS)
+$(STL_NAME):	$(SRCS) $(addprefix includes/, $(HEADERS))
+			$(CPPC) $(CPPFLAGS) -Iincludes -DSTL_CONTAINERS -o $@ $(SRCS)
 
 clean:
 			$(RM) $(FT_OUT) $(STL_OUT)
