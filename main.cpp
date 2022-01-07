@@ -971,6 +971,11 @@ void test36() {
 
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
 	print_map(m);
+
+	m.erase(m.find(10), m.find(18));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
 }
 
 // is_integral

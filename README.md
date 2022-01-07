@@ -66,7 +66,7 @@
 
 #### Modifiers:
 - [x] `insert`: Insert elements
-- [ ] `erase`: Erase elements
+- [x] `erase`: Erase elements
 - [x] `swap`: Swap content
 - [x] `clear`: Clear content
 

@@ -293,14 +293,12 @@ namespace ft {
 				if (dst->left && dst->left != src) {
 					src->left = dst->left;
 					src->left->parent = src;
-				} else
-					src->left = nullptr;
+				}
 
 				if (dst->right && dst->right != src) {
 					src->right = dst->right;
 					src->right->parent = src;
-				} else
-					src->right = nullptr;
+				}
 			}
 		}
 
@@ -387,7 +385,7 @@ namespace ft {
 						s = __brother(u);
 						if (s) {
 							if (__is_left_child(s))
-								__rotate_right(__parent(s));
+							__rotate_right(__parent(s));
 							else
 								__rotate_left(__parent(s));
 						}

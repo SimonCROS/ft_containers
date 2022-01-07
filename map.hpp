@@ -162,11 +162,11 @@ namespace ft {
 		}
 
 		void erase(iterator first, iterator last) {
-			(void)first;
-			(void)last;
-			// first and last became invalide afrer the first loop, to change
-			// while (first != last)
-			// 	erase(first++);
+			while (first != last) {
+				iterator tmp = first;
+				++first;
+				erase(tmp);
+			}
 		}
 
 		key_compare key_comp() const {
