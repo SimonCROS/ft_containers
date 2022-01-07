@@ -922,16 +922,55 @@ void test36() {
 	m.insert(ft::make_pair(8, 1));
 	m.insert(ft::make_pair(2, 4));
 	m.insert(ft::make_pair(1, 0));
+	m.insert(ft::make_pair(10, 5));
+	m.insert(ft::make_pair(9, 3));
+	m.insert(ft::make_pair(11, 3));
+	m.insert(ft::make_pair(12, 3));
 
-	// std::cout << "--- Iterator	 ++ ****" << std::endl;
-	// print_map(m);
+	m.erase(m.find(11));
 
-	m.erase(m.find(2));
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
 
-	// std::cout << "--- Iterator	 ++ ****" << std::endl;
-	// print_map(m);
+	m.insert(ft::make_pair(13, 3));
+	m.insert(ft::make_pair(14, 3));
+	m.insert(ft::make_pair(15, 3));
+	m.insert(ft::make_pair(16, 3));
 
-	m.erase(m.begin());
+	m.erase(m.find(16));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
+
+	m.insert(ft::make_pair(17, 3));
+	m.insert(ft::make_pair(18, 3));
+	m.insert(ft::make_pair(19, 3));
+	m.insert(ft::make_pair(20, 3));
+
+	m.erase(m.find(17));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
+
+	m.insert(ft::make_pair(3, 3));
+	m.insert(ft::make_pair(7, 3));
+	m.insert(ft::make_pair(22, 3));
+	m.insert(ft::make_pair(23, 3));
+
+	m.erase(m.find(13));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
+
+	m.erase(m.find(9));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
+
+	m.erase(m.find(14));
+
+	std::cout << "--- Iterator	 ++ ****" << std::endl;
+	print_map(m);
 }
 
 // is_integral
