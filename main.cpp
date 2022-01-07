@@ -591,25 +591,11 @@ void test24() {
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
 	print_map(m);
 
-	std::cout << "--- Iterator	 -- ****" << std::endl;
- 
-	while (it != m.begin()) {
-		--it;
-		std::cout << (it->first) << std::endl;
-	}
-
 	std::cout << "--- Rev iterator ++ ****" << std::endl;
 
 	ft::map<int, int>::reverse_iterator rit;
 	for (rit = m.rbegin(); rit != m.rend(); rit++)
 		std::cout << (rit->first) << std::endl;
-
-	std::cout << "--- Rev iterator -- ****" << std::endl;
-
-	while (rit != m.rbegin()) {
-		--rit;
-		std::cout << (rit->first) << std::endl;
-	}
 }
 
 // map iterator
@@ -623,25 +609,11 @@ void test25() {
 	std::cout << "--- Iterator	 ++ ****" << std::endl;
 	print_map(m);
 
-	std::cout << "--- Iterator	 -- ****" << std::endl;
- 
-	while (it != m.begin()) {
-		--it;
-		std::cout << (it->first) << std::endl;
-	}
-
 	std::cout << "--- Rev iterator ++ ****" << std::endl;
 
 	ft::map<int, int>::reverse_iterator rit;
 	for (rit = m.rbegin(); rit != m.rend(); rit++)
 		std::cout << (rit->first) << std::endl;
-
-	std::cout << "--- Rev iterator -- ****" << std::endl;
-
-	while (rit != m.rbegin()) {
-		--rit;
-		std::cout << (rit->first) << std::endl;
-	}
 }
 
 // map size
@@ -911,8 +883,6 @@ void test35() {
 	std::cout << mc.max_size() << std::endl;
 }
 
-#include <map>
-
 // map erase
 void test36() {
 	ft::map<int, int> m;
@@ -990,88 +960,108 @@ void test37() {
 	std::cout << "float: " << ft::is_integral<float>::value << std::endl;
 }
 
+// speed
+void test38() {
+	ft::vector<std::string> vec;
+	for (int i = 0; i < 1000000; i++)
+		vec.push_back("ooo");
+	vec[50] = "42";
+	vec.insert(vec.begin() + 80, 40000, "21");
+	std::cout << vec.size() << " " << vec[424242] << std::endl;
+	vec.clear();
+
+	ft::map<int, std::string> m;
+	for (int i = 0; i < 1000000; i++)
+		m.insert(ft::make_pair(i, std::string("ooo")));
+	m[50] = "42";
+	std::cout << m.size() << " " << m[424242] << std::endl;
+	m.clear();
+}
+
 // TODO Test iterators
 int main() {
 	// Vector
 
-	// std::cout << "========= TEST 1 =========" << std::endl;
-	// test1();
-	// std::cout << "========= TEST 2 =========" << std::endl;
-	// test2();
-	// std::cout << "========= TEST 3 =========" << std::endl;
-	// test3();
-	// std::cout << "========= TEST 4 =========" << std::endl;
-	// test4();
-	// std::cout << "========= TEST 5 =========" << std::endl;
-	// test5();
-	// std::cout << "========= TEST 6 =========" << std::endl;
-	// test6();
-	// std::cout << "========= TEST 7 =========" << std::endl;
-	// test7();
-	// std::cout << "========= TEST 8 =========" << std::endl;
-	// test8();
-	// std::cout << "========= TEST 9 =========" << std::endl;
-	// test9();
-	// std::cout << "========= TEST 10 =========" << std::endl;
-	// test10();
-	// std::cout << "========= TEST 11 =========" << std::endl;
-	// test11();
-	// std::cout << "========= TEST 12 =========" << std::endl;
-	// test12();
-	// std::cout << "========= TEST 13 =========" << std::endl;
-	// test13();
-	// std::cout << "========= TEST 14 =========" << std::endl;
-	// test14();
-	// std::cout << "========= TEST 15 =========" << std::endl;
-	// test15();
-	// std::cout << "========= TEST 16 =========" << std::endl;
-	// test16();
-	// std::cout << "========= TEST 17 =========" << std::endl;
-	// test17();
-	// std::cout << "========= TEST 18 =========" << std::endl;
-	// test18();
-	// std::cout << "========= TEST 19 =========" << std::endl;
-	// test19();
-	// std::cout << "========= TEST 20 =========" << std::endl;
-	// test20();
-	// std::cout << "========= TEST 21 =========" << std::endl;
-	// test21();
-	// std::cout << "========= TEST 22 =========" << std::endl;
-	// test22();
-	// std::cout << "========= TEST 23 =========" << std::endl;
-	// test23();
+	std::cout << "========= TEST 1 =========" << std::endl;
+	test1();
+	std::cout << "========= TEST 2 =========" << std::endl;
+	test2();
+	std::cout << "========= TEST 3 =========" << std::endl;
+	test3();
+	std::cout << "========= TEST 4 =========" << std::endl;
+	test4();
+	std::cout << "========= TEST 5 =========" << std::endl;
+	test5();
+	std::cout << "========= TEST 6 =========" << std::endl;
+	test6();
+	std::cout << "========= TEST 7 =========" << std::endl;
+	test7();
+	std::cout << "========= TEST 8 =========" << std::endl;
+	test8();
+	std::cout << "========= TEST 9 =========" << std::endl;
+	test9();
+	std::cout << "========= TEST 10 =========" << std::endl;
+	test10();
+	std::cout << "========= TEST 11 =========" << std::endl;
+	test11();
+	std::cout << "========= TEST 12 =========" << std::endl;
+	test12();
+	std::cout << "========= TEST 13 =========" << std::endl;
+	test13();
+	std::cout << "========= TEST 14 =========" << std::endl;
+	test14();
+	std::cout << "========= TEST 15 =========" << std::endl;
+	test15();
+	std::cout << "========= TEST 16 =========" << std::endl;
+	test16();
+	std::cout << "========= TEST 17 =========" << std::endl;
+	test17();
+	std::cout << "========= TEST 18 =========" << std::endl;
+	test18();
+	std::cout << "========= TEST 19 =========" << std::endl;
+	test19();
+	std::cout << "========= TEST 20 =========" << std::endl;
+	test20();
+	std::cout << "========= TEST 21 =========" << std::endl;
+	test21();
+	std::cout << "========= TEST 22 =========" << std::endl;
+	test22();
+	std::cout << "========= TEST 23 =========" << std::endl;
+	test23();
 
 	// Map
 
-	// std::cout << "========= TEST 24 =========" << std::endl;
-	// test24();
-	// std::cout << "========= TEST 25 =========" << std::endl;
-	// test25();
-	// std::cout << "========= TEST 26 =========" << std::endl;
-	// test26();
-	// std::cout << "========= TEST 27 =========" << std::endl;
-	// test27();
-	// std::cout << "========= TEST 28 =========" << std::endl;
-	// test28();
-	// std::cout << "========= TEST 29 =========" << std::endl;
-	// test29();
-	// std::cout << "========= TEST 30 =========" << std::endl;
-	// test30();
-	// std::cout << "========= TEST 31 =========" << std::endl;
-	// test31();
-	// std::cout << "========= TEST 32 =========" << std::endl;
-	// test32();
-	// std::cout << "========= TEST 33 =========" << std::endl;
-	// test33();
-	// std::cout << "========= TEST 34 =========" << std::endl;
-	// test34();
-	// std::cout << "========= TEST 35 =========" << std::endl;
-	// test35();
+	std::cout << "========= TEST 24 =========" << std::endl;
+	test24();
+	std::cout << "========= TEST 25 =========" << std::endl;
+	test25();
+	std::cout << "========= TEST 26 =========" << std::endl;
+	test26();
+	std::cout << "========= TEST 27 =========" << std::endl;
+	test27();
+	std::cout << "========= TEST 28 =========" << std::endl;
+	test28();
+	std::cout << "========= TEST 29 =========" << std::endl;
+	test29();
+	std::cout << "========= TEST 30 =========" << std::endl;
+	test30();
+	std::cout << "========= TEST 31 =========" << std::endl;
+	test31();
+	std::cout << "========= TEST 32 =========" << std::endl;
+	test32();
+	std::cout << "========= TEST 33 =========" << std::endl;
+	test33();
+	std::cout << "========= TEST 34 =========" << std::endl;
+	test34();
+	std::cout << "========= TEST 35 =========" << std::endl;
+	test35();
 	std::cout << "========= TEST 36 =========" << std::endl; // TODO
 	test36();
 
 	// Misc
 
-	// std::cout << "========= TEST 37 =========" << std::endl;
-	// test37();
+	std::cout << "========= TEST 37 =========" << std::endl;
+	test37();
+	std::cout << "========= TEST 38 =========" << std::endl;
+	test38();
 }
