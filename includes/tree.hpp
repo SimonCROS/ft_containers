@@ -270,14 +270,6 @@ namespace ft {
 				return &__parent(n)->left;
 			return __parent(n) ? &__parent(n)->right : &_root;
 		}
-
-		void __soft_delete_node(pointer n) {
-			if (!n)
-				return;
-			*__get_parent_ptr(n) = nullptr;
-			--_size;
-			__delete_node(n);
-		}
 		
 		bool __is_left_child(pointer n) {
 			pointer p = __parent(n);
@@ -340,12 +332,15 @@ namespace ft {
 				__move_node(u, n);
 			}  else if (!n->right) {
 				u = n->left;
+				s = __brother(u);
 				__move_node(u, n);
 			} else if (!n->left) {
 				u = n->right;
+				s = __brother(u);
 				__move_node(u, n);
 			} else {
 				u = (++pos).base();
+				s = __brother(u);
 				__move_node(u, n);
 			}
 
@@ -354,17 +349,19 @@ namespace ft {
 					u->color = BLACK;
 			} else {
 				while (1) {
+					if (!s)
+						return ;
 					if (u == _root) {
 						u->color = BLACK;
 						break;
 					} else if (!__is_red(s) && (__is_red(s->left) || __is_red(s->right))) {
 						pointer p = __parent(s);
 						if (__is_left_child(s)) {
-							if (!__is_red(s->left))
+							if (__is_red(s->right))
 								__rotate_left(s);
 							__rotate_right(p);
 						} else {
-							if (!__is_red(s->right))
+							if (__is_red(s->left))
 								__rotate_right(s);
 							__rotate_left(p);
 						}
@@ -378,18 +375,19 @@ namespace ft {
 							break;
 						}
 					} else {
-						if (__is_left_child(s))
-							__rotate_right(__parent(s));
-						else
-							__rotate_left(__parent(s));
-						s = __brother(u);
-						if (s) {
-							if (__is_left_child(s))
-							__rotate_right(__parent(s));
-							else
-								__rotate_left(__parent(s));
+						pointer p = __parent(s);
+						if (__is_left_child(s)) {
+							__rotate_right(p);
+							s->color = BLACK;
+							u = p->left;
+						} else {
+							__rotate_left(p);
+							s->color = BLACK;
+							u = p->right;
 						}
-						break;
+						if (u)
+							u->color = RED;
+						break ;
 					}
 				}
 			}
