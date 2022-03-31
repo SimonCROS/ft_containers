@@ -132,7 +132,7 @@ namespace ft {
 
 		// range
 		template <class InputIterator>
-		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
+		vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL): _capacity(0), _alloc(alloc), __begin_(nullptr), __end_(nullptr) {
 			assign(first, last);
 		}
 
@@ -190,7 +190,7 @@ namespace ft {
 		}
 
 		template <class InputIterator>
-		void insert(iterator pos, InputIterator first, InputIterator last) {
+		void insert(iterator pos, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL) {
 			size_type count = static_cast<size_type>(__distance(first, last));
 			if (size() + count > capacity()) {
 				size_type old_size = size();
@@ -258,7 +258,7 @@ namespace ft {
 		}
 
 		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last) {
+		void assign(InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = NULL) {
 			size_type count = static_cast<size_type>(__distance(first, last));
 			if (count > capacity()) {
 				clear();

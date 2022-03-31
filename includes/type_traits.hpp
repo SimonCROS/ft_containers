@@ -64,7 +64,7 @@ namespace ft {
 		typedef T value_type;
 		typedef integral_constant<T, v> type;
 		operator value_type() const { return value; }
-		value_type operator()() const { return value; } // since c++14
+		value_type operator()() const { return value; }
 	};
 
 	typedef integral_constant<bool,true> true_type;
